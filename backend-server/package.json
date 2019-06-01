@@ -1,0 +1,36 @@
+{
+  "name": "backend-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "s-ong-c <somony9292@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.26",
+    "@types/dotenv": "^6.1.0",
+    "@types/koa": "^2.0.48",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-router": "^7.0.40",
+    "@types/node": "^12.0.4",
+    "apollo-server-koa": "^2.5.0-rc.0",
+    "dotenv": "^8.0.0",
+    "graphql": "^14.3.1",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "serverless-http": "^2.0.2",
+    "serverless-offline": "^4.10.6",
+    "serverless-webpack": "^5.3.0",
+    "source-map-support": "^0.5.10",
+    "ts-loader": "^6.0.2",
+    "ts-node-dev": "^1.0.0-pre.32",
+    "tslint": "^5.12.1",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-prettier": "^1.17.0",
+    "typescript": "^3.5.1",
+    "webpack": "^4.32.2"
+  },
+  "scripts": {
+    "offline": "sls offline --port 5001",
+    "dev": "ts-node-dev --respawn ./src/server.ts"
+  }
+}
