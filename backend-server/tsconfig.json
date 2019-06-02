@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
-    "target": "es2015" ,
-    "lib": ["esnext"] ,
-    "sourceMap": true,
-    "esModuleInterop": true, 
-    "outDir": "./dist" /* Redirect output structure to the directory. */,
-    "strict": true /* Enable all strict type-checking options. */,
-    "allowSyntheticDefaultImports": true, 
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+      "module": "commonjs",
+      "target": "es2015" ,
+      "lib": ["esnext"] ,
+      "sourceMap": true,
+      "esModuleInterop": true, 
+      "outDir": "./dist" /* Redirect output structure to the directory. */,
+      "strict": true /* Enable all strict type-checking options. */,
+      "allowSyntheticDefaultImports": true, 
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true
   }
 }
 // {

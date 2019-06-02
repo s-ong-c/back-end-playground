@@ -1,0 +1,1 @@
+https://typeorm.io/#/using-ormconfig/using-environment-variables
