@@ -11,21 +11,5 @@
       "allowSyntheticDefaultImports": true, 
       "experimentalDecorators": true,
       "emitDecoratorMetadata": true
-  }
+    }
 }
-// {
-//   "compilerOptions": {
-//     "module": "commonjs",
-//     "target": "es2017",
-//     "noImplicitAny": true,
-//     "outDir": "./dist",
-//     "lib": ["es2016"],
-//     "sourceMap": true,
-//     "allowSyntheticDefaultImports": true, 
-//     "esModuleInterop": true, 
-//     "experimentalDecorators": true,
-//     "emitDecoratorMetadata": true
-//   },
-//   "include": ["lib/**/*.d.ts", "index.d.ts"],
-//   "exclude": ["node_modules", "**/*.spec.ts"] 
-// }
