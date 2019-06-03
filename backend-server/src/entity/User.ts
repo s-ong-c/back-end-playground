@@ -1,26 +1,35 @@
-import {Entity, PrimaryGeneratedColumn, Column,Index, CreateDateColumn, UpdateDateColumn } from "typeorm";
-
-@Entity('users')
-export class User {
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    Index,
+    Unique,
+    CreateDateColumn,
+    UpdateDateColumn
+  } from 'typeorm';
+  
+  @Entity('users')
+  export class User {
     @PrimaryGeneratedColumn('uuid')
-    id!: string;
-
+    id: string;
+  
     @Index()
     @Column({ unique: true, length: 255 })
-    usrname!: string;
-
+    username: string;
+  
     @Index()
     @Column({ unique: true, length: 255 })
-    email!: string;
-    
+    email: string;
+  
     @Column('timestampz')
     @CreateDateColumn()
-    created_at!: Date;
-
+    created_at: Date;
+  
     @Column('timestamptz')
     @UpdateDateColumn()
-    updated_at!: Date;
-
+    updated_at: Date;
+  
     @Column({ default: false })
-    is_certified!: boolean;
-}
+    is_certified: boolean;
+  }
+  

@@ -1,10 +1,11 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import { ApolloServer, gql } from 'apollo-server-koa';
-import { createConnection } from 'typeorm';
+import { createConnection, getConnection, getManager } from 'typeorm';
 import routes from './routes';
-const app = new Koa();
+import { Post } from './entity/Post';
 
+const app = new Koa();
 
 /* setup middlewares */
 app.use(bodyParser());
@@ -32,6 +33,9 @@ apollo.applyMiddleware({app});
 async function initalize(){
  try {
     await createConnection();
+    const posts = await getManager()
+        .createQueryBuilder(Post,'posts')
+        .getMany();
     console.log('Postgres RDBMS connection is establishde');
  } catch (e){
     console.log(e);
