@@ -30,7 +30,7 @@ export class Post {
   @Column()
   is_temp: boolean;
  
-  @ManyToOne(type => User, { cascade: true })
+  @ManyToOne(type => User, { cascade: true, eager: true })
   @JoinColumn({name: 'fk_user_id'})
   user: User;
 
