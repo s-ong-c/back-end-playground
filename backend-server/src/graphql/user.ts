@@ -37,6 +37,12 @@ export const resolvers: IResolvers= {
           .where('fk_user_id = :id', { id: parent.id })
           .getOne();
         return profile;
+      },
+      email: (parent: User, _: any, context: any) => {
+        if (context.user_id === parent.id) {
+          return parent.email;
+        }
+        return null;
       }
     },
   Query: {
