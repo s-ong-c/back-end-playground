@@ -1,5 +1,5 @@
-import { gql, IResolvers } from "apollo-server-koa";
-import { createConnection, getConnection, getManager, getRepository } from 'typeorm';
+import { gql, IResolvers, AuthenticationError } from "apollo-server-koa";
+import { getManager, getRepository } from 'typeorm';
 import { User } from '../entity/User';
 import { UserProfile } from '../entity/UserProfile';
 
@@ -8,8 +8,8 @@ export const typeDef = gql`
         id: ID!
         username: String
         email: String
-        created_at: String
-        updated_at: String
+        created_at: Date
+        updated_at: Date
         is_certified: Boolean
         profile: UserProfile
     }
@@ -18,8 +18,8 @@ export const typeDef = gql`
         display_name: String,
         short_bio: String,
         thumbnail: String,
-        created_at: String,
-        updated_at: String,
+        created_at: Date,
+        updated_at: Date,
         about: String
         profile_links: JSON
     }
@@ -39,10 +39,10 @@ export const resolvers: IResolvers= {
         return profile;
       },
       email: (parent: User, _: any, context: any) => {
-        if (context.user_id === parent.id) {
-          return parent.email;
+        if (context.user_id !== parent.id) {
+          throw new AuthenticationError('No permission to read email address');
         }
-        return null;
+        return parent.email;
       }
     },
   Query: {
