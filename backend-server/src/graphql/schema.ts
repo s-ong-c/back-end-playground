@@ -1,27 +1,29 @@
 import merge from 'lodash/merge';
-import {gql, IResolvers, makeExecutableSchema } from 'apollo-server-koa';
 import * as post from './post';
 import * as user from './user';
-import DateScalar from './scalars/DateScalar';
+import * as comment from './comment';
+import * as series from './series';
+import { gql, IResolvers, makeExecutableSchema } from 'apollo-server-koa';
+import DateScalar from './scalars/dateScalar';
 
 const typeDef = gql`
-    scalar JSON
-    scalar Date
-    type Query {
-        _version : String  
-    }
+  scalar JSON
+  scalar Date
+  type Query {
+    _version: String
+  }
 `;
 
 const resolvers: IResolvers = {
-    Query: {
-        _version: ()  => '1.0',
-    },
-    Date: DateScalar
+  Query: {
+    _version: () => '1.0'
+  },
+  Date: DateScalar
 };
 
 const schema = makeExecutableSchema({
-    typeDefs: [typeDef, user.typeDef,post.typeDef],
-    resolvers: merge(resolvers, user.resolvers, post.resolvers)
+  typeDefs: [typeDef, user.typeDef, post.typeDef, comment.typeDef, series.typeDef],
+  resolvers: merge(resolvers, user.resolvers, post.resolvers, comment.resolvers, series.resolvers)
 });
 
 export default schema;

@@ -6,45 +6,62 @@ import {
   UpdateDateColumn,
   CreateDateColumn,
   OneToOne,
-  JoinColumn
+  JoinColumn,
+  getRepository
 } from 'typeorm';
-import { User } from './User';
+import User from './User';
+import DataLoader from 'dataloader';
+import { normalize } from '../lib/utils';
 
-@Entity('user_profiles')
-export class UserProfile {
+@Entity('user_profiles', {
+  synchronize: false
+})
+export default class UserProfile {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ length: 255 })
-  display_name: string;
+  display_name!: string;
 
   @Column({ length: 255 })
-  short_bio: string;
+  short_bio!: string;
 
   @Column({ length: 255, nullable: true })
-  thumbnail: string;
+  thumbnail!: string;
 
   @Column('timestampz')
   @CreateDateColumn()
-  created_at: Date;
+  created_at!: Date;
 
   @Column('timestamptz')
   @UpdateDateColumn()
-  updated_at: Date;
+  updated_at!: Date;
 
   @OneToOne(type => User, { cascade: true })
   @JoinColumn({ name: 'fk_user_id' })
-  user: User;
+  user!: User;
 
   @Column('uuid')
-  fk_user_id: string;
+  fk_user_id!: string;
 
   @Column({
     default: {},
     type: 'jsonb'
   })
-  profile_links: any;
+  profile_links!: any;
 
   @Column('text')
-  about: string;
+  about!: string;
 }
+
+export const userProfileLoader: DataLoader<string, UserProfile> = new DataLoader(async ids => {
+  const repo = getRepository(UserProfile);
+  const profiles = await repo
+    .createQueryBuilder('user_profiles')
+    .where('fk_user_id IN (:...ids)', { ids })
+    .getMany();
+
+  const normalized = normalize(profiles, profile => profile.fk_user_id);
+  const ordered = ids.map(id => normalized[id]);
+  return ordered;
+});

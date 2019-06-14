@@ -1,77 +1,102 @@
 import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    Index,
-    UpdateDateColumn,
-    CreateDateColumn,
-    OneToOne,
-    JoinColumn,
-    ManyToOne
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Index,
+  UpdateDateColumn,
+  CreateDateColumn,
+  OneToOne,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  ManyToMany,
+  JoinTable
 } from 'typeorm';
-import { User } from './User';
-@Entity('posts')
-export class Post {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+import User from './User';
+import Comment from './Comment';
+import Tag from './Tag';
 
-  @Column({ length: 255})
-  title: string;
+@Entity('posts', {
+  synchronize: false
+})
+export default class Post {
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
+
+  @Column({ length: 255 })
+  title!: string;
 
   @Column('text')
-  body: string;
+  body!: string;
 
-  @Column({ length: 255, nullable:true})
-  thumbnail: string;
-
-  @Column()
-  is_markdown: boolean;
+  @Column({ length: 255, nullable: true })
+  thumbnail!: string;
 
   @Column()
-  is_temp: boolean;
- 
+  is_markdown!: boolean;
+
+  @Column()
+  is_temp!: boolean;
+
   @ManyToOne(type => User, { cascade: true, eager: true })
-  @JoinColumn({name: 'fk_user_id'})
-  user: User;
+  @JoinColumn({ name: 'fk_user_id' })
+  user!: User;
 
   @Column('uuid')
-  fk_user_id: string;
+  fk_user_id!: string;
 
   @Index()
-  @Column({length:255})
-  url_slug: string;
+  @Column({ length: 255 })
+  url_slug!: string;
 
   @Column({ default: 0 })
-  likes: number;
+  likes!: number;
 
   @Column({
-      default:{},
-      type:'jsonb'
+    default: {},
+    type: 'jsonb'
   })
-  meta: any;
+  meta!: any;
 
   @Column()
-  views: number;
+  views!: number;
 
-  @Column({ default:true})
-  is_private: boolean;
+  @Column({ default: true })
+  is_private!: boolean;
 
+  @Index()
   @Column({
     type: 'timestamptz',
     default: () => 'now()',
     nullable: false
   })
-  released_at: Date;
+  released_at!: Date;
 
   @Column('timestampz')
   @CreateDateColumn()
-  created_at: Date;
+  created_at!: Date;
 
   @Column('timestamptz')
   @UpdateDateColumn()
-  updated_at: Date;
+  updated_at!: Date;
 
   @Column('tsvector')
-  tsv: any;
+  tsv!: any;
 
+  @OneToMany(type => Comment, comment => comment.post)
+  comments!: Comment[];
+
+  // @ManyToMany(type => Tag)
+  // @JoinTable({
+  //   name: 'post_tags',
+  //   joinColumn: {
+  //     name: 'fk_post_id'
+  //   },
+  //   inverseJoinColumn: {
+  //     name: 'fk_tag_id'
+  //   }
+  // })
+  // tags!: Tag[];
+
+  tags!: Tag[];
 }
