@@ -1,0 +1,28 @@
+{
+    "extends": [
+      "tslint:recommended",
+      "tslint-config-airbnb",
+      "tslint-config-prettier"
+    ],
+    "linterOptions": {
+      "exclude": [
+        "config/**/*.js",
+        "node_modules/**/*"
+      ]
+    },
+    "rules": {
+      "import-name": false,
+      "interface-name": false,
+      "semicolon": [true, "always", "ignore-bound-class-methods"],
+      "variable-name": false,
+      "object-literal-sort-keys": false,
+      "prefer-template":false,
+      "no-angle-bracket-type-assertion":false,
+      "no-var-requires":false,
+      "no-string-literal":false,
+      "interface-over-type-literal":false,
+      "no-shadowed-variable":false,
+      "object-shorthand-properties-first": false,
+      "member-access": false
+    }
+  }
