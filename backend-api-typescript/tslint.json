@@ -22,7 +22,9 @@
       "no-string-literal":false,
       "interface-over-type-literal":false,
       "no-shadowed-variable":false,
+      "one-variable-per-declaration":false,
       "object-shorthand-properties-first": false,
-      "member-access": false
+      "member-access": false,
+      "member-ordering":false
     }
   }
