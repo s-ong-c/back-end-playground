@@ -1,12 +1,18 @@
 import Router from 'koa-router';
 import Joi from 'joi';
 import { getRepository } from 'typeorm';
-import { validateBody } from '../../../lib/utils';
-import  User  from '../../../entity/User';
+import { validateBody } from '../../../../lib/utils';
+import  User  from '../../../../entity/User';
 
 const auth = new Router();
 
 /* LOCAL AUTH */
+/* 
+ POST /api/v2/auth/send-auth-email
+  {
+    email: string
+  }
+*/
 auth.post('/send-auth-email', async ctx => {
     type RequestBody = {
       email: string;
