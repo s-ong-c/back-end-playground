@@ -3,6 +3,9 @@ import Joi from 'joi';
 import { getRepository } from 'typeorm';
 import { validateBody } from '../../../../lib/utils';
 import  User  from '../../../../entity/User';
+import EmailAuth from '../../../../entity/EmailAuth';
+import shortid = require('shortid');
+import { createAuthEmail } from '../../../../etc/emailTemplates';
 
 const auth = new Router();
 
@@ -31,6 +34,13 @@ auth.post('/send-auth-email', async ctx => {
       const user = await getRepository(User).findOne({
         email
       });
+      console.log("user??????",user);
+      const emailAuth = new EmailAuth();
+      emailAuth.code = shortid.generate();
+      emailAuth.email = email;
+      await getRepository(EmailAuth).save(emailAuth);
+      const emailTemplate = createAuthEmail(!!user, emailAuth.code);
+      ctx.body = emailTemplate;
     } catch (e) {
       ctx.throw(500, e);
     }
