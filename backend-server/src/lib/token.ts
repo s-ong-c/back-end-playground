@@ -1,4 +1,5 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
+import  '../env';
 
 const { SECRET_KEY } = process.env;
 
