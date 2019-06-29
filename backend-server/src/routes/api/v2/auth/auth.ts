@@ -109,8 +109,19 @@ auth.post('/register/:provider', async ctx => {});
 auth.post('/login/:provider', async ctx => {});
 
 /** GENERAL*/
-auth.get('/check', async ctx => {});
-auth.post('/logout', async ctx => {});
+auth.get('/check', async ctx => {
+  ctx.body = { user_id: ctx.state.user_id };
+});
+auth.post('/logout', async ctx => {
+  // clears cookies
+  ctx.cookies.set('access_token', undefined, {
+    domain: process.env.NODE_ENV === 'development' ? undefined : '.velog.io'
+  });
+  ctx.cookies.set('refresh_token', undefined, {
+    domain: process.env.NODE_ENV === 'development' ? undefined : '.velog.io'
+  });
+  ctx.status = 204;
+});
 auth.post('/certify', async ctx => {});
 
 export default auth;
