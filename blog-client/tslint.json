@@ -9,7 +9,6 @@
         "import-name": false,
         "variable-name": false,
         "object-shorthand-properties-first": false
-
     },
     "rulesDirectory": []
 }
