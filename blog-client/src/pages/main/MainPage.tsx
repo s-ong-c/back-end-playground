@@ -6,7 +6,7 @@ interface MainPageProps {
 }
 
 const MainPage: React.SFC<MainPageProps> = props => {
-  return <MainPageBlock />;
+  return <MainPageBlock>메인이다.</MainPageBlock>;
 };
 
 export default MainPage;
