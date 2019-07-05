@@ -2,6 +2,7 @@ require('dotenv').config(); // .env 파일에서 환경변수 불러오기
 
 import appRoot from 'app-root-path';
 import cookieParser from 'cookie-parser';
+//import cors from 'cors';
 import express, { Express } from 'express';
 import fs from 'fs';
 import helmet from 'helmet';
@@ -56,6 +57,7 @@ class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cookieParser());
+    //this.app.use(cors);
     this.app.use(jwtMiddleware);
     this.app.use('/api', routes);
     this.app.use(
