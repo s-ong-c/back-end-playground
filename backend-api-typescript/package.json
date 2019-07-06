@@ -38,6 +38,7 @@
     "rimraf": "^2.6.3",
     "sequelize": "^5.8.7",
     "sequelize-typescript": "^1.0.0-alpha.9",
+    "shelljs": "^0.8.3",
     "shortid": "^2.2.14",
     "winston": "^3.2.1"
   },
