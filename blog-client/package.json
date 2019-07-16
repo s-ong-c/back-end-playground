@@ -4,12 +4,15 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.4.3",
+    "@loadable/babel-plugin": "^5.10.0",
     "@loadable/component": "^5.10.1",
+    "@loadable/server": "^5.10.2",
     "@loadable/webpack-plugin": "^5.7.1",
     "@svgr/webpack": "4.1.0",
     "@types/jest": "24.0.15",
     "@types/koa": "^2.0.49",
     "@types/loadable__component": "^5.9.0",
+    "@types/loadable__server": "^5.9.1",
     "@types/node": "12.0.10",
     "@types/react": "^16.8.22",
     "@types/react-dom": "16.8.4",
@@ -155,6 +158,9 @@
   "babel": {
     "presets": [
       "react-app"
+    ],
+    "plugins": [
+      "@loadable/babel-plugin"
     ]
   }
 }

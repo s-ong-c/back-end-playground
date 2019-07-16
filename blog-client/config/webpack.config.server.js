@@ -55,7 +55,7 @@ module.exports = function(webpackEnv) {
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
       {
-        loader: require.resolve('css-loader/locals'),
+        loader: require.resolve('css-loader'),
         options: cssOptions,
       },
       {

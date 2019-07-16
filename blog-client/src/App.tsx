@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router';
-//import MainPage from './pages/main/MainPage';
+import MainPage from './pages/main/MainPage';
+import PostPage from './pages/PostPage';
 import loadable from '@loadable/component';
-const MainPage = loadable(() => import('./pages/main/MainPage'));
-const PostPage = loadable(() => import('./pages/PostPage'));
+// const MainPage = loadable(() => import('./pages/main/MainPage'));
+// const PostPage = loadable(() => import('./pages/PostPage'));
 interface AppProps {}
 
 const App: React.SFC<AppProps> = props => {
