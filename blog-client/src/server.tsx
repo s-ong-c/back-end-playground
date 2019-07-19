@@ -6,7 +6,8 @@ import { ChunkExtractor } from '@loadable/server';
 import { ServerStyleSheet } from 'styled-components';
 import path from 'path';
 import App from './App';
-
+import serve from 'koa-static';
+import Router from 'koa-router';
 const clientStats = path.resolve('./build/loadable-stats.json');
 
 function createPage(
@@ -52,10 +53,10 @@ const ssr: Middleware = async ctx => {
          link  : extractor.getLinkTags(),
          style :extractor.getScriptTags() +  scStyles,
     };
-    const page = createPage(rendered, collected);
-
-    ctx.body = page;
-};
+        const page = createPage(rendered, collected);
+        ctx.body = page;
+    };
+app.use(serve(path.resolve('./build')));
 app.use(ssr);
 app.listen(5000, () => {
     console.log('SSR server listening to http://localhost:5000')
