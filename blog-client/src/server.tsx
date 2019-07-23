@@ -8,6 +8,7 @@ import path from 'path';
 import App from './App';
 import serve from 'koa-static';
 import Router from 'koa-router';
+import { getMatches } from './pages/getMatches';
 const clientStats = path.resolve('./build/loadable-stats.json');
 
 function createPage(
@@ -37,14 +38,22 @@ function createPage(
     </html>`;
 }
 const app = new Koa();
-
-const ssr: Middleware = async ctx => {
+/**
+ *  Process Server rendering
+ */
+const render: Middleware = async ctx => {
     const context =  {};
     const extractor = new ChunkExtractor({ statsFile: clientStats });
 
-    const jsx = extractor.collectChunks( <StaticRouter location={ctx.url} context={context}>
+    // const matches = getMatches(ctx.url);
+    // console.log(matches);
+
+    const jsx = extractor.collectChunks( 
+    <StaticRouter location={ctx.url} context={context}>
         <App />
-    </StaticRouter>)
+    </StaticRouter>,
+    )
+    // prepares meta tags including styled-components styles
     const sheet = new ServerStyleSheet();
     const rendered = ReactDOMServer.renderToString(sheet.collectStyles(jsx));
     const scStyles = sheet.getStyleTags();
@@ -55,9 +64,23 @@ const ssr: Middleware = async ctx => {
     };
         const page = createPage(rendered, collected);
         ctx.body = page;
-    };
-app.use(serve(path.resolve('./build')));
-app.use(ssr);
+};
+
+const router = new Router();
+router.get('/', render); // ignores index.html
+app.use(router.routes()).use(router.allowedMethods());
+
+app.use(serve(path.resolve('./build'))); // server static files
+
+// fallback 
+app.use((ctx, next) => {
+    if (ctx.status !== 404){
+        return;
+    }
+    return next();
+});
+app.use(render);
+
 app.listen(5000, () => {
     console.log('SSR server listening to http://localhost:5000')
 })
