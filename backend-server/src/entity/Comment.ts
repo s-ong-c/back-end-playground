@@ -14,6 +14,7 @@ import {
   import User from './User';
   import Post from './Post';
   import DataLoader from 'dataloader';
+import { normalize } from '../lib/utils';
   
   @Entity('comments', {
     synchronize: false
@@ -78,5 +79,11 @@ import {
         'comment.created_at': 'ASC'
       })
       .getMany();
-    return posts.map(post => post.comments);
+
+      const normalized = normalize<Post>(posts);
+
+      const commentsGroups = postIds.map(id => (normalized[id] ? normalized[id].comments : []));
+      return commentsGroups;
+     // return posts.map(post => post.comments);
+
   });
