@@ -4,6 +4,9 @@ import { NavLink } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 import { MdTrendingUp,MdRssFeed, MdAccessTime } from 'react-icons/md';
 const MainSideMenuBlock = styled.div`
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
   display: flex;
   flex-direction: column;
   
