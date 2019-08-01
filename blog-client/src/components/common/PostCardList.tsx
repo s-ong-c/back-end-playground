@@ -11,7 +11,7 @@ interface PostCardListProps{
 const PostCardList: React.SFC<PostCardListProps> = ({ posts }) => {
   return <PostCardListBlock>
     {posts.map(post => (
-      <PostCard post={post} />
+      <PostCard key={post.id} post={post} />
     ))}
     </PostCardListBlock>;
   };
