@@ -11,7 +11,7 @@ const HeaderBlock = styled.div<{
   .wrapper {
     width: ${breakpoints.xlarge};
     height: 4rem;
-    margin: 1rem auto;
+    margin: 0rem auto;
     padding-left: 1rem;
     padding-right: 1rem;
     display: flex;
@@ -33,13 +33,15 @@ const Placeholder = styled.div`
 `;
 interface HeaderProps{
   floating: boolean;
+  floatingMargin: number;
 }
 
-const Header: React.SFC<HeaderProps> = ({ floating }) => {
+const Header: React.SFC<HeaderProps> = ({ floating, floatingMargin }) => {
   return (
     <>
         <HeaderBlock
           floating={floating}
+          style={{marginTop: floating ? floatingMargin : 0 }}
           >
             <div className="wrapper">
               <div className="brand">
