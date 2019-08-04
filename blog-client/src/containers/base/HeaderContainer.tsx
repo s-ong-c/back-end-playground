@@ -10,6 +10,7 @@ interface HeaderContainerProps{}
 const HeaderContainer: React.SFC<HeaderContainerProps> = props => {
     const lastY = useRef(0);
     const direction = useRef<null | 'UP' | 'DOWN'>(null);
+    const needReset = useRef<boolean>(false);
 
     const [ floating, setFloating ] = useState(false);
     const [ baseY, setBaseY] = useState(0);
@@ -19,6 +20,8 @@ const HeaderContainer: React.SFC<HeaderContainerProps> = props => {
         
         if (floating && scrollTop === 0) {
             setFloating(false);
+            setFloatingMargin(-60);
+            return;
         }
         if (floating) {
             const calculated = -60 + baseY - scrollTop;
@@ -27,24 +30,21 @@ const HeaderContainer: React.SFC<HeaderContainerProps> = props => {
         const d = scrollTop < lastY.current ? 'UP' : 'DOWN';
         
         if ( d !== direction.current) {
-            setBaseY(scrollTop + ( d === 'DOWN' ? 60 : 0));
-            console.log('direction change');
+            if (floatingMargin === 0 || floatingMargin <= -60){
+                setBaseY(scrollTop + ( d === 'DOWN' ? 60 : 0));
+            } else {
+                needReset.current = true;
+            }
         }
 
-        if (direction.current !== 'UP' && d === 'UP') {
+        if (direction.current !== 'UP' && d === 'UP' && scrollTop > 120) {
             setFloating(true);
         }
+
         direction.current = d;
         lastY.current = scrollTop;
-        // if ( scrollTop < lastY.current) {
-        //     if (floating) return;
-        //     setFloating(true);
-        //     setBaseY(scrollTop);
-        // } else {
-        //     setFloating(false);
-        // }
        
-    },[baseY, floating]);
+    },[baseY, floating, floatingMargin]);
 
     useEffect(() => {
         document.addEventListener('scroll',onScroll);
@@ -52,7 +52,7 @@ const HeaderContainer: React.SFC<HeaderContainerProps> = props => {
             document.removeEventListener('scroll',onScroll)
         };
         return reset;
-    }, [floating, baseY])
+    }, [floating, baseY,floatingMargin])
   return <Header floating={floating} floatingMargin={floatingMargin}/>;
   };
 
