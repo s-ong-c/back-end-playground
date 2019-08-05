@@ -8,9 +8,26 @@ interface RecentPostsProps{}
 const RecentPosts: React.SFC<RecentPostsProps> = props => {
   return (
         <Query query={GET_POST_LIST}>
-           {({loading, error, data}: QueryResult<{ posts: PartialPost[] }>) => {
+           {({
+             loading, 
+             error, 
+             data, 
+             fetchMore,
+            }: QueryResult<{ posts: PartialPost[] }>) => {
                if (loading || error || !data) return null;
-               return <PostCardList posts={data.posts} />
+               return (
+                <PostCardList posts={data.posts} onLoadMore={() => {
+                  fetchMore({
+                    variables: {
+                      cursor: data.posts[data.posts.length - 1].id,
+                    },
+                    updateQuery: (prev, { fetchMoreResult}) => {
+                      return {posts: [
+                        ...data.posts, ...fetchMoreResult!.posts] };
+                    }
+                  })
+               }} />
+              );
            }}
         </Query>
         );

@@ -37,24 +37,24 @@ export type Post = {
     comments_count: number;
   }
   export const GET_POST_LIST = gql`
-    {
-      posts {
+  query Post($cursor: ID) {
+    posts(cursor: $cursor) {
+      id
+      title
+      short_description
+      thumbnail
+      user {
         id
-        title
-        short_description
-        thumbnail
-        user {
-          id
-          username
-          profile {
-            thumbnail
-          }
+        username
+        profile {
+          thumbnail
         }
-        url_slug
-        released_at
-        comments_count
-        tags
-        is_private
       }
+      url_slug
+      released_at
+      comments_count
+      tags
+      is_private
     }
-  `;
+  }
+`;

@@ -9,6 +9,7 @@ main {
   width: ${breakpoints.xlarge};
   margin: 0 auto;
   margin-top: 3.5rem;
+  margin-bottom: 8rem;
   display: flex;
   justify-content: space-between;
 }
