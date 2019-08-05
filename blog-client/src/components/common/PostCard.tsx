@@ -70,7 +70,7 @@ interface PostCardProps{
   post: PartialPost;
 }
 
-const PostCard: React.SFC<PostCardProps> = ({post}) => {
+const PostCard: React.SFC<PostCardProps> = React.memo(({ post }) => {
   return <PostCardBlock>
     <div className="user-info">
       <img src={post.user.profile.thumbnail || defaultThumbnail} />
@@ -92,6 +92,6 @@ const PostCard: React.SFC<PostCardProps> = ({post}) => {
      ))}
     </div>
   </PostCardBlock>;
-  };
+  });
 
 export default PostCard;
