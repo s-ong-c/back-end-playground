@@ -2,8 +2,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Header from '../../components/base/Header';
 import { getScrollTop } from '../../lib/utils';
+import CoreContext from '../../contexts/CoreContext';
 
-const { useEffect, useRef, useState, useCallback } = React;
+const { useEffect, useRef, useState, useCallback, useContext } = React;
 
 interface HeaderContainerProps{}
 
@@ -53,8 +54,14 @@ const HeaderContainer: React.SFC<HeaderContainerProps> = props => {
             document.removeEventListener('scroll',onScroll)
         };
         return reset;
-    }, [floating, baseY,floatingMargin])
-  return <Header floating={floating} floatingMargin={floatingMargin}/>;
+    }, [floating, baseY,floatingMargin]);
+
+    const core = useContext(CoreContext);
+
+    const onLoginClick = () => {
+        core.actions.setLayer(true);
+    }
+  return <Header floating={floating} floatingMargin={floatingMargin} onLoginClick={onLoginClick}/>;
   };
 
 export default HeaderContainer;
