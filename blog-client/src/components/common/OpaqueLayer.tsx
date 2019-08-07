@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled, {css} from 'styled-components';
 import transitions from '../../lib/styles/transitions';
+import zIndexes from '../../lib/styles/zIndexes';
 
 const OpaqueLayerBlock = styled.div<{
     animate: boolean;
@@ -12,10 +13,15 @@ const OpaqueLayerBlock = styled.div<{
     width: 100%;
     height: 100%;
     background: rgba(249, 249, 249, 0.85);
+    z-index: ${zIndexes.AuthModal};
+
     ${props =>
-      props.visible &&
+      props.visible ?
       css`
         animation: ${transitions.fadeIn} 0.25s forwards;
+      ` :
+      css`
+        animation: ${transitions.fadeOut} 0.25s forwards;
       `}
   `;
   
@@ -29,6 +35,7 @@ const OpaqueLayer: React.SFC<OpaqueLayerProps> = ({ visible }) => {
     const [animate, setAnimate] = useState(false);
     const timeoutId = useRef<number | null>(null);
     const mounted = useRef(false);
+    const [closed, setClosed] = useState(true);
   
     // activates animation & hides and unhides scrollbar
     useEffect(() => {
@@ -42,16 +49,23 @@ const OpaqueLayer: React.SFC<OpaqueLayerProps> = ({ visible }) => {
         setAnimate(true);
         timeoutId.current = setTimeout(() => {
           setAnimate(false);
+          if (!visible){
+            setClosed(true);
+          }
         }, 250);
       }
-  
+      
+      if (visible) {
+        setClosed(false);
+      }
+
       return () => {
         if (!timeoutId.current) return;
         clearTimeout(timeoutId.current);
       };
     }, [visible]);
   
-    if (!animate && !visible) return null;
+    if (!animate && !visible && closed) return null;
   
     return <OpaqueLayerBlock animate={animate} visible={visible} />;
   };

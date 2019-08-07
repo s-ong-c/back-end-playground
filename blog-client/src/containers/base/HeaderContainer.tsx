@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Header from '../../components/base/Header';
 import { getScrollTop } from '../../lib/utils';
 import CoreContext from '../../contexts/CoreContext';
-
 const { useEffect, useRef, useState, useCallback, useContext } = React;
 
 interface HeaderContainerProps{}
@@ -59,7 +58,7 @@ const HeaderContainer: React.SFC<HeaderContainerProps> = props => {
     const core = useContext(CoreContext);
 
     const onLoginClick = () => {
-        core.actions.setLayer(true);
+        core.actions.showAuthModal('LOGIN');
     }
   return <Header floating={floating} floatingMargin={floatingMargin} onLoginClick={onLoginClick}/>;
   };
