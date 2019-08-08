@@ -1,11 +1,14 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import zIndexes from '../../lib/styles/zIndexes';
 import palette from '../../lib/styles/palette';
 import { done } from '../../static/images';
+import transitions from '../../lib/styles/transitions';
+import useMounted from '../../lib/hooks/useMounted';
 
-const AuthModalBlock = styled.div`
+const { useState, useEffect } = React;
+const AuthModalBlock = styled.div<{visible: boolean}>`
     position: fixed;
     top: 0;
     left:0;
@@ -19,6 +22,14 @@ const AuthModalBlock = styled.div`
     .wrapper {
         width: 606px;
         height: 480px;
+
+        ${
+            props => props.visible 
+            ? css`animation: ${transitions.popInFromBottom} 0.4s forwards ease-in-out; `
+            : css`animation: ${transitions.popOutToBottom} 0.2s forwards ease-in-out;`
+         }
+     
+
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.9);
         display: flex;
         .gray-block {
@@ -65,22 +76,41 @@ interface AuthModalProps{
 }
 
 const AuthModal: React.SFC<AuthModalProps> = ({visible, onClose}) => {
-  if (!visible) return null;
-  return <AuthModalBlock>
-      <div className="wrapper">
-          <div className="gray-block">
-             <div> 
-                 <img src={done} alt="welcome"/>
-                 <div className="welcome">환영합니다!</div>
-             </div>
-          </div>
-          <div className="white-block">
-              <div className="exit-wrapper">
-                  <MdClose onClick={onClose} />
-              </div>
-          </div>
-      </div>
-      </AuthModalBlock>;
+     const [closed, setClosed] = useState(true);
+    const mounted = useMounted();
+    useEffect(() => {
+    //    if (!mounted) return;
+        let timeoutId: number | null = null;
+        if (visible) {
+            setClosed(false);
+        } else {
+            timeoutId = setTimeout(() => {
+                setClosed(true);
+            }, 400);
+        }
+        return (() => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        })
+    }, [visible]);
+
+    if (!visible && closed) return null;
+    return <AuthModalBlock visible={visible}>
+        <div className="wrapper">
+            <div className="gray-block">
+                <div> 
+                    <img src={done} alt="welcome"/>
+                    <div className="welcome">환영합니다!</div>
+                </div>
+            </div>
+            <div className="white-block">
+                <div className="exit-wrapper">
+                    <MdClose onClick={onClose} />
+                </div>
+            </div>
+        </div>
+        </AuthModalBlock>;
   };
 
 export default AuthModal;
