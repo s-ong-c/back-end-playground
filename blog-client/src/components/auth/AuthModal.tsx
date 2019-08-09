@@ -58,14 +58,20 @@ const AuthModalBlock = styled.div<{visible: boolean}>`
             flex: 1;
             background: white;
             padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
             .exit-wrapper {
                 display: flex;
                 justify-content: flex-end;
                 font-size: 1.5rem;
                 color: ${palette.gray6};
+                margin-bottom: 2.25rem;
                 svg {
                     cursor: pointer;
                 }
+            }
+            .block-content {
+                flex: 1;
             }
         }
     }
@@ -75,7 +81,7 @@ interface AuthModalProps{
     onClose: () => void;
 }
 
-const AuthModal: React.SFC<AuthModalProps> = ({visible, onClose}) => {
+const AuthModal: React.SFC<AuthModalProps> = ({visible,children, onClose}) => {
      const [closed, setClosed] = useState(true);
     const mounted = useMounted();
     useEffect(() => {
@@ -107,6 +113,9 @@ const AuthModal: React.SFC<AuthModalProps> = ({visible, onClose}) => {
             <div className="white-block">
                 <div className="exit-wrapper">
                     <MdClose onClick={onClose} />
+                </div>
+                <div className="block-content">
+                        {children}
                 </div>
             </div>
         </div>

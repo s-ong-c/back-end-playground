@@ -1,6 +1,7 @@
 import * as React from 'react';
 import AuthModal from '../../components/auth/AuthModal';
 import CoreContext from '../../contexts/CoreContext';
+import AuthForm from '../../components/auth/AuthForm';
 
 interface AuthModalContainerProps{}
 
@@ -12,7 +13,9 @@ const AuthModalContainer: React.SFC<AuthModalContainerProps> = props => {
         actions.closeAuthModal();
     }, []);
     const { auth } = state;
-    return <AuthModal visible={!!auth} onClose={onClose} />;
+    return <AuthModal visible={auth.visible} onClose={onClose}>
+                <AuthForm mode={auth.mode} />
+            </AuthModal>;
     };
 
 export default AuthModalContainer;

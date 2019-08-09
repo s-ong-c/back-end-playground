@@ -1,10 +1,13 @@
 import * as React from 'react';
 
 const { createContext, Component } = React;
-type AuthMode = 'REGISTER' | 'LOGIN'
+export type AuthMode = 'REGISTER' | 'LOGIN'
 type CoreState = {
   layer: boolean;
-  auth: null | AuthMode;
+  auth: {
+    visible: boolean,
+    mode: AuthMode,
+  }
 };
 
 type CoreActions = {
@@ -20,7 +23,10 @@ type CoreValue = {
 };
 
 const initialState  = {
-  auth: null,
+  auth: {
+    visible: false,
+    mode: 'REGISTER' as AuthMode,
+  },
   layer: false,
 }
 const CoreContext = createContext<CoreValue>({
@@ -46,17 +52,27 @@ class CoreProvider extends Component<{}, CoreState> {
     showAuthModal: (type: AuthMode) => {
       this.setState({
         layer: true,
-        auth: type,
+        auth: {
+          ...this.state.auth,
+          visible: true,
+          mode: type,
+        },
       });
     },
-    changeAuthModalMode:(type) => {
+    changeAuthModalMode:mode => {
       this.setState({
-        auth: type,
+        auth: {
+          ...this.state.auth,
+          mode,
+        }
       })
     },
     closeAuthModal: () => {
       this.setState({
-        auth: null,
+        auth: {
+          ...this.state.auth,
+          visible: false,
+        },
         layer: false,
       });
     }
