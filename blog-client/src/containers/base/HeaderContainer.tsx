@@ -1,13 +1,21 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import { connect } from 'react-redux';
 import Header from '../../components/base/Header';
 import { getScrollTop } from '../../lib/utils';
-import CoreContext from '../../contexts/CoreContext';
-const { useEffect, useRef, useState, useCallback, useContext } = React;
+import { RootState } from '../../modules';
+import { showAuthModal } from '../../modules/core';
+const { useEffect, useRef, useState, useCallback } = React;
 
-interface HeaderContainerProps{}
+interface OwnProps{};
+interface StateProps{};
+interface DispatchProps {
+    showAuthModal: typeof showAuthModal;
+  }
+type HeaderContainerProps = OwnProps & StateProps & DispatchProps;
 
-const HeaderContainer: React.SFC<HeaderContainerProps> = props => {
+const HeaderContainer: React.SFC<HeaderContainerProps> = ({
+    showAuthModal
+}) => {
     const lastY = useRef(0);
     const direction = useRef<null | 'UP' | 'DOWN'>(null);
 
@@ -55,12 +63,15 @@ const HeaderContainer: React.SFC<HeaderContainerProps> = props => {
         return reset;
     }, [floating, baseY,floatingMargin]);
 
-    const core = useContext(CoreContext);
 
     const onLoginClick = () => {
-        core.actions.showAuthModal('LOGIN');
+       // core.actions.showAuthModal('LOGIN');
+        showAuthModal('LOGIN');
     }
   return <Header floating={floating} floatingMargin={floatingMargin} onLoginClick={onLoginClick}/>;
   };
 
-export default HeaderContainer;
+export default connect<StateProps, DispatchProps, OwnProps, RootState>(
+   state => ({}),
+   { showAuthModal},
+)(HeaderContainer);

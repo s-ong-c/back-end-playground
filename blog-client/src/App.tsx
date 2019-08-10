@@ -7,7 +7,7 @@ import Counter from './pages/Counter';
 import Info from './pages/Info';
 import InfoPage from './pages/InfoPage';
 import Core from './containers/base/Core';
-import { CoreProvider } from './contexts/CoreContext';
+// import { CoreProvider } from './contexts/CoreContext';
 // const MainPage = loadable(() => import('./pages/main/MainPage'));
 // const PostPage = loadable(() => import('./pages/PostPage'));
 interface AppProps {}
@@ -15,7 +15,6 @@ interface AppProps {}
 const App: React.SFC<AppProps> = props => {
   return (
   <>
-  <CoreProvider>
       <Switch>
         <Route path="/" component={MainPage} exact  />
         <Route path="/:mode(trending|recent|following)" component={MainPage} />
@@ -24,7 +23,6 @@ const App: React.SFC<AppProps> = props => {
         <Route path="/counter" component={Counter} /> */}
       </Switch>
       <Core />
-    </CoreProvider>
   </>
   );
 };

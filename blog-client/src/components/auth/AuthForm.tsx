@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import useInput from '../../lib/hooks/useInput';
 import AuthEmailForm from './AuthEmailForm';
-import { AuthMode } from '../../contexts/CoreContext';
+import { AuthMode } from '../../modules/core';
 
 const AuthFormBlock = styled.div``;
 interface AuthFormProps{
