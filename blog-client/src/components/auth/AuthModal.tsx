@@ -72,6 +72,8 @@ const AuthModalBlock = styled.div<{visible: boolean}>`
             }
             .block-content {
                 flex: 1;
+                display: flex;
+                flex-direction: column;
             }
         }
     }
@@ -112,7 +114,7 @@ const AuthModal: React.SFC<AuthModalProps> = ({visible,children, onClose}) => {
             </div>
             <div className="white-block">
                 <div className="exit-wrapper">
-                    <MdClose onClick={onClose} />
+                    <MdClose onClick={onClose} tabIndex={1} />
                 </div>
                 <div className="block-content">
                         {children}
