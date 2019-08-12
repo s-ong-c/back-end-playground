@@ -45,9 +45,10 @@ const AuthFormBlock = styled.div`
 `;
 interface AuthFormProps{
     mode: AuthMode;
+    onToggleMode: () => void;
 }
 
-const AuthForm: React.SFC<AuthFormProps> = ({ mode }) => {
+const AuthForm: React.SFC<AuthFormProps> = ({ mode, onToggleMode }) => {
     const [email, onChangeEmail] = useInput('');
     const onSubmit = (email: string) => {
         console.log(email);
@@ -75,7 +76,7 @@ const AuthForm: React.SFC<AuthFormProps> = ({ mode }) => {
                 <span>
                     {mode === 'LOGIN' ? '아직 회원이 아니신가요?' :'계정이 이미 있으신가요?'}
                 </span>
-                <a tabIndex={7}>{mode === 'LOGIN' ? "회원가입" : '로그인'}</a>
+                <a tabIndex={7} onClick={onToggleMode}>{mode === 'LOGIN' ? "회원가입" : '로그인'}</a>
             </div>
         </AuthFormBlock>
        );

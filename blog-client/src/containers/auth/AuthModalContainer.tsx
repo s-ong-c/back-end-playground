@@ -3,7 +3,7 @@ import AuthModal from '../../components/auth/AuthModal';
 import AuthForm from '../../components/auth/AuthForm';
 import { connect } from 'react-redux';
 import { RootState } from '../../modules';
-import { closeAuthModal, AuthMode } from '../../modules/core';
+import { closeAuthModal, AuthMode, changeAuthModalMode } from '../../modules/core';
 
 interface OwnProps{};
 interface StateProps{
@@ -12,6 +12,7 @@ interface StateProps{
 };
 interface DispatchProps{
     closeAuthModal: typeof closeAuthModal;
+    changeAuthModalMode: typeof changeAuthModalMode;
 };
 type AuthModalContainerProps = OwnProps & StateProps & DispatchProps;
 
@@ -20,20 +21,25 @@ const AuthModalContainer: React.SFC<AuthModalContainerProps> = ({
     visible, 
     mode,
     closeAuthModal, 
+    changeAuthModalMode,
 }) => {
     const onClose = useCallback(() => {
         closeAuthModal();
     }, []);
+    const onToggleMode = useCallback(() => {
+        const nextMode = mode === 'REGISTER' ? 'LOGIN' : 'REGISTER';
+        changeAuthModalMode(nextMode);
+    }, [mode]);
     return (
         <AuthModal visible={visible} onClose={onClose}>
-            <AuthForm mode={mode} />
+            <AuthForm mode={mode} onToggleMode={onToggleMode} />
         </AuthModal>
-            );
+        );
     };
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(
    state => ({
      visible: state.core.auth.visible,
      mode: state.core.auth.mode,
    }),
- { closeAuthModal },
+ { closeAuthModal, changeAuthModalMode },
 )(AuthModalContainer);
