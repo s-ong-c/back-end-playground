@@ -1,23 +1,35 @@
 import React from 'react';
-import { render, fireEvent} from 'react-testing-library';
+import { render, fireEvent, cleanup } from 'react-testing-library';
 import configureMockStore from 'redux-mock-store';
 import AuthModalContainer from '../AuthModalContainer';
 import rootReducer, { RootState } from '../../../modules';
 import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { showAuthModal } from '../../../modules/core';
 
-describe('AuthForm',() => {
-    const setupStore = () => {
-        const state = rootReducer(undefined, { type: '@@INIT'});
-        const mockstore = configureMockStore<RootState>([]);
-        return mockstore(state);
-    }
-    it('renders correctly', () => {
-        const store = setupStore();
-        const { container} = render(
-            <Provider store={store}>
-                <AuthModalContainer />
-            </Provider>,
-        );
-        expect(container).toMatchSnapshot();
-    });
-})
+describe('AuthForm', () => {
+  const setupStore = () => {
+    const store = createStore(rootReducer);
+    return store;
+  };
+
+  it('renders correctly', () => {
+    const store = setupStore();
+    store.dispatch(showAuthModal('REGISTER'));
+    const { container } = render(
+      <Provider store={store}>
+        <AuthModalContainer />
+      </Provider>,
+    );
+    //expect(container).toMatchSnapshot();
+  });
+
+  it('switches mode', async () => {
+    const store = setupStore();
+    store.dispatch(showAuthModal('REGISTER'));
+    const { getByTestId } = render(<Provider store={store}><AuthModalContainer /></Provider>);
+     expect(getByTestId('title')).toHaveTextContent('회원가입');
+     fireEvent.click(getByTestId('switchmode'));
+    expect(getByTestId('title')).toHaveTextContent('로그인');
+  });
+});
