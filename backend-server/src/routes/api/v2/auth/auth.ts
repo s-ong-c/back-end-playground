@@ -44,7 +44,7 @@ auth.post('/sendmail', async ctx => {
       await getRepository(EmailAuth).save(emailAuth);
       const emailTemplate = createAuthEmail(!!user, emailAuth.code);
       ctx.body = {
-        registerd: !!user,
+        registered: !!user,
       };
       // send email
       setImmediate(() => {

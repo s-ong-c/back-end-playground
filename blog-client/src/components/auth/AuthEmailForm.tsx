@@ -29,10 +29,16 @@ const AuthEmailFormBlock = styled.form`
         border: none;
         border-top-right-radius: 2px;
         border-bottom-right-radius: 2px;
+        width: 5rem;
         cursor: pointer;
         &:hover, 
         &:focus {
             background: ${palette.teal5};
+        }
+        &:disabled {
+            background: ${palette.gray5};
+            color: ${palette.gray3};
+            cursor: default;
         }
     }
 `;
@@ -41,6 +47,7 @@ interface AuthEmailFormProps{
     value: string;
     onSubmit: (value: string) => void;
     mode: 'REGISTER'|'LOGIN';
+    disabled: boolean;
 
 }
 
@@ -48,15 +55,16 @@ const AuthEmailForm: React.SFC<AuthEmailFormProps> = ({
     onChange,
     value,
     onSubmit,
-    mode
+    mode,
+    disabled,
 }) => {
     return (
         <AuthEmailFormBlock onSubmit={(e) => {
             e.preventDefault();
             onSubmit(value);
         }}>
-            <input onChange={onChange} value={value} tabIndex={2} placeholder="이메일을 입력하세요." />
-            <button tabIndex={3}>
+            <input onChange={onChange} value={value} tabIndex={2} placeholder="이메일을 입력하세요." disabled={disabled} />
+            <button tabIndex={3} disabled={disabled}>
                 {mode ==='REGISTER' ? '회원가입' : '로그인'}
             </button>
         </AuthEmailFormBlock>

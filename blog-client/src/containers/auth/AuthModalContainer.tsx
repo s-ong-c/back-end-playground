@@ -4,6 +4,7 @@ import AuthForm from '../../components/auth/AuthForm';
 import { connect } from 'react-redux';
 import { RootState } from '../../modules';
 import { closeAuthModal, AuthMode, changeAuthModalMode } from '../../modules/core';
+import { sendAuthEmail } from '../../lib/api/auth';
 
 interface OwnProps{};
 interface StateProps{
@@ -16,7 +17,7 @@ interface DispatchProps{
 };
 type AuthModalContainerProps = OwnProps & StateProps & DispatchProps;
 
-const { useCallback } = React;
+const { useCallback, useState } = React;
 const AuthModalContainer: React.SFC<AuthModalContainerProps> = ({
     visible, 
     mode,
@@ -30,9 +31,29 @@ const AuthModalContainer: React.SFC<AuthModalContainerProps> = ({
         const nextMode = mode === 'REGISTER' ? 'LOGIN' : 'REGISTER';
         changeAuthModalMode(nextMode);
     }, [mode]);
+
+    const [load, setLoad ] = useState(false);
+    const [registered, setRegistered] = useState<boolean | null>(null);
+
+    const onSendAuthEmail = useCallback(async(email: string) => {
+        try {
+            setLoad(true);
+            const result = await sendAuthEmail(email);
+            setLoad(false);
+            setRegistered(result.data.registered);
+        } catch (e) {
+            console.log(e);
+        }
+    },[]);
     return (
         <AuthModal visible={visible} onClose={onClose}>
-            <AuthForm mode={mode} onToggleMode={onToggleMode} />
+            <AuthForm 
+                mode={mode} 
+                onToggleMode={onToggleMode} 
+                onSendAuthEmail={onSendAuthEmail} 
+                load={load} 
+                registered={registered}
+            />
         </AuthModal>
         );
     };
