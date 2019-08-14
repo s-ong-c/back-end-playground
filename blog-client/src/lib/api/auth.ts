@@ -5,6 +5,7 @@ import apiClient from "./apiClient";
  * @param email
  */
 export const sendAuthEmail = (email: string) => 
-    apiClient.post<{ registered: boolean}>('api/v2/auth/sendmail',{
+    apiClient.post<SendAuthEmailResponse>('api/v2/auth/sendmail',{
     email,
 });
+export type SendAuthEmailResponse = { registered: boolean};

@@ -46,13 +46,13 @@ const AuthFormBlock = styled.div`
 `;
 export interface AuthFormProps{
     mode: AuthMode;
-    load: boolean;
+    loading: boolean;
     onToggleMode: () => void;
     onSendAuthEmail: (email: string) => void;
     registered: boolean | null;
 }
 
-const AuthForm: React.SFC<AuthFormProps> = ({ mode, onToggleMode, onSendAuthEmail, load, registered }) => {
+const AuthForm: React.SFC<AuthFormProps> = ({ mode, onToggleMode, onSendAuthEmail, loading, registered }) => {
     const [email, onChangeEmail] = useInput('');
     const onSubmit = (email: string) => {
         onSendAuthEmail(email);
@@ -64,7 +64,7 @@ const AuthForm: React.SFC<AuthFormProps> = ({ mode, onToggleMode, onSendAuthEmai
             <h2 data-testid="title">{modeText}</h2>
                 <section>
                     <h4>이메일로 {modeText}</h4>
-                    {registered ? (
+                    {registered !== null ? (
                         <AuthEmailSuccess registered={registered} /> 
                  ) : (
                     <AuthEmailForm 
@@ -72,7 +72,7 @@ const AuthForm: React.SFC<AuthFormProps> = ({ mode, onToggleMode, onSendAuthEmai
                         onChange={onChangeEmail} 
                         onSubmit={onSubmit} 
                         mode={mode}
-                        disabled={load}
+                        disabled={loading}
                     />
                     )}
                 </section>

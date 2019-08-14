@@ -4,7 +4,8 @@ import AuthForm from '../../components/auth/AuthForm';
 import { connect } from 'react-redux';
 import { RootState } from '../../modules';
 import { closeAuthModal, AuthMode, changeAuthModalMode } from '../../modules/core';
-import { sendAuthEmail } from '../../lib/api/auth';
+import { sendAuthEmail, SendAuthEmailResponse } from '../../lib/api/auth';
+import useRequest from '../../lib/hooks/useRequest';
 
 interface OwnProps{};
 interface StateProps{
@@ -24,26 +25,30 @@ const AuthModalContainer: React.SFC<AuthModalContainerProps> = ({
     closeAuthModal, 
     changeAuthModalMode,
 }) => {
+    const [ _sendAuthEmail, loading, data, error, resetSendAuthEmail]  = useRequest<
+        SendAuthEmailResponse
+    >(sendAuthEmail);
     const onClose = useCallback(() => {
         closeAuthModal();
+        resetSendAuthEmail();
     }, []);
     const onToggleMode = useCallback(() => {
         const nextMode = mode === 'REGISTER' ? 'LOGIN' : 'REGISTER';
         changeAuthModalMode(nextMode);
     }, [mode]);
-
-    const [load, setLoad ] = useState(false);
-    const [registered, setRegistered] = useState<boolean | null>(null);
-
+   // const [load, setLoad ] = useState(false);
+  //  const [registered, setRegistered] = useState<boolean | null>(null);
+    const registered = data && data.registered;
     const onSendAuthEmail = useCallback(async(email: string) => {
-        try {
-            setLoad(true);
-            const result = await sendAuthEmail(email);
-            setLoad(false);
-            setRegistered(result.data.registered);
-        } catch (e) {
-            console.log(e);
-        }
+        _sendAuthEmail(email);
+        // try {
+        //     setLoad(true);
+        //     const result = await sendAuthEmail(email);
+        //     setLoad(false);
+        //     setRegistered(result.data.registered);
+        // } catch (e) {
+        //     console.log(e);
+        // }
     },[]);
     return (
         <AuthModal visible={visible} onClose={onClose}>
@@ -51,7 +56,7 @@ const AuthModalContainer: React.SFC<AuthModalContainerProps> = ({
                 mode={mode} 
                 onToggleMode={onToggleMode} 
                 onSendAuthEmail={onSendAuthEmail} 
-                load={load} 
+                loading={loading} 
                 registered={registered}
             />
         </AuthModal>
