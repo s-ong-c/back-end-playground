@@ -7,6 +7,7 @@ import Counter from './pages/Counter';
 import Info from './pages/Info';
 import InfoPage from './pages/InfoPage';
 import Core from './containers/base/Core';
+import RegisterPage from './pages/RegisterPage';
 // import { CoreProvider } from './contexts/CoreContext';
 // const MainPage = loadable(() => import('./pages/main/MainPage'));
 // const PostPage = loadable(() => import('./pages/PostPage'));
@@ -17,6 +18,7 @@ const App: React.SFC<AppProps> = props => {
   <>
       <Switch>
         <Route path="/" component={MainPage} exact  />
+        <Route paht="/register" component={RegisterPage} />
         <Route path="/:mode(trending|recent|following)" component={MainPage} />
         <Route path="/@:username/:urlSlug" component={PostPage} />
         {/* <Route path="/info" component={InfoPage} />
