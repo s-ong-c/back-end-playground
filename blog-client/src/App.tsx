@@ -18,7 +18,7 @@ const App: React.SFC<AppProps> = props => {
   <>
       <Switch>
         <Route path="/" component={MainPage} exact  />
-        <Route paht="/register" component={RegisterPage} />
+        <Route path="/register" component={RegisterPage} />
         <Route path="/:mode(trending|recent|following)" component={MainPage} />
         <Route path="/@:username/:urlSlug" component={PostPage} />
         {/* <Route path="/info" component={InfoPage} />

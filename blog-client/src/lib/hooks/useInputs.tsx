@@ -22,7 +22,7 @@ function reducer<T>(state:T, action: UseInputsAction | null) {
         [action.name]: action.value,
     }
 }
-export default function useInputs(defaultValues: DefaultValues) {
+export default function useInputs<T>(defaultValues: DefaultValues) {
     const [state, dispatch]= useReducer(reducer, defaultValues);
     const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch({
@@ -34,7 +34,7 @@ export default function useInputs(defaultValues: DefaultValues) {
         dispatch(null);
     },[])
     return [state, onChange, onReset, dispatch] as [
-        string, 
+        T, 
         typeof onChange, 
         typeof onReset,
         typeof dispatch
