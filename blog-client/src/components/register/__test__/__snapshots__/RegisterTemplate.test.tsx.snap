@@ -3,16 +3,22 @@
 exports[`RegisterTemplate matches snapshot 1`] = `
 <div>
   <div
-    class="sc-bdVaJa bfwSXh"
+    class="sc-bdVaJa eLVMTW"
   >
     <h1>
       환영합니다.
+      <svg>
+        logo.svg
+      </svg>
     </h1>
     <div
       class="description"
     >
       기본 회원 정보를 등록해주세요.
     </div>
+    <div
+      class="contents"
+    />
   </div>
 </div>
 `;
