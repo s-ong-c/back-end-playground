@@ -1,54 +1,78 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 import palette from '../../lib/styles/palette';
-
+import { MdLockOutline } from 'react-icons/md';
 const LabelInputBlock = styled.div<{ focus: boolean }>`
-    label,
+  label,
+  input {
+    display: block;
+    line-height: 1.5;
+  }
+  label {
+    font-weight: bold;
+    font-size: 1.125rem;
+    color: ${palette.gray9};
+    margin-bottom: 1rem;
+    transition: all 0.125s ease-in;
+    ${props =>
+      props.focus &&
+      css`
+        color: ${palette.teal7};
+      `}
+  }
     input {
-        display: block;
-        line-height: 1.5;
-    }
-    label {
-        font-weight: bold;
-        font-size: 1.125rem;
-        color: ${palette.gray9};
-        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        border: none;
+        outline: none;
+        width: 100%;
+        color: ${palette.gray7};
         transition: all 0.125s ease-in;
         ${props =>
         props.focus &&
         css`
             color: ${palette.teal7};
         `}
-    }
-    input {
-        font-size: 1.5rem;
-        border: none;
-        outline: none;
-        border-bottom: 1px solid ${palette.gray6};
-        padding-bottom: 0.5rem;
-        width: 100%;
-        color: ${palette.gray7};
-        ${props =>
-        props.focus &&
-            css`
-                color: ${palette.teal7};
-                border-bottom: 1px solid ${palette.teal7};
-            `}
+        &::placeholder {
+        color: ${palette.gray5};
+        }
+        &:disabled {
+            background:white;
+            color: ${palette.gray6};
+            cursor: not-allowed;
+        }
     }
     .group {
         display: inline-block;
         max-width: 100%;
     }
-    .width-maker {
-        max-width: 100%;
-        display: inline-block;
+    .input-wrapper {
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid ${palette.gray7};
+        display: flex;
+        align-items: center;
+        ${props =>
+        props.focus &&
+        css`
+            border-color: ${palette.teal7};
+        `}
+        input {
+        width: 1;
+        }
+        svg {
         font-size: 1.5rem;
-        visibility:hidden;
-        overflow: hidden;
-        line-height:0;
-
+        color: ${palette.gray6};
+        }
     }
+  .width-maker {
+    max-width: 100%;
+    display: inline-block;
+    visibility: hidden;
+    font-size: 1.5rem;
+    overflow: hidden;
+    line-height: 0;
+  }
 `;
+
 type InputProps = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
@@ -68,6 +92,7 @@ const LabelInput: React.SFC<LabelInputProps> = ({
     value,
     placeholder, 
     onChange,
+    disabled,
     ...rest
 }) => {
     const [focus, setFocus] = useState(false);
@@ -81,20 +106,25 @@ const LabelInput: React.SFC<LabelInputProps> = ({
     }, [value, placeholder]);
     return (
         <LabelInputBlock focus={focus}>
-            <label>{label}</label>
-            <div className="group">
-                <input 
-                    name={name} 
-                    onChange={onChange} 
-                    value={value} 
-                    placeholder={placeholder}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
-                    {...rest}
-                />
-                <div className="width-maker">{value || placeholder}</div>
-            </div>
-        </LabelInputBlock>
+        <label>{label}</label>
+        <div className="group">
+          <div className="input-wrapper">
+            <input
+              name={name}
+              onChange={onChange}
+              value={value}
+              placeholder={placeholder}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              disabled={disabled}
+              {...rest}
+            />
+            {disabled && <MdLockOutline />}
+          </div>
+  
+          <div className="width-maker">{value || `${placeholder}`}</div>
+        </div>
+      </LabelInputBlock>
   );
 };
 

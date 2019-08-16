@@ -25,7 +25,7 @@ export interface RegisterFormProps {
 const RegisterForm: React.SFC<RegisterFormProps> = ({onSubmit, defaultEmail}) => {
     const [form, onChange] = useInputs<RegisterFormType>({
         displayName: '', 
-        email: 'somony9292@gmail.com', 
+        email: '', 
         username: '', 
         shortBio: ''
     })
@@ -39,12 +39,12 @@ const RegisterForm: React.SFC<RegisterFormProps> = ({onSubmit, defaultEmail}) =>
                 value={form.displayName} 
                 size={20}
             /> 
-            <LabelInput 
+            <LabelInput
                 name="email"
-                label="이메일" 
                 onChange={onChange}
+                label="이메일"
                 placeholder="이메일을 입력하세요"
-                value={form.email} 
+                value={defaultEmail || form.email}
                 disabled={!!defaultEmail}
                 size={25}
             />
