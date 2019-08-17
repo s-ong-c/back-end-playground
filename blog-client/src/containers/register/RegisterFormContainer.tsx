@@ -1,7 +1,7 @@
 import * as React from 'react';
 import RegisterForm, { RegisterFormType } from '../../components/register/RegisterForm';
 import useRequest from '../../lib/hooks/useRequest';
-import { getRegisterToken, GetRegisterTokenResponse } from '../../lib/api/auth';
+import { getRegisterToken, GetRegisterTokenResponse, localEmailRegister } from '../../lib/api/auth';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import qs from 'qs';
 
@@ -14,12 +14,26 @@ const RegisterFormContainer: React.SFC<RegisterFormContainerProps> = ({
     const query: {code?: string} = qs.parse(location.search, {
         ignoreQueryPrefix: true,
     });
-    const onSubmint = (form: RegisterFormType) => {
-        console.log(form);
-    };
     const [onGetRegisterToken, loading, registerToken] = useRequest<
         GetRegisterTokenResponse
     >((code: string) =>  getRegisterToken(code));
+
+    const [
+        onLocalRegister, 
+        localRegisterLoading,
+        localRegisterResult
+    ] = useRequest(localEmailRegister);
+
+    const onSubmint = (form: RegisterFormType) => {
+        if (query.code) {
+            const formWithoutEmail = {...form};
+            delete formWithoutEmail.email;
+            onLocalRegister({
+                registerToken: registerToken && registerToken.register_token, 
+                form: formWithoutEmail
+            });
+        }
+    };
 
     // get Register token on mount
     useEffect(() => {

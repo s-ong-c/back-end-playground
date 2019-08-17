@@ -82,4 +82,12 @@ describe('RegisterForm', () => {
         //   shortBio: '안녕하세요',
         // });
       });
+      it('should show default email and lock', () => {
+        const utils = setup({
+          defaultEmail: 'somony9292@gmail.com',
+        });
+        expect(utils.form.email.value).toBe('somony9292@gmail.com');
+        expect(utils.form.email.disabled).toBeTruthy();
+        expect(utils.container.querySelector('svg')).toBeVisible();
+      });
 });

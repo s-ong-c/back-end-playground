@@ -32,7 +32,7 @@ const RegisterForm: React.SFC<RegisterFormProps> = ({onSubmit, defaultEmail}) =>
     return (
         <RegisterFormBlock>
             <LabelInput 
-                name="name"
+                name="displayName"
                 label="이름" 
                 onChange={onChange}
                 placeholder="이름을 입력하세요"

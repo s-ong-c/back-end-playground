@@ -1,5 +1,5 @@
 import apiClient from "./apiClient";
-
+import snakeCaseKeys from 'snakecase-keys';
 /**
  * SEND Auth Email
  * https://documenter.getpostman.com/view/6844904/SVYwJFwS?version=latest#ddf33347-83bf-4612-b545-e25021c0b3bf
@@ -25,4 +25,21 @@ export const getRegisterToken = (code: string) =>
 export type GetRegisterTokenResponse = {
     email:          string;
     register_token: string;
+}
+
+export const localEmailRegister = ({
+    registerToken,
+    form,
+}:{    
+    registerToken: string, 
+    form: LocalEmailRegisterForm
+}) => apiClient.post(
+    `/api/v2/auth/register/local`, 
+    snakeCaseKeys({ registerToken,form }),
+);
+
+export type LocalEmailRegisterForm = {
+    displayName: string;
+    username: string;
+    shortBio: string;
 }
