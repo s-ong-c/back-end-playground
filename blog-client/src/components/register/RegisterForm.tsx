@@ -3,11 +3,20 @@ import styled from 'styled-components';
 import LabelInput from '../common/LabelInput';
 import useInputs from '../../lib/hooks/useInputs';
 import RoundButton from '../common/RoundButton';
+import palette from '../../lib/styles/palette';
 
 const RegisterFormBlock = styled.div`
     margin-top: 3rem;
-    .buttons {
+    margin-bottom: 3rem;
+    .form-bottom {
         margin-top: 6rem;
+    }
+    .error {
+        margin-bottom: 1rem;
+        font-size: 1.125rem;
+        line-height: 1.5;
+        color: ${palette.red5};
+        font-weight: bold;
     }
 `;
 
@@ -20,9 +29,10 @@ export type RegisterFormType = {
 export interface RegisterFormProps {
     onSubmit: (form: RegisterFormType) => any;
     defaultEmail: string | null | undefined;
+    error: string | null;
 }
 
-const RegisterForm: React.SFC<RegisterFormProps> = ({onSubmit, defaultEmail}) => {
+const RegisterForm: React.SFC<RegisterFormProps> = ({onSubmit, defaultEmail,  error}) => {
     const [form, onChange] = useInputs<RegisterFormType>({
         displayName: '', 
         email: '', 
@@ -64,17 +74,20 @@ const RegisterForm: React.SFC<RegisterFormProps> = ({onSubmit, defaultEmail}) =>
                 value={form.shortBio} 
                 size={25}
             /> 
-            <div className="buttons">
-                <RoundButton inline color="gray" to="/">취소</RoundButton>
-                <RoundButton
-                    inline
-                    type="submit"
-                    onClick={() =>
-                        onSubmit({ ...form, email: defaultEmail || form.email })
-                    }
-                >
-                    다음
-                </RoundButton>
+            <div className="form-bottom">
+                {error && <div className="error">{error}</div>}
+                <div className="buttons">
+                    <RoundButton inline color="gray" to="/">취소</RoundButton>
+                    <RoundButton
+                        inline
+                        type="submit"
+                        onClick={() =>
+                            onSubmit({ ...form, email: defaultEmail || form.email })
+                        }
+                    >
+                        다음
+                    </RoundButton>
+                </div>
             </div>
         </RegisterFormBlock>
     );

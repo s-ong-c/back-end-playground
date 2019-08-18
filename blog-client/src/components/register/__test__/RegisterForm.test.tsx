@@ -8,6 +8,7 @@ describe('RegisterForm', () => {
      const initialProps: RegisterFormProps = {
           onSubmit: () => {},
           defaultEmail: null,
+          error:null,
         };
         const utils = render(
             <MemoryRouter>
