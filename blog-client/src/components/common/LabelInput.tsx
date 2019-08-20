@@ -20,7 +20,16 @@ const LabelInputBlock = styled.div<{ focus: boolean }>`
         color: ${palette.teal7};
       `}
   }
+
     input {
+      /* background: none;
+      border: none;
+      outline: none;
+      font-size: 0.875rem;
+      flex: 1;
+      margin-left: 0.5rem;
+      color: inherit; */
+        /*  */
         font-size: 1.5rem;
         border: none;
         outline: none;
@@ -48,6 +57,11 @@ const LabelInputBlock = styled.div<{ focus: boolean }>`
     .input-wrapper {
         padding-bottom: 0.5rem;
         border-bottom: 1px solid ${palette.gray7};
+        /*  */
+        /* border: 1px solid ${palette.gray7};
+        border-radius: 4px;
+        padding-top: 0.5rem; */
+
         display: flex;
         align-items: center;
         ${props =>

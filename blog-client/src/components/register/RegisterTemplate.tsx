@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
-import { Logo } from '../../static/svg';
+import { Logo, Register } from '../../static/svg';
 
 const RegisterTemplateBlock = styled.div`
         width: 768px;
@@ -9,6 +9,9 @@ const RegisterTemplateBlock = styled.div`
         margin-top: 100px;
         line-height: 1.5;
         h1 {
+           svg {
+             font-size:4rem;
+           }
             font-size: 4rem;
             color: ${palette.gray9};
             font-weight: bold;
@@ -24,8 +27,8 @@ export interface RegisterTemplateProps{}
 const RegisterTemplate: React.SFC<RegisterTemplateProps> = ({children}) => {
   return (
     <RegisterTemplateBlock>
-        <h1>환영합니다.<Logo /></h1>
-        <div className="description">기본 회원 정보를 등록해주세요.</div>
+        <h1><Register /></h1>
+        {/* <div className="description">기본 회원 정보를 등록해주세요.</div> */}
         <div className="contents">
             {children}
         </div>

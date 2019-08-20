@@ -1,7 +1,7 @@
 import * as React from 'react';
 import RegisterForm, { RegisterFormType } from '../../components/register/RegisterForm';
 import useRequest from '../../lib/hooks/useRequest';
-import { getRegisterToken, GetRegisterTokenResponse, localEmailRegister, RegisterResponse } from '../../lib/api/auth';
+import { getRegisterToken, GetRegisterTokenResponse, localEmailRegister, AuthResponse } from '../../lib/api/auth';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import qs from 'qs';
 
@@ -9,7 +9,8 @@ interface RegisterFormContainerProps extends RouteComponentProps<{}> {}
 const { useEffect, useState} = React;
 const RegisterFormContainer: React.SFC<RegisterFormContainerProps> = ({
     match,
-    location
+    location,
+    history
 }) => {
     const query: {code?: string} = qs.parse(location.search, {
         ignoreQueryPrefix: true,
@@ -23,9 +24,9 @@ const RegisterFormContainer: React.SFC<RegisterFormContainerProps> = ({
         onLocalRegister, 
         localRegisterLoading,
         localRegisterResult
-    ] = useRequest<RegisterResponse>(localEmailRegister);
+    ] = useRequest<AuthResponse>(localEmailRegister);
 
-    const onSubmint = (form: RegisterFormType) => {
+    const onSubmint = async (form: RegisterFormType) => {
         // validate
         const validation = {
             displayName: (text: string) => {
@@ -66,10 +67,19 @@ const RegisterFormContainer: React.SFC<RegisterFormContainerProps> = ({
         if (query.code) {
             const formWithoutEmail = {...form};
             delete formWithoutEmail.email;
-            onLocalRegister({
+            try {
+                await onLocalRegister({
                 registerToken: registerToken && registerToken.register_token, 
                 form: formWithoutEmail
-            });
+                });
+                history.push('/');
+            } catch (e) {
+                if (e.response.status === 409) {
+                    setError('이미 존재하는 아이디입니다.');
+                    return;
+                  }
+                setError('에러발생');
+            }
         }
     };
 

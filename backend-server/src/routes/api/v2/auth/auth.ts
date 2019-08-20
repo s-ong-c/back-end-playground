@@ -7,7 +7,7 @@ import EmailAuth from '../../../../entity/EmailAuth';
 import shortid = require('shortid');
 import { createAuthEmail } from '../../../../etc/emailTemplates';
 import sendMail from '../../../../lib/sendMail';
-import { generateToken, decodeToken } from '../../../../lib/token';
+import { generateToken, decodeToken, setTokenCookie } from '../../../../lib/token';
 import UserProfile from '../../../../entity/UserProfile';
 const auth = new Router();
 
@@ -100,115 +100,137 @@ auth.get('/code/:code', async ctx => {
         };
       } else {
         // generate user token
+        const profile = await getRepository(UserProfile).findOne({
+          fk_user_id: user.id
+        });
+        if (!profile) return;
+        const tokens = await user.generateUserToken();
+        setTokenCookie(ctx, tokens);
+        emailAuth.logged = true;
+        ctx.body = {
+          ...user,
+          profile,
+          tokens: {
+            access_token: tokens.accessToken,
+            refresh_token: tokens.refreshToken
+          }
+        };
+        setImmediate(() => {
+          getRepository(EmailAuth).save(emailAuth);
+        });
       }
     } catch (e) {}
 });
 auth.post('/code-login', async ctx => {});
-auth.post('/register/local', async ctx => {
-  type RequestBody = {
-    register_token: string;
-    form: {
-      display_name: string;
-      username: string;
-      short_bio: string;
+  auth.post('/register/local', async ctx => {
+    type RequestBody = {
+      register_token: string;
+      form: {
+        display_name: string;
+        username: string;
+        short_bio: string;
+      };
     };
-  };
-
-  type RegisterToken = {
-    email: string;
-    id: string;
-    sub: string;
-  };
-
-  const schema = Joi.object().keys({
-    register_token: Joi.string().required(),
-    form: Joi.object()
-      .keys({
-        display_name: Joi.string()
-          .min(1)
-          .max(45)
-          .required(),
-        username: Joi.string()
-          .regex(/^[a-z0-9-_]+$/)
-          .min(3)
-          .max(16)
-          .required(),
-        short_bio: Joi.string()
-          .allow('')
-          .max(140)
-      })
-      .required()
-  });
-
-  if (!validateBody(ctx, schema)) return;
-
-  const {
-    register_token,
-    form: { username, short_bio, display_name }
-  }: RequestBody = ctx.request.body;
-
-  // check token
-  let decoded: RegisterToken | null = null;
-  try {
-    decoded = await decodeToken<RegisterToken>(register_token);
-    if (decoded.sub !== 'email-register') {
-      ctx.status = 400;
+  
+    type RegisterToken = {
+      email: string;
+      id: string;
+      sub: string;
+    };
+  
+    const schema = Joi.object().keys({
+      register_token: Joi.string().required(),
+      form: Joi.object()
+        .keys({
+          display_name: Joi.string()
+            .min(1)
+            .max(45)
+            .required(),
+          username: Joi.string()
+            .regex(/^[a-z0-9-_]+$/)
+            .min(3)
+            .max(16)
+            .required(),
+          short_bio: Joi.string()
+            .allow('')
+            .max(140)
+        })
+        .required()
+    });
+  
+    if (!validateBody(ctx, schema)) return;
+  
+    const {
+      register_token,
+      form: { username, short_bio, display_name }
+    }: RequestBody = ctx.request.body;
+  
+    // check token
+    let decoded: RegisterToken | null = null;
+    try {
+      decoded = await decodeToken<RegisterToken>(register_token);
+      if (decoded.sub !== 'email-register') {
+        ctx.status = 400;
+        ctx.body = {
+          name: 'INVALID_TOKEN'
+        };
+        return;
+      }
+    } catch (e) {
       ctx.body = {
         name: 'INVALID_TOKEN'
       };
       return;
     }
-  } catch (e) {
+  
+    // check duplicates
+    const { email, id: codeId } = decoded;
+    const exists = await getRepository(User)
+      .createQueryBuilder()
+      .where('email = :email OR username = :username', { email, username })
+      .getOne();
+    if (exists) {
+      ctx.status = 409;
+      ctx.body = {
+        name: 'ALREADY_EXISTS',
+        payload: email === exists.email ? 'email' : 'username'
+      };
+      return;
+    }
+  
+    // disable code
+    const emailAuthRepo = getRepository(EmailAuth);
+    const emailAuth = await emailAuthRepo.findOne(codeId);
+    if (emailAuth) {
+      emailAuth.logged = true;
+      await emailAuthRepo.save(emailAuth);
+    }
+  
+    // create user
+    const userRepo = getRepository(User);
+    const user = new User();
+    user.email = email;
+    user.is_certified = true;
+    user.username = username;
+    await userRepo.save(user);
+  
+    const profile = new UserProfile();
+    profile.fk_user_id = user.id;
+    profile.display_name = display_name;
+    profile.short_bio = short_bio;
+    await getRepository(UserProfile).save(profile);
+  
+    const tokens = await user.generateUserToken();
+    setTokenCookie(ctx, tokens);
     ctx.body = {
-      name: 'INVALID_TOKEN'
+      ...user,
+      profile,
+      tokens: {
+        access_token: tokens.accessToken,
+        refresh_token: tokens.refreshToken
+      }
     };
-    return;
-  }
-
-  // check duplicates
-  const { email, id: codeId } = decoded;
-  const exists = await getRepository(User)
-    .createQueryBuilder()
-    .where('email = :email OR username = :username', { email, username })
-    .getOne();
-  if (exists) {
-    ctx.status = 409;
-    ctx.body = {
-      name: 'ALREADY_EXISTS',
-      payload: email === exists.email ? 'email' : 'username'
-    };
-    return;
-  }
-
-  // disable code
-  const emailAuthRepo = getRepository(EmailAuth);
-  const emailAuth = await emailAuthRepo.findOne(codeId);
-  if (emailAuth) {
-    emailAuth.logged = true;
-    await emailAuthRepo.save(emailAuth);
-  }
-
-  // create user
-  const userRepo = getRepository(User);
-  const user = new User();
-  user.email = email;
-  user.is_certified = true;
-  user.username = username;
-  await userRepo.save(user);
-
-  const profile = new UserProfile();
-  profile.user = user;
-  profile.display_name = display_name;
-  profile.short_bio = short_bio;
-  await getRepository(UserProfile).save(profile);
-  const profileJSON = { ...profile };
-  delete profileJSON.user;
-  delete profileJSON.fk_user_id;
-  ctx.body = {
-    ...user,
-    profile: profileJSON
-  };
-});
+  });
 
 /* social Auth */
 auth.post('/verify-social/:provider', async ctx => {});
@@ -222,10 +244,10 @@ auth.get('/check', async ctx => {
 auth.post('/logout', async ctx => {
   // clears cookies
   ctx.cookies.set('access_token', undefined, {
-    domain: process.env.NODE_ENV === 'development' ? undefined : '.velog.io'
+    domain: process.env.NODE_ENV === 'development' ? undefined : '.songc.io'
   });
   ctx.cookies.set('refresh_token', undefined, {
-    domain: process.env.NODE_ENV === 'development' ? undefined : '.velog.io'
+    domain: process.env.NODE_ENV === 'development' ? undefined : '.songc.io'
   });
   ctx.status = 204;
 });
