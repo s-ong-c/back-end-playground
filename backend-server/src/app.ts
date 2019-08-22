@@ -5,6 +5,7 @@ import { createConnection } from 'typeorm';
 import logger from 'koa-logger';
 import routes from './routes';
 import schema from './graphql/schema';
+import { consumeUser } from './lib/token';
 
 const app = new Koa();
 /* setup middlewares */
@@ -15,18 +16,19 @@ if (process.env.NODE_ENV === 'development') {
 }
 const apollo = new ApolloServer({
     schema,
-    context: ({ctx}: {ctx:  Context}) => {
-        const { authorization }  = ctx.request.headers;
-        if (!authorization) {
-            return {};
-        }
-        const sp = authorization.split(' ');
+    context: async ({ ctx }: { ctx: Context }) => {
+      try {
+        await consumeUser(ctx);
         return {
-            user_id: sp[1] 
+          user_id: ctx.state.user_id
         };
-    }
-});
-apollo.applyMiddleware({app});
+      } catch (e) {
+        return {};
+      }
+    },
+    tracing: process.env.NODE_ENV === 'development'
+  });
+  apollo.applyMiddleware({ app });
 
 /**
  * initial tasks except Koa middlewares;
