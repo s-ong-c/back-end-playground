@@ -4,6 +4,8 @@ import Header from '../../components/base/Header';
 import { getScrollTop } from '../../lib/utils';
 import { RootState } from '../../modules';
 import { showAuthModal } from '../../modules/core';
+import { Query, QueryResult } from 'react-apollo';
+import { GET_CURRENT_USER, CurrentUser } from '../../lib/graphql/user';
 const { useEffect, useRef, useState, useCallback } = React;
 
 interface OwnProps{};
@@ -68,8 +70,20 @@ const HeaderContainer: React.SFC<HeaderContainerProps> = ({
        // core.actions.showAuthModal('LOGIN');
         showAuthModal('LOGIN');
     }
-  return <Header floating={floating} floatingMargin={floatingMargin} onLoginClick={onLoginClick}/>;
-  };
+  return (
+    <Query query={GET_CURRENT_USER}>
+        {({ loading, error, data }: QueryResult<{ auth: CurrentUser}>) => {
+            return (
+                <Header 
+                    floating={floating} 
+                    floatingMargin={floatingMargin} 
+                    onLoginClick={onLoginClick}
+                />
+            );
+        }}
+    </Query>
+  
+  )};
 
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(
    state => ({}),
