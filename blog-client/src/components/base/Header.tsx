@@ -3,6 +3,9 @@ import styled, { css } from 'styled-components';
 import { Logo } from '../../static/svg';
 import Button from '../common/Button';
 import { breakpoints } from '../../lib/styles/responsive';
+import RoundButton from '../common/RoundButton';
+import { CurrentUser } from '../../lib/graphql/user';
+import HeaderUserIcon from './HeaderUserIcon';
 
 const HeaderBlock = styled.div<{
   floating: boolean;
@@ -10,13 +13,18 @@ const HeaderBlock = styled.div<{
   width: 100%;
   .wrapper {
     width: ${breakpoints.xlarge};
-    height: 4rem;
+    height: 6rem;
     margin: 0rem auto;
     padding-left: 1rem;
     padding-right: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .logged-in {
+      display: flex;
+      align-items: center;
+    }
   }
 
   ${props => props.floating && 
@@ -35,9 +43,15 @@ interface HeaderProps{
   floating: boolean;
   floatingMargin: number;
   onLoginClick: () => void;
+  user: CurrentUser | null;
 }
 
-const Header: React.SFC<HeaderProps> = ({ floating, floatingMargin, onLoginClick}) => {
+const Header: React.SFC<HeaderProps> = ({ 
+  floating, 
+  floatingMargin, 
+  onLoginClick,
+  user,
+}) => {
   return (
     <>
         <HeaderBlock
@@ -49,7 +63,16 @@ const Header: React.SFC<HeaderProps> = ({ floating, floatingMargin, onLoginClick
                 <Logo />
               </div>
               <div className="right">
-                <Button onClick={onLoginClick}>로그인</Button>
+                { user ? (
+                  <div className="logged-in">
+                    <RoundButton border color="darkGray" style={{ marginRight:'1.5rem'}}>새 글 작성</RoundButton>
+                    <HeaderUserIcon user={user} /> 
+                  </div>
+                  ):(
+                    <RoundButton onClick={onLoginClick} size="DEFAULT">
+                      로그인
+                    </RoundButton>
+                  )}
               </div>
             </div>
         </HeaderBlock>

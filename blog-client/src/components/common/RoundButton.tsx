@@ -2,6 +2,16 @@ import * as React from 'react';
 import styled, { css } from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { Route } from 'react-router';
+import Button from './Button';
+
+type ButtonSize = 'SMALL' | 'DEFAULT' | 'LARGE';
+
+type RoundButtonBlockProps = {
+  inline?: boolean;
+  color: string;
+  size: ButtonSize;
+  border: boolean;
+};
 
 const colorMap: {
     [color: string]: {
@@ -20,31 +30,70 @@ const colorMap: {
       color: palette.gray7,
       hoverBackground: palette.gray1,
     },
+    darkGray: {
+      background: palette.gray8,
+      color: 'white',
+      hoverBackground: palette.gray6,
+    }
   };
   
-const RoundButtonBlock = styled.button<{
-    inline?: boolean;
-    color: string;
-}>`
+const RoundButtonBlock = styled.button<RoundButtonBlockProps>`
     ${props => props.inline && css`
         & + & {
             margin-left: 1rem;
         }
     `}
-    height: 3rem;
+
+    ${props =>
+      props.size === 'SMALL' &&
+      css`
+        height: 1.5rem;
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+        font-size: 0.875rem;
+        border-radius: 0.75rem;
+      `};
+    ${props =>
+      props.size === 'DEFAULT' &&
+      css`
+        height: 2rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        font-size: 1rem;
+        border-radius: 1rem;
+      `};
+    ${props =>
+      props.size === 'LARGE' &&
+      css`
+        height: 3rem;
+        font-size: 1.5rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        border-radius: 1.5rem;
+      `}
+
+
     background: none;
     outline: none;
     border: none;
     font-weight: bold;
-    font-size: 1.5rem;
     background: ${props => colorMap[props.color].background};
     color: ${props => colorMap[props.color].color};
-    padding-left: 2rem;
-    padding-right: 2rem;
-    border-radius: 1.5rem;
     &:hover {
       background: ${props => colorMap[props.color].hoverBackground};
     }
+
+    ${props => props.border && 
+      css<RoundButtonBlockProps> `
+        background: transparent;
+        border: 1px solid ${props => colorMap[props.color].background};
+        color: ${props => colorMap[props.color].background};
+        &:hover {
+          background: ${props => colorMap[props.color].background};
+          color: white;
+      }
+    `}
+
     transition: 0.125s all ease-in;
     &:focus {
       box-shadow: 0px 2px 12px #00000030;
@@ -59,13 +108,17 @@ type ButtonProps = React.DetailedHTMLProps<
 interface RoundButtonProps extends ButtonProps{
     inline?: boolean;
     to? :string;
-
+    size?: ButtonSize;
+    color?: 'teal' | 'gray' | 'darkGray';
+    border?: boolean;
 }
 
 const RoundButton: React.SFC<RoundButtonProps> = ({
     ref,
     color = 'teal',
     to,
+    size = 'DEFAULT',
+    border = false,
     ...rest
 }) => {
     if (to) {
@@ -78,13 +131,15 @@ const RoundButton: React.SFC<RoundButtonProps> = ({
                 e.preventDefault();
                 history.push(to);
                 }}
+                size={size}
+                border={border}
                 {...rest}
             />
             )}
         />
      );
     }
-  return <RoundButtonBlock color={color} {...rest} />
+  return <RoundButtonBlock color={color} size={size} border={border}{...rest} />
   };
 
 export default RoundButton; 

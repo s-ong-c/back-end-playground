@@ -78,6 +78,7 @@ const HeaderContainer: React.SFC<HeaderContainerProps> = ({
                     floating={floating} 
                     floatingMargin={floatingMargin} 
                     onLoginClick={onLoginClick}
+                    user={data ? data.auth : null}
                 />
             );
         }}
