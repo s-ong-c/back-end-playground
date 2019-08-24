@@ -6,12 +6,16 @@ import { breakpoints } from '../../lib/styles/responsive';
 import RoundButton from '../common/RoundButton';
 import { CurrentUser } from '../../lib/graphql/user';
 import HeaderUserIcon from './HeaderUserIcon';
+import useToggle from '../../lib/hooks/useToggle';
+import HeaderUserMenu from './HeaderUserMenu';
+import { logout } from '../../lib/api/auth';
+import storage from '../../lib/storage';
 
 const HeaderBlock = styled.div<{
   floating: boolean;
 }>`
   width: 100%;
-  .wrapper {
+  > .wrapper {
     width: ${breakpoints.xlarge};
     height: 6rem;
     margin: 0rem auto;
@@ -22,6 +26,7 @@ const HeaderBlock = styled.div<{
     align-items: center;
 
     .logged-in {
+      position: relative;
       display: flex;
       align-items: center;
     }
@@ -46,12 +51,22 @@ interface HeaderProps{
   user: CurrentUser | null;
 }
 
+const { useCallback } = React;
 const Header: React.SFC<HeaderProps> = ({ 
   floating, 
   floatingMargin, 
   onLoginClick,
   user,
 }) => {
+  const [userMenu, toggleUserMenu] = useToggle(false); 
+
+  const onLogout = useCallback(async () => {
+    try {
+      await logout();
+    } catch  {}
+    storage.removeItem('CURRENT_USER');
+    window.location.href= '/';
+    },[])
   return (
     <>
         <HeaderBlock
@@ -65,8 +80,20 @@ const Header: React.SFC<HeaderProps> = ({
               <div className="right">
                 { user ? (
                   <div className="logged-in">
-                    <RoundButton border color="darkGray" style={{ marginRight:'1.5rem'}}>새 글 작성</RoundButton>
-                    <HeaderUserIcon user={user} /> 
+                    <RoundButton 
+                      border color="darkGray" 
+                      style={{ marginRight:'1.25rem'}}
+                      to="/write"
+                    >
+                        새 글 작성
+                      </RoundButton>
+                    <HeaderUserIcon user={user} img={user.profile.thumbnail} onClick={toggleUserMenu} />
+                    <HeaderUserMenu 
+                      onClose={toggleUserMenu} 
+                      username={user.username} 
+                      onLogout={onLogout}
+                      visible={userMenu}
+                    />
                   </div>
                   ):(
                     <RoundButton onClick={onLoginClick} size="DEFAULT">

@@ -1,7 +1,23 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-const HeaderUserMenuItemBlock = styled.div``;
+import palette from '../../lib/styles/palette';
+const WrapperLink = styled(Link)`
+    display: block;
+    color: inherit;
+    text-decoration: none;
+`
+const HeaderUserMenuItemBlock = styled.div`
+    color: ${palette.gray9};
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    &:hover {
+        background:${palette.gray0};
+    }
+
+`;
 interface HeaderUserMenuItemProps{
     to?: string;
     onClick?: () => void;
@@ -18,9 +34,9 @@ const HeaderUserMenuItem: React.SFC<HeaderUserMenuItemProps> = ({
         </HeaderUserMenuItemBlock>
     );
   return to ?( 
-    <Link to={to} style={{ display: 'block'}}>
+    <WrapperLink to={to} style={{ display: 'block'}}>
         {jsx}
-    </Link>
+    </WrapperLink>
     ) : (
     jsx
     );

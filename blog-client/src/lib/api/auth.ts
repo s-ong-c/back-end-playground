@@ -65,11 +65,14 @@ export type AuthResponse = {
     };
   };
 
-  /**
-   * Login using email code
-   * docs  https://documenter.getpostman.com/view/6844904/SVYwJFwS?version=latest#a7237e10-150f-4ff9-95f2-9b4e718a860c
-   * @param code 
-   */
-  export const emailCodeLogin = (code: string) => 
+/**
+* Login using email code
+* docs  https://documenter.getpostman.com/view/6844904/SVYwJFwS?version=latest#a7237e10-150f-4ff9-95f2-9b4e718a860c
+* @param code 
+*/
+export const emailCodeLogin = (code: string) => 
     apiClient.get<AuthResponse>(`/api/v2/auth/code/${code}`);
+
+export const logout = () => apiClient.post<void>('/api/v2/auth/logout');
+
   
