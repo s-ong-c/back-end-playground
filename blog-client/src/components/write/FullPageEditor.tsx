@@ -1,18 +1,28 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Quill from 'quill';
-// import 'highlight.js/styles/atom-one-dark.css';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/atom-one-dark.css';
 import 'quill/dist/quill.snow.css';
 import TextareaAutosize from 'react-textarea-autosize';
 import MarkdownShortcuts from '../../lib/quill/markdownShortcuts';
 import palette from '../../lib/styles/palette';
 import Toolbar from './Toolbar';
+import AddLink from './AddLink';
+import postStyles from '../../lib/styles/postStyles';
+
+console.log((window as any).hljs);
 
 Quill.register('modules/markdownShortcuts', MarkdownShortcuts);
 export interface FullPageEditorProps {}
 export interface FullPageEditorState {
+    titleFocus: boolean;
     editorFocus: boolean;
-
+    addLink: boolean;
+    addLinkPosition: {
+        left: number;
+        top: number;
+    };
 }
 const FullPageEditorWrapper = styled.div`
     /* display: flex;
@@ -64,6 +74,7 @@ const Editor = styled.div`
             padding: 1rem;
             font-family: 'Fira Mono', monospace;
         }
+        ${postStyles}
     }
     .ql-editor.ql-blank::before {
         left: 0px;
@@ -79,9 +90,21 @@ export default class FullPageEditor extends React.Component<
     titleTextarea: HTMLTextAreaElement | null = null;
     quill: Quill | null = null;
     state = {
+        titleFocus: false,
         editorFocus: false,
+        addLink: false,
+        addLinkPosition: {
+          top: 0,
+          left: 0,
+        },
     }
     componentDidMount() {
+        if (!(window as any).HLJS_CONFIGURED) {
+            (window as any).HLJS_CONFIGURED = true;
+            hljs.configure({
+              languages: ['javascript', 'python'],
+            });
+          }
             // set focus to title
         if (this.titleTextarea) {
             this.titleTextarea.focus();
@@ -92,12 +115,35 @@ export default class FullPageEditor extends React.Component<
                 markdownShortcuts: {},
                 toolbar: {
                     container: '#toolbar',
-                }
+                    handlers: {
+                      link: (value: string) => {
+                        const range = quill.getSelection();
+                        if (!range) return;
+                        const bounds = quill.getBounds(range.index);
+                        this.setState({
+                          addLink: true,
+                          addLinkPosition: {
+                            left: bounds.left,
+                            top: bounds.top + bounds.height,
+                          },
+                        });
+                        // if (value) {
+                        //   var href = prompt('링크를 입력하세요.');
+                        //   quill.format('link', href);
+                        // } else {
+                        //   quill.format('link', false);
+                        // }
+                      },
+                    },
+                  },
+                  syntax: true,
+          
             },
             placeholder:'Tell your story...',
         });
 
         this.quill = quill;
+        (window as any).quill = quill;
          // handle blur and foucs
         quill.on('selection-change', (range, oldRange, source) => {
           if (range === null && oldRange !== null) {
@@ -118,10 +164,25 @@ export default class FullPageEditor extends React.Component<
       e.preventDefault();
     }
   };
+
+  handleAddLink = (value: string) => {
+    if (!this.quill) return;
+    this.quill.format('link', value);
+    this.setState({
+      addLink: false,
+    });
+  };
+
+  handleCancelAddLink = () => {
+    this.setState({ addLink: false });
+  };
+
   public render() {
+    const { addLink, addLinkPosition, titleFocus } = this.state;
     return (
       <FullPageEditorWrapper>
         <Toolbar visible={this.state.editorFocus} />
+        
         <TitleTextarea
           placeholder="Title"
           onKeyDown={this.handleTitleKeyDown}
@@ -132,6 +193,13 @@ export default class FullPageEditor extends React.Component<
         <div id="#toolbar" />
         <Editor>
           <div ref={this.editor} />
+          {addLink && (
+            <AddLink
+              {...addLinkPosition}
+              onConfirm={this.handleAddLink}
+              onClose={this.handleCancelAddLink}
+            />
+          )}
         </Editor>
       </FullPageEditorWrapper>
     );

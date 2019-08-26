@@ -16,13 +16,12 @@ const ToolbarBlock = styled.div<{visible: boolean}>`
   margin-top: 1.5rem;
   top: 0;
   left:0;
-  width: 100%;
+  width: 10%;
   height: 2.5rem;
   display: flex;
   width: 100%;
   align-items: center;
   background: white;
-
   ${props =>
     !props.visible &&
     css`
@@ -33,49 +32,101 @@ const ToolbarBlock = styled.div<{visible: boolean}>`
 const ToolbarGroup = styled.div`
   display: flex;
 `
-const ToolbarItem = styled.div`
+const Heading = styled.div`
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: serif;
+  span {
+    font-size: 0.75rem;
+  }
+`;
+const ToolbarItem = styled.button`
+  width: 3rem;
+  height: 100%;
   display: flex;
-  width: 2.5rem;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  color: ${palette.gray7};
+  font-size: 1.75rem;
+  color: ${palette.gray6};
   cursor: pointer;
   &:hover {
     color: ${palette.gray9};
     background: ${palette.gray0};
   }
+  background: none;
+  outline: none;
+  border: none;
+  padding: 0;
+  &.ql-active {
+    color: ${palette.teal6};
+  }
 `;
+
+
+const Separator = styled.div`
+    width: 1px;
+    height: 1.25rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    background: ${palette.gray4};
+`;
+
 interface ToolbarProps{
   visible: boolean;
 }
 
 const Toolbar: React.SFC<ToolbarProps> = ({ visible }) => {
   return (
-    <ToolbarBlock visible={visible} id="toolbar">
+<ToolbarBlock visible={visible} id="toolbar">
       <ToolbarGroup>
-        <ToolbarItem>
+        <ToolbarItem className="ql-header" value={1}>
+          <Heading>
+            H<span>1</span>
+          </Heading>
+        </ToolbarItem>
+        <ToolbarItem className="ql-header" value={2}>
+          <Heading>
+            H<span>2</span>
+          </Heading>
+        </ToolbarItem>
+        <ToolbarItem className="ql-header" value={3}>
+          <Heading>
+            H<span>3</span>
+          </Heading>
+        </ToolbarItem>
+        <ToolbarItem className="ql-header" value={4}>
+          <Heading>
+            H<span>4</span>
+          </Heading>
+        </ToolbarItem>
+      </ToolbarGroup>
+      <Separator />
+      <ToolbarGroup>
+        <ToolbarItem className="ql-bold">
           <MdFormatBold />
         </ToolbarItem>
-        <ToolbarItem>
+        <ToolbarItem className="ql-italic">
           <MdFormatItalic />
         </ToolbarItem>
-        <ToolbarItem>
+        <ToolbarItem className="ql-underline">
           <MdFormatUnderlined />
         </ToolbarItem>
-        <ToolbarItem>
+        <ToolbarItem className="ql-strike">
           <MdFormatStrikethrough />
         </ToolbarItem>
-        <ToolbarItem>
-          <MdInsertLink />
-        </ToolbarItem>
-        <ToolbarItem>
+      </ToolbarGroup>
+      <Separator />
+      <ToolbarGroup>
+        <ToolbarItem className="ql-blockquote">
           <MdFormatQuote />
         </ToolbarItem>
-        <ToolbarItem>
+        <ToolbarItem className="ql-link">
+          <MdInsertLink />
+        </ToolbarItem>
+        <ToolbarItem className="ql-image">
           <MdImage />
         </ToolbarItem>
-        <ToolbarItem>
+        <ToolbarItem className="ql-code-block">
           <MdCode />
         </ToolbarItem>
       </ToolbarGroup>
