@@ -7,7 +7,7 @@ import {
   MdFormatStrikethrough,
   MdInsertLink,
   MdFormatQuote,
-  MdImage,
+  MdCameraAlt,
   MdCode,
 } from 'react-icons/md';
 import palette from '../../lib/styles/palette';
@@ -16,7 +16,8 @@ const ToolbarBlock = styled.div<{visible: boolean}>`
   margin-top: 1.5rem;
   top: 0;
   left:0;
-  width: 10%;
+  width: 100%;
+  position: sticky;
   height: 2.5rem;
   display: flex;
   width: 100%;
@@ -124,7 +125,7 @@ const Toolbar: React.SFC<ToolbarProps> = ({ visible }) => {
           <MdInsertLink />
         </ToolbarItem>
         <ToolbarItem className="ql-image">
-          <MdImage />
+          <MdCameraAlt />
         </ToolbarItem>
         <ToolbarItem className="ql-code-block">
           <MdCode />

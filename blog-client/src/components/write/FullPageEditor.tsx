@@ -110,6 +110,15 @@ export default class FullPageEditor extends React.Component<
             this.titleTextarea.focus();
         }
 
+        // const bindings = {
+        //   custom: {
+        //     key: 'enter',
+        //     handler: (range: any, context: any) => {
+        //       console.log(range, context);
+        //     }
+        //   }
+        // }
+
         const quill = new Quill(this.editor.current as Element,{
             modules: {
                 markdownShortcuts: {},
@@ -127,12 +136,6 @@ export default class FullPageEditor extends React.Component<
                             top: bounds.top + bounds.height,
                           },
                         });
-                        // if (value) {
-                        //   var href = prompt('링크를 입력하세요.');
-                        //   quill.format('link', href);
-                        // } else {
-                        //   quill.format('link', false);
-                        // }
                       },
                     },
                   },
@@ -149,14 +152,32 @@ export default class FullPageEditor extends React.Component<
           if (range === null && oldRange !== null) {
             this.setState({
                 editorFocus: false,
-            })
+              })
           }
           if (range !== null && oldRange === null) {
             this.setState({
                 editorFocus: true,
-            })
+              })
+            }
+        });
+        quill.on('text-change', (delta, oldContents, source) => {
+          const lastOps = delta.ops[delta.ops.length -1];
+          if (lastOps) {
+            console.log(lastOps.insert === '\n');
           }
-      });
+        });
+  };
+  
+  
+  handleTitleFocus = () => {
+      this.setState({
+          titleFocus: true
+      })
+  };
+  handleTitleBlur = () => {
+    this.setState({
+      titleFocus: false,
+    });
   };
     // blocks [Enter] key
   handleTitleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -181,14 +202,15 @@ export default class FullPageEditor extends React.Component<
     const { addLink, addLinkPosition, titleFocus } = this.state;
     return (
       <FullPageEditorWrapper>
-        <Toolbar visible={this.state.editorFocus} />
-        
+        <Toolbar visible={!titleFocus} />
         <TitleTextarea
           placeholder="Title"
           onKeyDown={this.handleTitleKeyDown}
           inputRef={ref => {
             this.titleTextarea = ref;
           }}
+          onFocus={this.handleTitleFocus}
+          onBlur={this.handleTitleBlur}
         />
         <div id="#toolbar" />
         <Editor>
