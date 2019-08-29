@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Quill from 'quill';
+import Quill, { RangeStatic } from 'quill';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
 import 'quill/dist/quill.snow.css';
@@ -110,17 +110,23 @@ export default class FullPageEditor extends React.Component<
             this.titleTextarea.focus();
         }
 
-        // const bindings = {
-        //   custom: {
-        //     key: 'enter',
-        //     handler: (range: any, context: any) => {
-        //       console.log(range, context);
-        //     }
-        //   }
-        // }
+      // keyboard bindings
+      const bindings = {
+        removeCodeBlock: {
+          key: 'backspace',
+          empty: true,
+          format: ['code-block'],
+          handler: (range: RangeStatic, context: any) => {
+            quill.format('code-block', false);
+          },
+        },
+      };
 
         const quill = new Quill(this.editor.current as Element,{
             modules: {
+                keyboard: {
+                  bindings,
+                },
                 markdownShortcuts: {},
                 toolbar: {
                     container: '#toolbar',
@@ -139,8 +145,9 @@ export default class FullPageEditor extends React.Component<
                       },
                     },
                   },
-                  syntax: true,
-          
+                  syntax: {
+                    interval: 200,
+                  },
             },
             placeholder:'Tell your story...',
         });
@@ -160,10 +167,53 @@ export default class FullPageEditor extends React.Component<
               })
             }
         });
+
+        const getIndent = (text: string) => text.length - text.trimLeft().length;
+
+        const onEnter = () => {
+          // handle keep-indent
+          const text = quill.getText();
+          const selection = quill.getSelection();
+          if (!selection) return;
+          const lastLineBreakIndex = text.lastIndexOf('\n', selection.index - 1);
+          const lastLine = text.substr(
+            lastLineBreakIndex + 1,
+            selection.index - lastLineBreakIndex - 1,
+          );
+          const format = quill.getFormat(
+            lastLineBreakIndex + 1,
+            selection.index - lastLineBreakIndex - 1,
+          );
+    
+          // indent
+          if (format['code-block']) {
+            console.log(`"${lastLine}"`);
+            let indentation = getIndent(lastLine);
+            console.log(indentation);
+            const shouldExtraIndent = (() => {
+              return /\)\:$/.test(lastLine) || /\)? ?{$/.test(lastLine);
+            })();
+            console.log(shouldExtraIndent)
+            if (shouldExtraIndent) {
+              indentation += 2;
+            }
+            if (indentation === 0) return;
+            const spaces = ' '.repeat(indentation);
+            if (lastLine === '\n') return;
+            console.log(lastLine);
+            quill.insertText(selection.index + 1, spaces);
+            setTimeout(() => {
+              quill.setSelection(selection.index + 1 + indentation, 0);
+            });
+          }
+        };
+    
         quill.on('text-change', (delta, oldContents, source) => {
-          const lastOps = delta.ops[delta.ops.length -1];
+          const lastOps = delta.ops[delta.ops.length - 1];
           if (lastOps) {
-            console.log(lastOps.insert === '\n');
+            if (lastOps.insert === '\n') {
+              onEnter();
+            }
           }
         });
   };
