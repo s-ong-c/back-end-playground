@@ -11,28 +11,38 @@ import {
   MdCode,
 } from 'react-icons/md';
 import palette from '../../lib/styles/palette';
+import zIndexes from '../../lib/styles/zIndexes';
+import { getScrollTop } from '../../lib/utils';
 
-const ToolbarBlock = styled.div<{visible: boolean}>`
-  margin-top: 1.5rem;
-  top: 0;
-  left:0;
+const ToolbarBlock = styled.div<{ visible: boolean; shadow: boolean }>`
   width: 100%;
   position: sticky;
-  height: 2.5rem;
+  top: 0;
+  height: 3rem;
   display: flex;
-  width: 100%;
   align-items: center;
+  margin-bottom: 3rem;
+  position: sticky;
+  width: 100%;
   background: white;
+  z-index: ${zIndexes.Toolbar};
+  transition: all 0.125s ease-in;
+  ${props =>
+    props.shadow &&
+    css`
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.09);
+    `}
   ${props =>
     !props.visible &&
     css`
       visibility: hidden;
-    `}
+    `};
 `;
 
 const ToolbarGroup = styled.div`
   display: flex;
-`
+  height: 100%;
+`;
 const Heading = styled.div`
   font-size: 1rem;
   font-weight: bold;
@@ -63,7 +73,6 @@ const ToolbarItem = styled.button`
   }
 `;
 
-
 const Separator = styled.div`
     width: 1px;
     height: 1.25rem;
@@ -76,9 +85,34 @@ interface ToolbarProps{
   visible: boolean;
 }
 
+const { useEffect, useState, useCallback } = React;
+
 const Toolbar: React.SFC<ToolbarProps> = ({ visible }) => {
+  const [shadow, setShadow] = useState(false);
+  const onScroll = useCallback(
+    (e: UIEvent) => {
+      console.log(shadow);
+      const top = getScrollTop();
+      if (top > 80 && !shadow) {
+        setShadow(true);
+      }
+      if (top <= 80 && shadow) {
+        setShadow(false);
+      }
+    },
+    [shadow],
+  );
+  useEffect(() => {
+    console.log('reset event listener');
+    document.addEventListener('scroll', onScroll);
+    return () => {
+      document.removeEventListener('scroll', onScroll);
+    };
+  }, [shadow]);
+
+
   return (
-<ToolbarBlock visible={visible} id="toolbar">
+    <ToolbarBlock visible={visible} id="toolbar" shadow={shadow}>
       <ToolbarGroup>
         <ToolbarItem className="ql-header" value={1}>
           <Heading>

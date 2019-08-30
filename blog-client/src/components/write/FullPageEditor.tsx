@@ -11,8 +11,6 @@ import Toolbar from './Toolbar';
 import AddLink from './AddLink';
 import postStyles from '../../lib/styles/postStyles';
 
-console.log((window as any).hljs);
-
 Quill.register('modules/markdownShortcuts', MarkdownShortcuts);
 export interface FullPageEditorProps {}
 export interface FullPageEditorState {
@@ -23,6 +21,7 @@ export interface FullPageEditorState {
         left: number;
         top: number;
     };
+    addLinkDefaultValue: string;
 }
 const FullPageEditorWrapper = styled.div`
     /* display: flex;
@@ -67,12 +66,53 @@ const Editor = styled.div`
         font-size: 1.3125rem;
         font-family: inherit;
         line-height: 1.875;
+        color: ${palette.gray9};
+        &:not(.ql-blank) {
+          p {
+              line-height: 1.875;
+            }
+          }
         .ql-syntax {
-            background: ${palette.gray9};
-            color: white;
-            font-size: 1.125rem;
-            padding: 1rem;
-            font-family: 'Fira Mono', monospace;
+          margin-top: 2rem;
+          margin-bottom: 2rem;
+          background: ${palette.gray9};
+          color: white;
+          font-size: 1rem;
+          padding: 1rem;
+          font-family: 'Fira Mono', monospace;
+          border-radius: 8px;
+          overflow-x: auto;
+        }
+        ul,
+        ol {
+          padding-left: 0;
+          li + li {
+            margin-top: 1rem;
+          }
+          .ql-indent-1 {
+            padding-left: 3em !important;
+          }
+          .ql-indent-2 {
+            padding-left: 4.5em !important;
+          }
+          .ql-indent-3 {
+            padding-left: 6em !important;
+          }
+          .ql-indent-4 {
+            padding-left: 7.5em !important;
+          }
+          .ql-indent-5 {
+            padding-left: 9em !important;
+          }
+          .ql-indent-6 {
+            padding-left: 10.5em !important;
+          }
+          .ql-indent-7 {
+            padding-left: 12em !important;
+          }
+          .ql-indent-8 {
+            padding-left: 13.5em !important;
+          }
         }
         ${postStyles}
     }
@@ -97,6 +137,7 @@ export default class FullPageEditor extends React.Component<
           top: 0,
           left: 0,
         },
+        addLinkDefaultValue: '',
     }
     componentDidMount() {
         if (!(window as any).HLJS_CONFIGURED) {
@@ -122,102 +163,118 @@ export default class FullPageEditor extends React.Component<
         },
       };
 
-        const quill = new Quill(this.editor.current as Element,{
-            modules: {
-                keyboard: {
-                  bindings,
+      const quill = new Quill(this.editor.current as Element, {
+        formats: [
+          'bold',
+          'header',
+          'italic',
+          'link',
+          'list',
+          'blockquote',
+          'image',
+          'indent',
+          'underline',
+          'strike',
+          'code-block',
+        ],
+        modules: {
+          keyboard: {
+            bindings,
+          },
+          markdownShortcuts: {},
+          toolbar: {
+            container: '#toolbar',
+            handlers: {
+              link: (value: string) => {
+                const range = quill.getSelection();
+                if (!range) return;
+                const bounds = quill.getBounds(range.index);
+                const format = quill.getFormat();
+                const defaultValue = format.link || '';
+                this.setState({
+                addLink: true,
+                addLinkPosition: {
+                  left: bounds.left,
+                  top: bounds.top + bounds.height,
                 },
-                markdownShortcuts: {},
-                toolbar: {
-                    container: '#toolbar',
-                    handlers: {
-                      link: (value: string) => {
-                        const range = quill.getSelection();
-                        if (!range) return;
-                        const bounds = quill.getBounds(range.index);
-                        this.setState({
-                          addLink: true,
-                          addLinkPosition: {
-                            left: bounds.left,
-                            top: bounds.top + bounds.height,
-                          },
-                        });
-                      },
-                    },
-                  },
-                  syntax: {
-                    interval: 200,
-                  },
+                addLinkDefaultValue: defaultValue,
+              });
             },
-            placeholder:'Tell your story...',
-        });
+          },
+        },
+        syntax: {
+          interval: 200,
+        },
+        clipboard: {
+          matchVisual: false, 
+        }
+      },
+     placeholder:'Tell your story...',
+    });
 
-        this.quill = quill;
-        (window as any).quill = quill;
-         // handle blur and foucs
-        quill.on('selection-change', (range, oldRange, source) => {
-          if (range === null && oldRange !== null) {
-            this.setState({
-                editorFocus: false,
-              })
-          }
-          if (range !== null && oldRange === null) {
-            this.setState({
-                editorFocus: true,
-              })
-            }
+    this.quill = quill;
+    (window as any).quill = quill;
+    // handle blur and focus
+    quill.on('selection-change', (range, oldRange, source) => {
+      if (range === null && oldRange !== null) {
+        this.setState({
+          editorFocus: false,
         });
-
-        const getIndent = (text: string) => text.length - text.trimLeft().length;
-
-        const onEnter = () => {
-          // handle keep-indent
-          const text = quill.getText();
-          const selection = quill.getSelection();
-          if (!selection) return;
-          const lastLineBreakIndex = text.lastIndexOf('\n', selection.index - 1);
-          const lastLine = text.substr(
-            lastLineBreakIndex + 1,
-            selection.index - lastLineBreakIndex - 1,
-          );
-          const format = quill.getFormat(
-            lastLineBreakIndex + 1,
-            selection.index - lastLineBreakIndex - 1,
-          );
-    
-          // indent
-          if (format['code-block']) {
-            console.log(`"${lastLine}"`);
-            let indentation = getIndent(lastLine);
-            console.log(indentation);
-            const shouldExtraIndent = (() => {
-              return /\)\:$/.test(lastLine) || /\)? ?{$/.test(lastLine);
-            })();
-            console.log(shouldExtraIndent)
-            if (shouldExtraIndent) {
-              indentation += 2;
-            }
-            if (indentation === 0) return;
-            const spaces = ' '.repeat(indentation);
-            if (lastLine === '\n') return;
-            console.log(lastLine);
-            quill.insertText(selection.index + 1, spaces);
-            setTimeout(() => {
-              quill.setSelection(selection.index + 1 + indentation, 0);
-            });
-          }
-        };
-    
-        quill.on('text-change', (delta, oldContents, source) => {
-          const lastOps = delta.ops[delta.ops.length - 1];
-          if (lastOps) {
-            if (lastOps.insert === '\n') {
-              onEnter();
-            }
-          }
+      }
+      if (range !== null && oldRange === null) {
+        this.setState({
+          editorFocus: true,
         });
-  };
-  
+      }
+    });
+
+    const getIndent = (text: string) => text.length - text.trimLeft().length;
+
+    const onEnter = () => {
+      // handle keep-indent
+      const text = quill.getText();
+      const selection = quill.getSelection();
+      if (!selection) return;
+      const lastLineBreakIndex = text.lastIndexOf('\n', selection.index - 1);
+      const lastLine = text.substr(
+        lastLineBreakIndex + 1,
+        selection.index - lastLineBreakIndex - 1,
+      );
+      const format = quill.getFormat(
+        lastLineBreakIndex + 1,
+        selection.index - lastLineBreakIndex - 1,
+      );
+
+      // indent
+      if (format['code-block']) {
+        console.log(`"${lastLine}"`);
+        let indentation = getIndent(lastLine);
+        console.log(indentation);
+        const shouldExtraIndent = (() => {
+          return /\)\:$/.test(lastLine) || /\)? ?{$/.test(lastLine);
+        })();
+        if (shouldExtraIndent) {
+          indentation += 2;
+        }
+        if (indentation === 0) return;
+        const spaces = ' '.repeat(indentation);
+        if (lastLine === '\n') return;
+        console.log(lastLine);
+        quill.insertText(selection.index + 1, spaces);
+        setTimeout(() => {
+          quill.setSelection(selection.index + 1 + indentation, 0);
+        });
+      }
+    };
+    quill.on('text-change', (delta, oldContents, source) => {
+      const lastOps = delta.ops[delta.ops.length - 1];
+      if (lastOps) {
+        if (lastOps.insert === '\n') {
+          onEnter();
+        }
+      }
+    });
+  }
   
   handleTitleFocus = () => {
       this.setState({
@@ -244,12 +301,22 @@ export default class FullPageEditor extends React.Component<
     });
   };
 
+  handleDeleteLink = () => {
+    if (!this.quill) return;
+    this.quill.format('link', false);
+    this.setState({ addLink: false });
+  };
   handleCancelAddLink = () => {
     this.setState({ addLink: false });
   };
 
   public render() {
-    const { addLink, addLinkPosition, titleFocus } = this.state;
+    const {
+      addLink,
+      addLinkPosition,
+      titleFocus,
+      addLinkDefaultValue,
+    } = this.state;
     return (
       <FullPageEditorWrapper>
         <Toolbar visible={!titleFocus} />
@@ -262,14 +329,15 @@ export default class FullPageEditor extends React.Component<
           onFocus={this.handleTitleFocus}
           onBlur={this.handleTitleBlur}
         />
-        <div id="#toolbar" />
         <Editor>
           <div ref={this.editor} />
           {addLink && (
             <AddLink
               {...addLinkPosition}
+              defaultValue={addLinkDefaultValue}
               onConfirm={this.handleAddLink}
               onClose={this.handleCancelAddLink}
+              onDelete={this.handleDeleteLink}
             />
           )}
         </Editor>

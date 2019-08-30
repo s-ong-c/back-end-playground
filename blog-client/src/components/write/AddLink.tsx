@@ -4,6 +4,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import useInput from '../../lib/hooks/useInput';
 import RoundButton from '../common/RoundButton';
 import palette from '../../lib/styles/palette';
+import { MdDelete } from 'react-icons/md';
 
 const AddLinkBlock = styled.div`
   position: absolute;
@@ -48,14 +49,18 @@ interface AddLinkProps{
     top: number;
     onConfirm: (link: string) => void;
     onClose: () => void;
+    onDelete: () => void;
+    defaultValue: string;
 }
 
-const { useCallback } = React;
+const { useCallback, useRef, useEffect } = React;
 const AddLink: React.SFC<AddLinkProps> = ({ 
     left,
     top,
     onConfirm,
     onClose,
+    onDelete,
+    defaultValue,
 }) => {
     const [value, onChange] = useInput('');
     const onSubmit = useCallback(
@@ -63,6 +68,11 @@ const AddLink: React.SFC<AddLinkProps> = ({
             e.preventDefault();
             onConfirm(value);
     },[value]);
+    const input = useRef<HTMLInputElement>(null);
+    useEffect(() => {
+      if (!input.current) return;
+      input.current.focus();
+    }, []);
     return (
     <OutsideClickHandler onOutsideClick={onClose}>
       <AddLinkBlock
@@ -77,10 +87,12 @@ const AddLink: React.SFC<AddLinkProps> = ({
               value={value}
               onChange={onChange}
               placeholder="Paste or type link...."
+              ref={input}
             />
             <RoundButton color="darkGray" size="SMALL">
-              OK
+              {defaultValue ? '수정' : 'OK'}
             </RoundButton>
+              {defaultValue && <MdDelete onClick={onDelete} />}
           </form>
         </div>
       </AddLinkBlock>
