@@ -7,7 +7,7 @@ import 'quill/dist/quill.snow.css';
 import TextareaAutosize from 'react-textarea-autosize';
 import MarkdownShortcuts from '../../lib/quill/markdownShortcuts';
 import palette from '../../lib/styles/palette';
-import Toolbar from './Toolbar';
+import Toolbar from './Toolbar-1';
 import AddLink from './AddLink';
 import postStyles from '../../lib/styles/postStyles';
 

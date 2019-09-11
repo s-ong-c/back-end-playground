@@ -44,41 +44,46 @@ const AddLinkBlock = styled.div`
     padding: 1.25rem 1rem;
   }
 `;
-interface AddLinkProps{
-    left: number;
-    top: number;
-    onConfirm: (link: string) => void;
-    onClose: () => void;
-    onDelete: () => void;
-    defaultValue: string;
+interface AddLinkProps {
+  left: number;
+  top: number;
+  stickToRight?: boolean;
+  onConfirm: (link: string) => void;
+  onClose: () => void;
+  onDelete?: () => void;
+  defaultValue: string;
 }
 
 const { useCallback, useRef, useEffect } = React;
-const AddLink: React.SFC<AddLinkProps> = ({ 
-    left,
-    top,
-    onConfirm,
-    onClose,
-    onDelete,
-    defaultValue,
+const AddLink: React.SFC<AddLinkProps> = ({
+  left,
+  top,
+  stickToRight,
+  onConfirm,
+  onClose,
+  onDelete,
+  defaultValue,
 }) => {
-    const [value, onChange] = useInput('');
-    const onSubmit = useCallback(
-        (e: React.FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            onConfirm(value);
-    },[value]);
-    const input = useRef<HTMLInputElement>(null);
-    useEffect(() => {
-      if (!input.current) return;
-      input.current.focus();
-    }, []);
-    return (
+  const [value, onChange] = useInput('');
+  const onSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      onConfirm(value);
+    },
+    [value],
+  );
+  const input = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (!input.current) return;
+    input.current.focus();
+  }, []);
+  return (
     <OutsideClickHandler onOutsideClick={onClose}>
       <AddLinkBlock
         style={{
-          left,
+          left: stickToRight ? 'initial' : left,
           top,
+          right: stickToRight ? '3rem' : 'initial',
         }}
       >
         <div className="wrapper">
@@ -92,12 +97,12 @@ const AddLink: React.SFC<AddLinkProps> = ({
             <RoundButton color="darkGray" size="SMALL">
               {defaultValue ? '수정' : 'OK'}
             </RoundButton>
-              {defaultValue && <MdDelete onClick={onDelete} />}
+            {defaultValue && <MdDelete onClick={onDelete} />}
           </form>
         </div>
       </AddLinkBlock>
     </OutsideClickHandler>
-    );
-    };
+  );
+};
 
 export default AddLink;

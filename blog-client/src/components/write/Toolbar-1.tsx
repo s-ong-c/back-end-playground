@@ -8,25 +8,20 @@ import {
   MdInsertLink,
   MdFormatQuote,
   MdCameraAlt,
-  MdRemoveRedEye,
   MdCode,
 } from 'react-icons/md';
-import { FaMarkdown } from 'react-icons/fa';
 import palette from '../../lib/styles/palette';
 import zIndexes from '../../lib/styles/zIndexes';
 import { getScrollTop } from '../../lib/utils';
 
-const ToolbarBlock = styled.div<{
-  shadow: boolean;
-  forMarkdown: boolean;
-}>`
+const ToolbarBlock = styled.div<{ visible: boolean; shadow: boolean }>`
   width: 100%;
   position: sticky;
   top: 0;
   height: 3rem;
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
   position: sticky;
   width: 100%;
   background: white;
@@ -38,21 +33,16 @@ const ToolbarBlock = styled.div<{
       box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.09);
     `}
   ${props =>
-    props.forMarkdown &&
+    !props.visible &&
     css`
-      margin-top: 2rem;
-      margin-bottom: 1rem;
-      padding-left: 3rem;
-      padding-right: 3rem;
-      width: auto;
-    `}
+      visibility: hidden;
+    `};
 `;
 
 const ToolbarGroup = styled.div`
   display: flex;
   height: 100%;
 `;
-
 const Heading = styled.div`
   font-size: 1rem;
   font-weight: bold;
@@ -91,57 +81,53 @@ const Separator = styled.div`
   background: ${palette.gray4};
 `;
 
-export interface ToolbarProps {
-  shadow: boolean;
-  mode: 'MARKDOWN' | 'WYSIWYG';
-  onClick?: Function;
-  onConvert?: () => void;
+interface ToolbarProps {
+  visible: boolean;
 }
 
 const { useEffect, useState, useCallback } = React;
-const Toolbar: React.SFC<ToolbarProps> = ({
-  shadow,
-  mode,
-  onClick = () => {},
-  onConvert,
-}) => {
-  const forMarkdown = mode === 'MARKDOWN';
+const Toolbar: React.SFC<ToolbarProps> = ({ visible }) => {
+  const [shadow, setShadow] = useState(false);
+  const onScroll = useCallback(
+    (e: Event) => {
+      console.log(shadow);
+      const top = getScrollTop();
+      if (top > 80 && !shadow) {
+        setShadow(true);
+      }
+      if (top <= 80 && shadow) {
+        setShadow(false);
+      }
+    },
+    [shadow],
+  );
+  useEffect(() => {
+    console.log('reset event listener');
+    document.addEventListener('scroll', onScroll);
+    return () => {
+      document.removeEventListener('scroll', onScroll);
+    };
+  }, [shadow]);
 
   return (
-    <ToolbarBlock id="toolbar" shadow={shadow} forMarkdown={forMarkdown}>
+    <ToolbarBlock visible={visible} id="toolbar" shadow={shadow}>
       <ToolbarGroup>
-        <ToolbarItem
-          className="ql-header"
-          value={1}
-          onClick={() => onClick('heading1')}
-        >
+        <ToolbarItem className="ql-header" value={1}>
           <Heading>
             H<span>1</span>
           </Heading>
         </ToolbarItem>
-        <ToolbarItem
-          className="ql-header"
-          value={2}
-          onClick={() => onClick('heading2')}
-        >
+        <ToolbarItem className="ql-header" value={2}>
           <Heading>
             H<span>2</span>
           </Heading>
         </ToolbarItem>
-        <ToolbarItem
-          className="ql-header"
-          value={3}
-          onClick={() => onClick('heading3')}
-        >
+        <ToolbarItem className="ql-header" value={3}>
           <Heading>
             H<span>3</span>
           </Heading>
         </ToolbarItem>
-        <ToolbarItem
-          className="ql-header"
-          value={4}
-          onClick={() => onClick('heading4')}
-        >
+        <ToolbarItem className="ql-header" value={4}>
           <Heading>
             H<span>4</span>
           </Heading>
@@ -149,53 +135,33 @@ const Toolbar: React.SFC<ToolbarProps> = ({
       </ToolbarGroup>
       <Separator />
       <ToolbarGroup>
-        <ToolbarItem className="ql-bold" onClick={() => onClick('bold')}>
+        <ToolbarItem className="ql-bold">
           <MdFormatBold />
         </ToolbarItem>
-        <ToolbarItem className="ql-italic" onClick={() => onClick('italic')}>
+        <ToolbarItem className="ql-italic">
           <MdFormatItalic />
         </ToolbarItem>
-        {!forMarkdown && (
-          <ToolbarItem className="ql-underline">
-            <MdFormatUnderlined />
-          </ToolbarItem>
-        )}
-        <ToolbarItem className="ql-strike" onClick={() => onClick('strike')}>
+        <ToolbarItem className="ql-underline">
+          <MdFormatUnderlined />
+        </ToolbarItem>
+        <ToolbarItem className="ql-strike">
           <MdFormatStrikethrough />
         </ToolbarItem>
       </ToolbarGroup>
       <Separator />
       <ToolbarGroup>
-        <ToolbarItem
-          className="ql-blockquote"
-          onClick={() => onClick('blockquote')}
-        >
+        <ToolbarItem className="ql-blockquote">
           <MdFormatQuote />
         </ToolbarItem>
-        <ToolbarItem className="ql-link" onClick={() => onClick('link')}>
+        <ToolbarItem className="ql-link">
           <MdInsertLink />
         </ToolbarItem>
-        <ToolbarItem className="ql-image" onClick={() => onClick('image')}>
+        <ToolbarItem className="ql-image">
           <MdCameraAlt />
         </ToolbarItem>
-        <ToolbarItem
-          className="ql-code-block"
-          onClick={() => onClick('codeblock')}
-        >
+        <ToolbarItem className="ql-code-block">
           <MdCode />
         </ToolbarItem>
-      </ToolbarGroup>
-      <Separator />
-      <ToolbarGroup>
-        {forMarkdown ? (
-          <ToolbarItem data-testid="quillconvert" onClick={onConvert}>
-            <MdRemoveRedEye />
-          </ToolbarItem>
-        ) : (
-          <ToolbarItem data-testid="mdconvert" onClick={onConvert}>
-            <FaMarkdown />
-          </ToolbarItem>
-        )}
       </ToolbarGroup>
     </ToolbarBlock>
   );
