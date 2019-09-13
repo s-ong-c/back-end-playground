@@ -18,6 +18,7 @@ import PopupOKCancel from '../common/PopupOKCancel';
 import PopupBase from '../common/PopupBase';
 import AskChangeEditor from './AskChangeEditor';
 import { WriteMode } from '../../modules/write';
+import TagInput from './TagInput';
 
 Quill.register('modules/markdownShortcuts', MarkdownShortcuts);
 
@@ -474,6 +475,7 @@ export default class QuillEditor extends React.Component<
           onChange={this.handleChangeTitle}
           value={title}
         />
+        <TagInput />
         <Toolbar
           shadow={shadow}
           mode="WYSIWYG"
