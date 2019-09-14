@@ -42,7 +42,7 @@ export interface QuillEditorState {
 }
 
 const StyledTitleTextarea = styled(TitleTextarea)`
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 
 const QuillEditorWrapper = styled.div`
@@ -151,6 +151,7 @@ export default class QuillEditor extends React.Component<
   QuillEditorState
 > {
   editor = React.createRef<HTMLDivElement>();
+  tagInput = React.createRef<HTMLDivElement>();
   titleTextarea: HTMLTextAreaElement | null = null;
   quill: Quill | null = null;
 
@@ -207,21 +208,6 @@ export default class QuillEditor extends React.Component<
 
     // keyboard bindings
     const bindings = {
-      // autoindent: {
-      //   key: 'enter',
-      //   handler: (range: RangeStatic, context: any) => {
-      //     console.log(range);
-      //     const lastNewLineIndex = quill
-      //       .getText()
-      //       .lastIndexOf('\n', range.index - 1);
-      //     const lastLine = quill.getText(
-      //       lastNewLineIndex + 1,
-      //       range.index - lastNewLineIndex,
-      //     );
-      //     console.log(lastLine);
-      //     // quill.insertText(range.index, '\n');
-      //   },
-      // },
       removeCodeBlock: {
         key: 'backspace',
         empty: true,
@@ -393,12 +379,12 @@ export default class QuillEditor extends React.Component<
 
   // blocks [Enter] key
   handleTitleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if ([9, 13].includes(e.keyCode)) {
-      e.preventDefault();
-      if (this.quill) {
-        this.quill.focus();
-      }
-    }
+    // if ([9, 13].includes(e.keyCode)) {
+    //   e.preventDefault();
+    //   if (this.quill) {
+    //     this.quill.focus();
+    //   }
+    // }
   };
 
   handleAddLink = (value: string) => {
@@ -475,7 +461,7 @@ export default class QuillEditor extends React.Component<
           onChange={this.handleChangeTitle}
           value={title}
         />
-        <TagInput />
+        <TagInput ref={this.tagInput} />
         <Toolbar
           shadow={shadow}
           mode="WYSIWYG"
