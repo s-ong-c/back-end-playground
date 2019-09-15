@@ -11,6 +11,7 @@ const TitleTextarea = styled(TextareaAutosize)`
   outline: none;
   border: none;
   font-weight: bold;
+  font-family: 'Gugi', sans-serif;
   color: ${palette.gray9};
   &::placeholder {
     color: ${palette.gray5};

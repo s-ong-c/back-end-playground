@@ -42,25 +42,24 @@ export interface QuillEditorState {
 }
 
 const StyledTitleTextarea = styled(TitleTextarea)`
-  margin-bottom: 1rem;
+  display: block;
 `;
 
 const QuillEditorWrapper = styled.div`
   padding-top: 5rem;
   padding-bottom: 10rem;
   position: relative;
-  /* display: flex;
-  flex-direction: column;
-  height: 100%;
-  .ql-container {
-    height: initial;
-    flex: 1;
-    overflow-y: auto;
-  } */
   width: 768px;
   margin: 0 auto;
 `;
 
+const HorizontalBar = styled.div`
+  background: ${palette.gray7};
+  height: 4px;
+  width: 4rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+`;
 const Editor = styled.div`
   margin-top: 1rem;
   position: relative;
@@ -379,12 +378,12 @@ export default class QuillEditor extends React.Component<
 
   // blocks [Enter] key
   handleTitleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // if ([9, 13].includes(e.keyCode)) {
-    //   e.preventDefault();
-    //   if (this.quill) {
-    //     this.quill.focus();
-    //   }
-    // }
+    if ([13].includes(e.keyCode)) {
+      e.preventDefault();
+      // if (this.quill) {
+      //   this.quill.focus();
+      // }
+    }
   };
 
   handleAddLink = (value: string) => {
@@ -461,6 +460,7 @@ export default class QuillEditor extends React.Component<
           onChange={this.handleChangeTitle}
           value={title}
         />
+        <HorizontalBar />
         <TagInput ref={this.tagInput} />
         <Toolbar
           shadow={shadow}
