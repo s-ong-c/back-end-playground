@@ -15,12 +15,14 @@ import { WriteMode } from '../../modules/write';
 require('codemirror/mode/markdown/markdown');
 require('codemirror/mode/javascript/javascript');
 require('codemirror/addon/display/placeholder');
+
 export interface MarkdownEditorProps {
   onChangeMarkdown: (markdown: string) => void;
   onChangeTitle: (title: string) => void;
   onConvert: (markdown: string) => void;
   title: string;
   markdown: string;
+  tagInput: React.ReactNode;
 }
 type MarkdownEditorState = {
   shadow: boolean;
@@ -88,6 +90,14 @@ const MarkdownEditorBlock = styled.div`
       font-style: italic;
     }
   }
+`;
+
+const HorizontalBar = styled.div`
+  background: ${palette.gray7};
+  height: 4px;
+  width: 4rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
 `;
 
 const PaddingWrapper = styled.div`
@@ -551,7 +561,7 @@ ${selected}
 
   public render() {
     const { shadow, addLink } = this.state;
-    const { title } = this.props;
+    const { title, tagInput } = this.props;
     return (
       <MarkdownEditorBlock
         ref={this.block}
@@ -565,6 +575,8 @@ ${selected}
               onChange={this.handleTitleChange}
               value={title}
             />
+            <HorizontalBar />
+            {tagInput}
           </PaddingWrapper>
           <Toolbar
             shadow={shadow}

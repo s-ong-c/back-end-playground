@@ -27,6 +27,7 @@ export interface QuillEditorProps {
   onChangeTitle: (title: string) => void;
   title: string;
   initialHtml: string;
+  tagInput: React.ReactNode;
 }
 export interface QuillEditorState {
   titleFocus: boolean;
@@ -437,7 +438,7 @@ export default class QuillEditor extends React.Component<
   };
 
   public render() {
-    const { title } = this.props;
+    const { title, tagInput } = this.props;
     const {
       addLink,
       addLinkPosition,
@@ -461,7 +462,7 @@ export default class QuillEditor extends React.Component<
           value={title}
         />
         <HorizontalBar />
-        <TagInput ref={this.tagInput} />
+        {tagInput}
         <Toolbar
           shadow={shadow}
           mode="WYSIWYG"

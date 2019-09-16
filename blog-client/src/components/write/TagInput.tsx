@@ -63,11 +63,15 @@ const Help = styled.div<{ visible: boolean }>`
       opacity: 1;
     `}
 `;
-interface TagInputProps {
+export interface TagInputProps {
   ref?: React.RefObject<HTMLDivElement>;
+  tags: string[];
+  onChange: (tags: string[]) => void;
 }
-const TagItem: React.FC<{}> = props => {
-  return <Tag># {props.children}</Tag>;
+const TagItem: React.FC<{
+  onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+}> = ({ onClick, children }) => {
+  return <Tag onClick={onClick}># {children}</Tag>;
 };
 
 const { useState, useCallback, useEffect, useRef } = React;
@@ -79,6 +83,14 @@ const TagInput: React.SFC<TagInputProps> = (props, ref) => {
   const ignore = useRef(false);
   const editableDiv = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    setTags(props.tags);
+  }, [props.tags]);
+
+  useEffect(() => {
+    if (tags.length === 0) return;
+    props.onChange(tags);
+  });
   const onChange = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     if (ignore.current) {
       // 중복 입력시 초기화
@@ -135,12 +147,18 @@ const TagInput: React.SFC<TagInputProps> = (props, ref) => {
   const onBlur = () => {
     setFocus(false);
   };
+  const onRemove = (tag: string) => {
+    const nextTags = tags.filter(t => t !== tag);
+    setTags(nextTags);
+  };
 
   return (
     <>
       <TagInputBlock>
         {tags.map(tag => (
-          <TagItem key={tag}>{tag}</TagItem>
+          <TagItem key={tag} onClick={() => onRemove(tag)}>
+            {tag}
+          </TagItem>
         ))}
         <EditableContent
           contentEditable={true}

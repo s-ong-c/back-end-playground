@@ -7,13 +7,12 @@ import {
   changeTitle,
   setHtml,
   convertEditorMode,
-  WriteMode,
 } from '../../modules/write';
 
 import remark from 'remark';
 import htmlPlugin from 'remark-html';
 import breaks from 'remark-breaks';
-
+import TagInputContainer from './TagInputContainer';
 interface OwnProps {}
 interface StateProps {
   title: string;
@@ -52,6 +51,7 @@ const MarkdownEditorContainer: React.SFC<MarkdownEditorContainerProps> = ({
       onChangeMarkdown={changeMarkdown}
       onChangeTitle={changeTitle}
       onConvert={onConvert}
+      tagInput={<TagInputContainer />}
     />
   );
 };
