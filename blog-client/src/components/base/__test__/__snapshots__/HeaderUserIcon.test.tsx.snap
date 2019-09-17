@@ -7,7 +7,6 @@ exports[`HeaderUserIcon matches snapshot 1`] = `
   >
     <img
       alt="thumbnail"
-      src="default_thumbnail.png"
     />
     <svg
       fill="currentColor"

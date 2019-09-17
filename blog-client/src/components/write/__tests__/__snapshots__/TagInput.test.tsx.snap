@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TagInput matches snapshot 1`] = `
+<div>
+  <div
+    class="sc-bdVaJa boasyp"
+  >
+    <div
+      class="sc-bwzfXH igqpWL"
+      contenteditable="true"
+      placeholder="#태그입력"
+      tabindex="2"
+    />
+    <div
+      class="sc-bxivhb eEhKMx"
+    >
+      <div
+        class="inside"
+      >
+        Enter 를 사용하여 태그를 사용해보세요!
+        <br />
+        등록된 태그를 클릭하면 삭제됩니다.
+      </div>
+    </div>
+  </div>
+</div>
+`;
