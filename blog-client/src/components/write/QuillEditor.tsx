@@ -27,7 +27,9 @@ export interface QuillEditorProps {
   onChangeTitle: (title: string) => void;
   title: string;
   initialHtml: string;
+
   tagInput: React.ReactNode;
+  footer: React.ReactNode;
 }
 export interface QuillEditorState {
   titleFocus: boolean;
@@ -438,7 +440,7 @@ export default class QuillEditor extends React.Component<
   };
 
   public render() {
-    const { title, tagInput } = this.props;
+    const { title, tagInput, footer } = this.props;
     const {
       addLink,
       addLinkPosition,
@@ -486,6 +488,7 @@ export default class QuillEditor extends React.Component<
           onCancel={this.handleCancelChangeEditor}
           onConfirm={this.handleConfirmChangeEditor}
         />
+        {footer}
       </QuillEditorWrapper>
     );
   }

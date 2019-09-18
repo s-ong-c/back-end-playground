@@ -11,6 +11,7 @@ import AddLink from './AddLink';
 import { detectJSDOM } from '../../lib/utils';
 import AskChangeEditor from './AskChangeEditor';
 import { WriteMode } from '../../modules/write';
+import zIndexes from '../../lib/styles/zIndexes';
 
 require('codemirror/mode/markdown/markdown');
 require('codemirror/mode/javascript/javascript');
@@ -23,6 +24,7 @@ export interface MarkdownEditorProps {
   title: string;
   markdown: string;
   tagInput: React.ReactNode;
+  footer: React.ReactNode;
 }
 type MarkdownEditorState = {
   shadow: boolean;
@@ -33,6 +35,7 @@ type MarkdownEditorState = {
     stickToRight: boolean;
   };
   askChangeEditor: boolean;
+  clientWidth: number;
 };
 
 (window as any).CodeMirror = CodeMirror;
@@ -104,11 +107,19 @@ const PaddingWrapper = styled.div`
   padding-left: 3rem;
   padding-right: 3rem;
 `;
+const FooterWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: ${zIndexes.WriteFooter};
+`;
+
 export default class MarkdownEditor extends React.Component<
   MarkdownEditorProps,
   MarkdownEditorState
 > {
   block = React.createRef<HTMLDivElement>();
+  toolbarElement = React.createRef<HTMLDivElement>();
   editorElement = React.createRef<HTMLTextAreaElement>();
   toolbarTop = 0;
   state = {
@@ -120,6 +131,7 @@ export default class MarkdownEditor extends React.Component<
       stickToRight: false,
     },
     askChangeEditor: false,
+    clientWidth: 0,
   };
   codemirror: EditorFromTextArea | null = null;
 
@@ -150,12 +162,34 @@ export default class MarkdownEditor extends React.Component<
       });
     }
   };
+  handleResize = () => {
+    if (this.block.current) {
+      this.setState({
+        clientWidth: this.block.current.clientWidth,
+      });
+    }
+  };
   componentDidMount() {
     this.initialize();
+    setTimeout(() => {
+      if (this.toolbarElement.current) {
+        this.toolbarTop = this.toolbarElement.current.getBoundingClientRect().top;
+      }
+    });
     if (this.block.current) {
-      this.toolbarTop = this.block.current.getBoundingClientRect().top;
+      this.setState({
+        clientWidth: this.block.current.clientWidth,
+      });
     }
+    window.addEventListener('resize', this.handleResize);
   }
+
+  // componentDidMount() {
+  //   this.initialize();
+  //   if (this.block.current) {
+  //     this.toolbarTop = this.block.current.getBoundingClientRect().top;
+  //   }
+  // }
 
   handleOpenAddLink = () => {
     if (!this.codemirror) return;
@@ -560,8 +594,8 @@ ${selected}
   };
 
   public render() {
-    const { shadow, addLink } = this.state;
-    const { title, tagInput } = this.props;
+    const { shadow, addLink, clientWidth } = this.state;
+    const { title, tagInput, footer } = this.props;
     return (
       <MarkdownEditorBlock
         ref={this.block}
@@ -604,6 +638,7 @@ ${selected}
           onCancel={this.handleCancelConvert}
           convertTo={WriteMode.WYSIWYG}
         />
+        <FooterWrapper style={{ width: clientWidth }}>{footer}</FooterWrapper>
       </MarkdownEditorBlock>
     );
   }
