@@ -6,6 +6,7 @@ import MarkdownEditorContainer from '../containers/write/MarkdownEditorContainer
 import MarkdownPreviewContainer from '../containers/write/MarkdownPreviewContainer';
 import QuillEditorContainer from '../containers/write/QuillEditorContainer';
 import ActiveEditor from '../containers/write/ActiveEditor';
+import HeaderContainer from '../containers/base/HeaderContainer';
 
 const WritePageBlock = styled.div`
   width: 100%;
@@ -17,6 +18,7 @@ interface WritePageProps {}
 const WritePage: React.SFC<WritePageProps> = props => {
   return (
     <WritePageBlock>
+      <HeaderContainer />
       <ActiveEditor />
     </WritePageBlock>
   );

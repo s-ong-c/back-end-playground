@@ -32,80 +32,87 @@ const HeaderBlock = styled.div<{
     }
   }
 
-  ${props => props.floating && 
+  ${props =>
+    props.floating &&
     css`
       position: fixed;
       top: 0;
       background: rgba(255, 255, 255, 0.9);
       box-shadow: 0px 0 8px rgba(0, 0, 0, 0.08);
-  `}
+    `}
 `;
 const Placeholder = styled.div`
   width: 100%;
   height: 4rem;
 `;
-interface HeaderProps{
+interface HeaderProps {
   floating: boolean;
   floatingMargin: number;
   onLoginClick: () => void;
   user: CurrentUser | null;
+  isWrite?: boolean;
 }
 
 const { useCallback } = React;
-const Header: React.SFC<HeaderProps> = ({ 
-  floating, 
-  floatingMargin, 
+const Header: React.SFC<HeaderProps> = ({
+  floating,
+  floatingMargin,
   onLoginClick,
   user,
 }) => {
-  const [userMenu, toggleUserMenu] = useToggle(false); 
+  const [userMenu, toggleUserMenu] = useToggle(false);
 
   const onLogout = useCallback(async () => {
     try {
       await logout();
-    } catch  {}
+    } catch {}
     storage.removeItem('CURRENT_USER');
-    window.location.href= '/';
-    },[])
+    window.location.href = '/';
+  }, []);
   return (
     <>
-        <HeaderBlock
-          floating={floating}
-          style={{marginTop: floating ? floatingMargin : 0 }}
-          >
-            <div className="wrapper">
-              <div className="brand">
-                <Logo />
+      <HeaderBlock
+        floating={floating}
+        style={{ marginTop: floating ? floatingMargin : 0 }}
+      >
+        <div className="wrapper">
+          <div className="brand">
+            <Logo />
+          </div>
+          <div className="right">
+            {user ? (
+              <div className="logged-in">
+                <RoundButton
+                  border
+                  color="darkGray"
+                  style={{ marginRight: '1.25rem' }}
+                  to="/write"
+                >
+                  새 글 작성
+                </RoundButton>
+                <HeaderUserIcon
+                  user={user}
+                  img={user.profile.thumbnail}
+                  onClick={toggleUserMenu}
+                />
+                <HeaderUserMenu
+                  onClose={toggleUserMenu}
+                  username={user.username}
+                  onLogout={onLogout}
+                  visible={userMenu}
+                />
               </div>
-              <div className="right">
-                { user ? (
-                  <div className="logged-in">
-                    <RoundButton 
-                      border color="darkGray" 
-                      style={{ marginRight:'1.25rem'}}
-                      to="/write"
-                    >
-                        새 글 작성
-                      </RoundButton>
-                    <HeaderUserIcon user={user} img={user.profile.thumbnail} onClick={toggleUserMenu} />
-                    <HeaderUserMenu 
-                      onClose={toggleUserMenu} 
-                      username={user.username} 
-                      onLogout={onLogout}
-                      visible={userMenu}
-                    />
-                  </div>
-                  ):(
-                    <RoundButton onClick={onLoginClick} size="DEFAULT">
-                      로그인
-                    </RoundButton>
-                  )}
-              </div>
-            </div>
-        </HeaderBlock>
-        {floating && <Placeholder />}
+            ) : (
+              <RoundButton onClick={onLoginClick} size="DEFAULT">
+                로그인
+              </RoundButton>
+            )}
+          </div>
+        </div>
+      </HeaderBlock>
+      {floating && <Placeholder />}
     </>
-    );
+  );
 };
 
 export default Header;

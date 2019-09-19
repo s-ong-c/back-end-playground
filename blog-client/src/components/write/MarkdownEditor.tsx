@@ -52,6 +52,7 @@ const MarkdownEditorBlock = styled.div`
     background: ${palette.gray1};
   }
   &::-webkit-scrollbar-thumb {
+    z-index: 100;
     background: ${palette.gray9};
     /* -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75); */
   }
@@ -150,7 +151,16 @@ export default class MarkdownEditor extends React.Component<
     this.codemirror.setValue(this.props.markdown);
     this.codemirror.on('change', cm => {
       this.props.onChangeMarkdown(cm.getValue());
+      this.stickToBottomIfNeeded();
     });
+  };
+  stickToBottomIfNeeded = () => {
+    if (!this.block.current) return;
+    const { scrollHeight, scrollTop, clientHeight } = this.block.current;
+    const scrollBottom = scrollHeight - scrollTop - clientHeight;
+    if (scrollBottom < 192) {
+      this.block.current.scrollTo(0, scrollHeight);
+    }
   };
 
   handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -163,6 +173,7 @@ export default class MarkdownEditor extends React.Component<
     }
   };
   handleResize = () => {
+    console.log(this.block.current);
     if (this.block.current) {
       this.setState({
         clientWidth: this.block.current.clientWidth,
@@ -183,7 +194,9 @@ export default class MarkdownEditor extends React.Component<
     }
     window.addEventListener('resize', this.handleResize);
   }
-
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
   // componentDidMount() {
   //   this.initialize();
   //   if (this.block.current) {

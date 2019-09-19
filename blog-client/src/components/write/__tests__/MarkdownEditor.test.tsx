@@ -11,6 +11,7 @@ describe('MarkdownEditor', () => {
       markdown: '',
       title: '',
       tagInput: '',
+      footer: '',
     };
     const utils = render(<MarkdownEditor {...initialProps} {...props} />);
     const titleTextarea = utils.getByPlaceholderText(

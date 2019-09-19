@@ -2,14 +2,13 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
-import { MdTrendingUp,MdRssFeed, MdAccessTime } from 'react-icons/md';
+import { MdTrendingUp, MdRssFeed, MdAccessTime } from 'react-icons/md';
 const MainSideMenuBlock = styled.div`
   position: sticky;
   position: -webkit-sticky;
   top: 96px;
   display: flex;
   flex-direction: column;
-  
 `;
 const MenuItem = styled(NavLink)`
   display: flex;
@@ -20,8 +19,7 @@ const MenuItem = styled(NavLink)`
   padding-left: 1rem;
   font-size: 1.125rem;
   border-left: 3px solid transparent;
-  transition: 0.125s all ease-in
-  svg{
+  transition: 0.125s all ease-in svg {
     margin-right: 1rem;
     font-size: 1.5rem;
   }
@@ -33,25 +31,31 @@ const MenuItem = styled(NavLink)`
   }
 `;
 
-interface MainSideMenuProps{}
+interface MainSideMenuProps {}
 
 const MainSideMenu: React.SFC<MainSideMenuProps> = props => {
-  return <MainSideMenuBlock>
-    <MenuItem 
-        to="/trending" 
-        activeClassName="active" 
+  return (
+    <MainSideMenuBlock>
+      <MenuItem
+        to="/trending"
+        activeClassName="active"
         isActive={(match, location) => {
           return ['/', '/trending'].indexOf(location.pathname) !== -1;
-    }}>
-        <MdTrendingUp />트랜딩
-    </MenuItem>
-    <MenuItem to="/recent" activeClassName="active">
-      <MdAccessTime />최신
-    </MenuItem>
-    <MenuItem to="/following" activeClassName="active">
-      <MdRssFeed />팔로잉
-    </MenuItem>
-  </MainSideMenuBlock>;
-  };
+        }}
+      >
+        <MdTrendingUp />
+        트랜딩
+      </MenuItem>
+      <MenuItem to="/recent" activeClassName="active">
+        <MdAccessTime />
+        최신
+      </MenuItem>
+      <MenuItem to="/following" activeClassName="active">
+        <MdRssFeed />
+        팔로잉
+      </MenuItem>
+    </MainSideMenuBlock>
+  );
+};
 
 export default MainSideMenu;

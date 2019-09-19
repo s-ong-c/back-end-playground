@@ -7,7 +7,6 @@ const WriteFooterBlock = styled.div`
   padding-right: 1rem;
   height: 4rem;
   width: 100%;
-  position: fixed;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
   background: rgba(255, 255, 255, 0.85);
   left: 0;

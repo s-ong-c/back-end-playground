@@ -19,6 +19,7 @@ import PopupBase from '../common/PopupBase';
 import AskChangeEditor from './AskChangeEditor';
 import { WriteMode } from '../../modules/write';
 import TagInput from './TagInput';
+import zIndexes from '../../lib/styles/zIndexes';
 
 Quill.register('modules/markdownShortcuts', MarkdownShortcuts);
 
@@ -147,7 +148,13 @@ const Editor = styled.div`
     color: ${palette.gray5};
   }
 `;
-
+const FooterWrapper = styled.div`
+  position: fixed;
+  z-index: ${zIndexes.WriteFooter};
+  left: 0;
+  bottom: 0;
+  width: 100%;
+`;
 export default class QuillEditor extends React.Component<
   QuillEditorProps,
   QuillEditorState
@@ -488,7 +495,7 @@ export default class QuillEditor extends React.Component<
           onCancel={this.handleCancelChangeEditor}
           onConfirm={this.handleConfirmChangeEditor}
         />
-        {footer}
+        <FooterWrapper>{footer}</FooterWrapper>
       </QuillEditorWrapper>
     );
   }
