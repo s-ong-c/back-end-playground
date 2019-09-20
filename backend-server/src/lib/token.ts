@@ -2,7 +2,7 @@ import jwt, { SignOptions } from 'jsonwebtoken';
 import { Context } from 'koa';
 import { getRepository } from 'typeorm';
 import User from '../entity/User';
-import  '../env';
+import '../env';
 
 const { SECRET_KEY } = process.env;
 

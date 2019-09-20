@@ -12,34 +12,34 @@ const app = new Koa();
 app.use(bodyParser());
 app.use(routes.routes()).use(routes.allowedMethods());
 if (process.env.NODE_ENV === 'development') {
-    app.use(logger());
+  app.use(logger());
 }
 const apollo = new ApolloServer({
-    schema,
-    context: async ({ ctx }: { ctx: Context }) => {
-      try {
-        await consumeUser(ctx);
-        return {
-          user_id: ctx.state.user_id
-        };
-      } catch (e) {
-        return {};
-      }
-    },
-    tracing: process.env.NODE_ENV === 'development'
-  });
-  apollo.applyMiddleware({ app });
+  schema,
+  context: async ({ ctx }: { ctx: Context }) => {
+    try {
+      await consumeUser(ctx);
+      return {
+        user_id: ctx.state.user_id
+      };
+    } catch (e) {
+      return {};
+    }
+  },
+  tracing: process.env.NODE_ENV === 'development'
+});
+apollo.applyMiddleware({ app });
 
 /**
  * initial tasks except Koa middlewares;
  */
-async function initalize(){
- try {
+async function initalize() {
+  try {
     await createConnection();
     console.log('Postgres RDBMS connection is establishde');
- } catch (e){
+  } catch (e) {
     console.log(e);
- }
+  }
 }
 initalize();
 
