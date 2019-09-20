@@ -7,11 +7,11 @@ const app = new Koa()
 const router = new Router()
 
 router.get('/', (ctx, next) => {
-  ctx.body = 'HOME'
+  ctx.body = 'test'
 })
 
-app.use(router.routes())
-app.use(router.allowedMethods())
+// /app.use(router.routes())
+//app.use(router.allowedMethods())
 // 미들웨어 작성
 // ctx, next parameter 가지고 있음
 
