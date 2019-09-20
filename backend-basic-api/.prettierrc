@@ -1,0 +1,8 @@
+{
+  "parser": "babel",
+  "singleQuote": true,
+  "semi": true,
+  "arrowParens": "avoid",
+  "tapWidth": 2,
+  "printWidth": 100
+}
