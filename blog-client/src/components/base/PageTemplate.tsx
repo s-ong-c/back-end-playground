@@ -4,7 +4,7 @@ import Header from './Header';
 import HeaderContainer from '../../containers/base/HeaderContainer';
 
 const PageTemplateBlock = styled.div``;
-interface PageTemplateProps{
+interface PageTemplateProps {
   hideHeader?: boolean;
   style?: React.CSSProperties;
   className?: string;
@@ -12,12 +12,12 @@ interface PageTemplateProps{
 
 const PageTemplate: React.SFC<PageTemplateProps> = ({
   hideHeader,
-  style, 
+  style,
   className,
-  children
+  children,
 }) => {
   return (
-    <PageTemplateBlock style={style} className={className}> 
+    <PageTemplateBlock style={style} className={className}>
       {!hideHeader && <HeaderContainer />}
       {children}
     </PageTemplateBlock>

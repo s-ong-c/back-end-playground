@@ -4,36 +4,36 @@ import palette from '../../lib/styles/palette';
 import { Logo, Register } from '../../static/svg';
 
 const RegisterTemplateBlock = styled.div`
-        width: 768px;
-        margin: 0 auto;
-        margin-top: 100px;
-        line-height: 1.5;
-        h1 {
-           svg {
-             font-size:4rem;
-           }
-            font-size: 4rem;
-            color: ${palette.gray9};
-            font-weight: bold;
-            margin: 0;
-        }
-        .description {
-            font-size: 1.5rem;
-            color: ${palette.gray9};
-        }
+  width: 768px;
+  margin: 0 auto;
+  margin-top: 100px;
+  line-height: 1.5;
+  h1 {
+    svg {
+      font-size: 4rem;
+    }
+    font-size: 4rem;
+    color: ${palette.gray9};
+    font-weight: bold;
+    margin: 0;
+  }
+  .description {
+    font-size: 1.5rem;
+    color: ${palette.gray9};
+  }
 `;
-export interface RegisterTemplateProps{}
+export interface RegisterTemplateProps {}
 
-const RegisterTemplate: React.SFC<RegisterTemplateProps> = ({children}) => {
+const RegisterTemplate: React.SFC<RegisterTemplateProps> = ({ children }) => {
   return (
     <RegisterTemplateBlock>
-        <h1><Register /></h1>
-        {/* <div className="description">기본 회원 정보를 등록해주세요.</div> */}
-        <div className="contents">
-            {children}
-        </div>
+      <h1>
+        <Register />
+      </h1>
+      {/* <div className="description">기본 회원 정보를 등록해주세요.</div> */}
+      <div className="contents">{children}</div>
     </RegisterTemplateBlock>
-    );
-  };
+  );
+};
 
 export default RegisterTemplate;

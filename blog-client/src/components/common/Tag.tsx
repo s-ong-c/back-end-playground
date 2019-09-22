@@ -9,17 +9,17 @@ const TagBlock = styled.div`
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   align-items: center;
-  font-size:0.75rem;
-  background:${palette.gray1};
+  font-size: 0.75rem;
+  background: ${palette.gray1};
   color: ${palette.gray7};
   & + & {
     margin-left: 0.5rem;
   }
 `;
-interface TagProps{}
+interface TagProps {}
 
 const Tag: React.SFC<TagProps> = ({ children }) => {
   return <TagBlock>{children}</TagBlock>;
-  };
+};
 
 export default Tag;

@@ -11,11 +11,11 @@ const HeaderUserMenuBlock = styled.div`
   > .menu-wrapper {
     width: 12rem;
     background: white;
-    box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
   }
 `;
 
-interface HeaderUserMenuProps{
+interface HeaderUserMenuProps {
   onClose: () => void;
   onLogout: () => void;
   username: string;
@@ -23,25 +23,27 @@ interface HeaderUserMenuProps{
 }
 
 const HeaderUserMenu: React.SFC<HeaderUserMenuProps> = ({
-  onClose, 
+  onClose,
   onLogout,
   username,
-  visible
+  visible,
 }) => {
   if (!visible) return null;
-  return( 
+  return (
     <OutSideClickHandler onOutsideClick={onClose}>
       <HeaderUserMenuBlock>
         <div className="menu-wrapper">
           <HeaderUserMenuItem>내 블로그</HeaderUserMenuItem>
-          <HeaderUserMenuItem to={`/@${username}`}>New Story</HeaderUserMenuItem>
+          <HeaderUserMenuItem to={`/@${username}`}>
+            New Story
+          </HeaderUserMenuItem>
           <HeaderUserMenuItem to="/saves">임시글</HeaderUserMenuItem>
           <HeaderUserMenuItem to="/setting">Settings </HeaderUserMenuItem>
           <HeaderUserMenuItem onClick={onLogout}>Sign out</HeaderUserMenuItem>
         </div>
       </HeaderUserMenuBlock>
-      </OutSideClickHandler>
-    );
-  };
+    </OutSideClickHandler>
+  );
+};
 
 export default HeaderUserMenu;

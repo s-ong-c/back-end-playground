@@ -24,7 +24,7 @@ const HeaderUserIconBlock = styled.div`
   display: flex;
   align-items: center;
   &:hover {
-    img{
+    img {
       box-shadow: 0px 0 12px rgba(0, 0, 0, 0.1);
     }
     svg {
@@ -32,13 +32,13 @@ const HeaderUserIconBlock = styled.div`
     }
   }
 `;
-export interface HeaderUserIconProps{
-  user: CurrentUser
+export interface HeaderUserIconProps {
+  user: CurrentUser;
   onClick: () => void;
   img?: string;
 }
 
-const HeaderUserIcon: React.SFC<HeaderUserIconProps> = ({ onClick, img}) => {
+const HeaderUserIcon: React.SFC<HeaderUserIconProps> = ({ onClick, img }) => {
   return (
     <HeaderUserIconBlock onClick={onClick}>
       <img src={img} alt="thumbnail" />

@@ -14,15 +14,15 @@ const PostCardBlock = styled.div`
   .user-info {
     display: flex;
     align-items: center;
-      img {
-       width: 3rem;
-       height: 3rem;
-       display: block;
-       margin-right: 1rem;
-       background: ${palette.gray0};
-       object-fit: cover;
-       border-radius: 1.5rem;
-       box-shadow: 0px 0 8px rgba(0, 0, 0, 0.1);
+    img {
+      width: 3rem;
+      height: 3rem;
+      display: block;
+      margin-right: 1rem;
+      background: ${palette.gray0};
+      object-fit: cover;
+      border-radius: 1.5rem;
+      box-shadow: 0px 0 8px rgba(0, 0, 0, 0.1);
     }
     .username {
       font-size: 0.875rem;
@@ -32,66 +32,71 @@ const PostCardBlock = styled.div`
     margin-bottom: 1.5rem;
   }
   .post-thumbnail {
-      width:100%;
-      max-height: 369px;
-      margin-bottom: 1rem;
-      object-fit: cover;
-    }
-    line-height: 1.5;
-    h2 {
-      font-size:1.5rem;
-      margin: 0;
-      color:${palette.gray9};
-   }
-   p {
-     margin-bottom:0;
-     margin-top: 0.5rem;
-     font-size:1rem;
-     color: ${palette.gray7};
-   }
-   .subinfo {
+    width: 100%;
+    max-height: 369px;
+    margin-bottom: 1rem;
+    object-fit: cover;
+  }
+  line-height: 1.5;
+  h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    color: ${palette.gray9};
+  }
+  p {
+    margin-bottom: 0;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: ${palette.gray7};
+  }
+  .subinfo {
     color: ${palette.gray6};
-    font-size:0.875rem;
-     span {
-
-     }
-     span + span:before {
+    font-size: 0.875rem;
+    span {
+    }
+    span + span:before {
       content: ' ・ ';
-     }
-   }
-   .tags-wrapper {
-     margin-top: 0.5rem;
-   }
-   & + & {
+    }
+  }
+  .tags-wrapper {
+    margin-top: 0.5rem;
+  }
+  & + & {
     border-top: 1px solid ${palette.gray2};
-   }
+  }
 `;
-interface PostCardProps{
+interface PostCardProps {
   post: PartialPost;
 }
 
 const PostCard: React.SFC<PostCardProps> = React.memo(({ post }) => {
-  return <PostCardBlock>
-    <div className="user-info">
-      <img src={post.user.profile.thumbnail || defaultThumbnail} />
-      <div className="username">{post.user.username}</div>
-    </div>
+  return (
+    <PostCardBlock>
+      <div className="user-info">
+        <img src={post.user.profile.thumbnail || defaultThumbnail} />
+        <div className="username">{post.user.username}</div>
+      </div>
 
-    {post.thumbnail && <img className="post-thumbnail" src={post.thumbnail}
-    //"https://thumb.velog.io/resize?url=https://images.velog.io/post-images/velopert/fa31faf0-95cb-11e9-9edc-c99912cb3e22/55c1bff8-8014-4997-9b0b-e5f52f1ddfed.jpeg&width=512"
-    />}
-    <h2>{post.title}</h2>
-    <p>{post.short_description}</p>
-    <div className="subinfo">
-      <span>2019년 3월 23일</span>
-      <span>{post.comments_count}개의 댓글</span>
-    </div>
-    <div className="tags-wrapper">
-     {post.tags.map(tag => (
-       <Tag key={tag}>{tag}</Tag>
-     ))}
-    </div>
-  </PostCardBlock>;
-  });
+      {post.thumbnail && (
+        <img
+          className="post-thumbnail"
+          src={post.thumbnail}
+          //"https://thumb.velog.io/resize?url=https://images.velog.io/post-images/velopert/fa31faf0-95cb-11e9-9edc-c99912cb3e22/55c1bff8-8014-4997-9b0b-e5f52f1ddfed.jpeg&width=512"
+        />
+      )}
+      <h2>{post.title}</h2>
+      <p>{post.short_description}</p>
+      <div className="subinfo">
+        <span>2019년 3월 23일</span>
+        <span>{post.comments_count}개의 댓글</span>
+      </div>
+      <div className="tags-wrapper">
+        {post.tags.map(tag => (
+          <Tag key={tag}>{tag}</Tag>
+        ))}
+      </div>
+    </PostCardBlock>
+  );
+});
 
 export default PostCard;

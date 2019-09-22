@@ -4,15 +4,14 @@ import OpaqueLayer from '../../components/common/OpaqueLayer';
 import AuthModalContainer from '../auth/AuthModalContainer';
 import { RootState } from '../../modules';
 
-interface OwnProps{}
-interface StateProps{
+interface OwnProps {}
+interface StateProps {
   layer: boolean;
 }
-interface DispatchProps{
-}
+interface DispatchProps {}
 type CoreProps = OwnProps & StateProps & DispatchProps;
 
-const Core: React.SFC<CoreProps> = ({layer}) => {
+const Core: React.SFC<CoreProps> = ({ layer }) => {
   return (
     <>
       <OpaqueLayer visible={layer} />
@@ -21,7 +20,7 @@ const Core: React.SFC<CoreProps> = ({layer}) => {
   );
 };
 
-export default connect<StateProps,DispatchProps, OwnProps, RootState>(
+export default connect<StateProps, DispatchProps, OwnProps, RootState>(
   state => ({
     layer: state.core.layer,
   }),

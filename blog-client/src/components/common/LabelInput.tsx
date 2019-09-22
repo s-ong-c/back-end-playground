@@ -37,10 +37,10 @@ const LabelInputBlock = styled.div<{ focus: boolean }>`
         color: ${palette.gray7};
         transition: all 0.125s ease-in;
         ${props =>
-        props.focus &&
-        css`
+          props.focus &&
+          css`
             color: ${palette.teal7};
-        `}
+          `}
         &::placeholder {
         color: ${palette.gray5};
         }
@@ -65,10 +65,10 @@ const LabelInputBlock = styled.div<{ focus: boolean }>`
         display: flex;
         align-items: center;
         ${props =>
-        props.focus &&
-        css`
+          props.focus &&
+          css`
             border-color: ${palette.teal7};
-        `}
+          `}
         input {
         width: 1;
         }
@@ -92,53 +92,52 @@ type InputProps = React.DetailedHTMLProps<
   HTMLInputElement
 >;
 
-export interface LabelInputProps extends InputProps{
-    label: string;
-    placeholder: string;
-    name?: string;
-    value?: string;
-    onChange?: React.ChangeEventHandler
+export interface LabelInputProps extends InputProps {
+  label: string;
+  placeholder: string;
+  name?: string;
+  value?: string;
+  onChange?: React.ChangeEventHandler;
 }
 const { useEffect, useState, useCallback } = React;
-const LabelInput: React.SFC<LabelInputProps> = ({ 
-    label, 
-    name, 
-    value,
-    placeholder, 
-    onChange,
-    disabled,
-    ...rest
+const LabelInput: React.SFC<LabelInputProps> = ({
+  label,
+  name,
+  value,
+  placeholder,
+  onChange,
+  disabled,
+  ...rest
 }) => {
-    const [focus, setFocus] = useState(false);
-    const onFocus = useCallback(() => {
-        setFocus(true);
-    },[])
-    const onBlur = useCallback(() => {
-        setFocus(false);
-    },[])
-    useEffect(() => {
-    }, [value, placeholder]);
-    return (
-        <LabelInputBlock focus={focus}>
-        <label>{label}</label>
-        <div className="group">
-          <div className="input-wrapper">
-            <input
-              name={name}
-              onChange={onChange}
-              value={value}
-              placeholder={placeholder}
-              onFocus={onFocus}
-              onBlur={onBlur}
-              disabled={disabled}
-              {...rest}
-            />
-            {disabled && <MdLockOutline />}
-          </div>
-  
-          <div className="width-maker">{value || `${placeholder}`}</div>
+  const [focus, setFocus] = useState(false);
+  const onFocus = useCallback(() => {
+    setFocus(true);
+  }, []);
+  const onBlur = useCallback(() => {
+    setFocus(false);
+  }, []);
+  useEffect(() => {}, [value, placeholder]);
+  return (
+    <LabelInputBlock focus={focus}>
+      <label>{label}</label>
+      <div className="group">
+        <div className="input-wrapper">
+          <input
+            name={name}
+            onChange={onChange}
+            value={value}
+            placeholder={placeholder}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            disabled={disabled}
+            {...rest}
+          />
+          {disabled && <MdLockOutline />}
         </div>
-      </LabelInputBlock>
+
+        <div className="width-maker">{value || `${placeholder}`}</div>
+      </div>
+    </LabelInputBlock>
   );
 };
 

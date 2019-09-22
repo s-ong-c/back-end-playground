@@ -21,15 +21,17 @@ const MainNoticeWidgetBlock = styled.div`
     }
   }
 `;
-interface MainNoticeWidgetProps{}
+interface MainNoticeWidgetProps {}
 
 const MainNoticeWidget: React.SFC<MainNoticeWidgetProps> = props => {
-  return <MainNoticeWidgetBlock>
-    <div className="title-bar">공지사항</div>
-    <div className="content">
+  return (
+    <MainNoticeWidgetBlock>
+      <div className="title-bar">공지사항</div>
+      <div className="content">
         <div className="empty">공지사항 준비중 ...</div>
-    </div>
-    </MainNoticeWidgetBlock>;
-  };
+      </div>
+    </MainNoticeWidgetBlock>
+  );
+};
 
 export default MainNoticeWidget;

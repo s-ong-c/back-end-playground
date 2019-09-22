@@ -5,14 +5,14 @@ import { any } from 'prop-types';
 import { breakpoints } from '../../lib/styles/responsive';
 
 const MainTemplateBlock = styled(PageTemplate)`
-main {
-  width: ${breakpoints.xlarge};
-  margin: 0 auto;
-  margin-top: 3.5rem;
-  margin-bottom: 8rem;
-  display: flex;
-  justify-content: space-between;
-}
+  main {
+    width: ${breakpoints.xlarge};
+    margin: 0 auto;
+    margin-top: 3.5rem;
+    margin-bottom: 8rem;
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 const Left = styled.div`
   width: 192px;
@@ -30,18 +30,18 @@ type MainTemplateNamespace = {
   Right: typeof Right;
 };
 
-interface MainTemplateProps{}
+interface MainTemplateProps {}
 const MainTemplate: React.SFC<MainTemplateProps> & MainTemplateNamespace = ({
   children,
 }) => {
   return (
-      <MainTemplateBlock>
-        <main>{children}</main>
-      </MainTemplateBlock>
-    );
+    <MainTemplateBlock>
+      <main>{children}</main>
+    </MainTemplateBlock>
+  );
 };
 
 MainTemplate.Left = Left;
 MainTemplate.Main = Main;
 MainTemplate.Right = Right;
-export default MainTemplate; 
+export default MainTemplate;
