@@ -158,6 +158,7 @@ export default class MarkdownEditor extends React.Component<
     if (!this.block.current) return;
     const { scrollHeight, scrollTop, clientHeight } = this.block.current;
     const scrollBottom = scrollHeight - scrollTop - clientHeight;
+    console.log(scrollBottom);
     if (scrollBottom < 192) {
       this.block.current.scrollTo(0, scrollHeight);
     }
@@ -171,7 +172,16 @@ export default class MarkdownEditor extends React.Component<
         shadow: nextShadow,
       });
     }
+    if (this.block.current) {
+      const { clientWidth } = this.block.current;
+      if (clientWidth !== this.state.clientWidth) {
+        this.setState({
+          clientWidth,
+        });
+      }
+    }
   };
+
   handleResize = () => {
     console.log(this.block.current);
     if (this.block.current) {
