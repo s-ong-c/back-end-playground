@@ -4,6 +4,7 @@ const zIndexes = {
   Toolbar: 10,
   Popup: 25,
   WriteFooter: 10,
+  PublishScreen: 30,
 };
 
 export default zIndexes;
