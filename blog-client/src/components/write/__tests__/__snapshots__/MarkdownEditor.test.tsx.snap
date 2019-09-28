@@ -3,7 +3,7 @@
 exports[`MarkdownEditor matches snapshot 1`] = `
 <div>
   <div
-    class="sc-jTzLTM bWsbpX"
+    class="sc-jTzLTM iphFoa"
     data-testid="codemirror"
   >
     <div
@@ -357,6 +357,10 @@ exports[`MarkdownEditor matches snapshot 1`] = `
         </div>
       </div>
     </div>
+    <div
+      class="sc-cSHVUG fnIIPU"
+      style="width: 0px;"
+    />
   </div>
 </div>
 `;

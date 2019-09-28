@@ -6,7 +6,7 @@ import { WriteMode } from '../../../modules/write';
 describe('AskChangeEditor', () => {
   const setup = (props: Partial<AskChangeEditorProps> = {}) => {
     const initialProps: AskChangeEditorProps = {
-      visible: false,
+      visible: true,
       onCancel: () => undefined,
       onConfirm: () => undefined,
       convertTo: WriteMode.MARKDOWN,
@@ -16,7 +16,7 @@ describe('AskChangeEditor', () => {
       ...utils,
     };
   };
-  it('renders property', () => {
+  it('renders properly', () => {
     setup();
   });
   it('matches snapshot', () => {
