@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { RootState } from '../../modules';
 import PublishScreenTemplate from '../../components/write/PublishScreenTemplate';
 import PublishPreviewContainer from './PublishPreviewContainer';
+import PublishPrivacySettingContainer from './PublishPrivacySettingContainer';
 
 interface OwnProps {}
 type StateProps = ReturnType<typeof mapStateToProps>;
@@ -16,7 +17,11 @@ const PublishScreen: React.SFC<PublishScreenProps> = props => {
   return (
     <PublishScreenTemplate
       left={<PublishPreviewContainer />}
-      right="여기는 right"
+      right={
+        <>
+          <PublishPrivacySettingContainer />
+        </>
+      }
     />
   );
 };
