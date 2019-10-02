@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../modules';
-import PublishPrivacySettings from '../../components/write/PublishPrivacySettings';
+import PublishPrivacySettings, {
+  PrivacySetting,
+} from '../../components/write/PublishPrivacySettings';
 
 interface OwnProps {}
 type StateProps = ReturnType<typeof mapStateToProps>;
@@ -16,7 +18,12 @@ const mapDispatchToProps = {};
 const PublishPrivacySettingContainer: React.SFC<
   PublishPrivacySettingContainerProps
 > = props => {
-  return <PublishPrivacySettings />;
+  return (
+    <PublishPrivacySettings
+      selected={PrivacySetting.PUBLIC}
+      onSelect={() => {}}
+    />
+  );
 };
 
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(
