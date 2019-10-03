@@ -25,11 +25,10 @@ const Button = styled.button<{ active: boolean }>`
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.05);
   padding: 0;
   padding-left: 1rem;
-  border: 1px solid ${palette.teal5};
   border-radius: 4px;
   cursor: pointer;
   &:hover {
-    background: ${palette.gray0};
+    background: #fdfdfd;
   }
   ${props =>
     props.active &&

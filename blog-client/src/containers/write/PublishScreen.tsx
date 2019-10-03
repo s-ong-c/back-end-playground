@@ -4,6 +4,9 @@ import { RootState } from '../../modules';
 import PublishScreenTemplate from '../../components/write/PublishScreenTemplate';
 import PublishPreviewContainer from './PublishPreviewContainer';
 import PublishPrivacySettingContainer from './PublishPrivacySettingContainer';
+import PublishURLSettingContainer from './PublishURLSettingContainer';
+import PublishSeriesSectionContainer from './PublishSeriesSectionContainer';
+import PublishActionButton from '../../components/write/PublishActionButton';
 
 interface OwnProps {}
 type StateProps = ReturnType<typeof mapStateToProps>;
@@ -19,7 +22,12 @@ const PublishScreen: React.SFC<PublishScreenProps> = props => {
       left={<PublishPreviewContainer />}
       right={
         <>
-          <PublishPrivacySettingContainer />
+          <div>
+            <PublishPrivacySettingContainer />
+            <PublishURLSettingContainer />
+            <PublishSeriesSectionContainer />
+          </div>
+          <PublishActionButton />
         </>
       }
     />

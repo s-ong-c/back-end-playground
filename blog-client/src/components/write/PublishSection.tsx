@@ -13,7 +13,7 @@ const PublishSectionBlock = styled.section`
   .contents {
   }
   & + & {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
   }
 `;
 export interface PublishSectionProps extends React.HTMLProps<HTMLElement> {

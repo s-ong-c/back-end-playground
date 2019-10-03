@@ -23,6 +23,12 @@ const Pane = styled.div`
   flex: 1;
   min-width: 0;
 `;
+const RightPane = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 const Separator = styled.div`
   width: 1px;
   height: 100%;
@@ -46,7 +52,7 @@ const PublishScreenTemplate: React.SFC<PublishScreenTemplateProps> = ({
       <Wrapper>
         <Pane>{left}</Pane>
         <Separator />
-        <Pane>{right}</Pane>
+        <RightPane>{right}</RightPane>
       </Wrapper>
     </PublishScreenTemplateBlock>
   );
