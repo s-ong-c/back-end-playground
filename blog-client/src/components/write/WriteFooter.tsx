@@ -28,7 +28,7 @@ interface WriteFooterProps {}
 const WriteFooter: React.SFC<WriteFooterProps> = props => {
   return (
     <WriteFooterBlock>
-      <StyledButton color="gray" inline>
+      <StyledButton color="lightGray" inline>
         임시저장
       </StyledButton>
       <StyledButton inline>출간하기</StyledButton>
