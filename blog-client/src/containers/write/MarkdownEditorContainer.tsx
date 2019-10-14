@@ -25,7 +25,9 @@ interface DispatchProps {
   setHtml: typeof setHtml;
   convertEditorMode: typeof convertEditorMode;
 }
-type MarkdownEditorContainerProps = OwnProps & StateProps & DispatchProps;
+export type MarkdownEditorContainerProps = OwnProps &
+  StateProps &
+  DispatchProps;
 
 const MarkdownEditorContainer: React.SFC<MarkdownEditorContainerProps> = ({
   changeMarkdown,
@@ -53,7 +55,7 @@ const MarkdownEditorContainer: React.SFC<MarkdownEditorContainerProps> = ({
       onChangeTitle={changeTitle}
       onConvert={onConvert}
       tagInput={<TagInputContainer />}
-      footer={<WriteFooter />}
+      footer={<WriteFooter onPublish={() => {}} onTempSave={() => {}} />}
     />
   );
 };

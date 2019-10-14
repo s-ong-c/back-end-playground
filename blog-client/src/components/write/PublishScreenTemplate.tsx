@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import zIndexes from '../../lib/styles/zIndexes';
+import transitions from '../../lib/styles/transitions';
 
 const PublishScreenTemplateBlock = styled.div`
   display: flex;
@@ -14,6 +15,7 @@ const PublishScreenTemplateBlock = styled.div`
   height: 100%;
   background: ${palette.gray0};
   z-index: ${zIndexes.PublishScreen};
+  animation: ${transitions.popInFromBottom} 0.4s forwards ease-in;
 `;
 const Wrapper = styled.div`
   width: 768px;
