@@ -52,13 +52,21 @@ const popIn = keyframes`
     transform: scale3d(1, 1, 1);
   }
 `;
-
+const slideUp = keyframes`
+  0% {
+    transform: translateY(100%)
+  }
+  100% {
+    transform: translateY(0%)
+  }
+`;
 const transitions = {
   fadeIn,
   fadeOut,
   popInFromBottom,
   popOutToBottom,
   popIn,
+  slideUp,
 };
 
 export default transitions;
