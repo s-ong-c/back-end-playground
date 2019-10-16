@@ -41,14 +41,17 @@ const Separator = styled.div`
 `;
 
 export interface PublishScreenTemplateProps {
+  visible: boolean;
   left: React.ReactNode;
   right: React.ReactNode;
 }
 
 const PublishScreenTemplate: React.SFC<PublishScreenTemplateProps> = ({
+  visible,
   left,
   right,
 }) => {
+  if (!visible) return null;
   return (
     <PublishScreenTemplateBlock>
       <Wrapper>

@@ -13,13 +13,23 @@ const StyledButton = styled(Button)`
     margin-left: 0.875rem;
   }
 `;
-export interface PublishActionButtonProps {}
+export interface PublishActionButtonProps {
+  onCancel: () => void;
+  onPublish: () => void;
+}
 
-const PublishActionButton: React.SFC<PublishActionButtonProps> = props => {
+const PublishActionButton: React.SFC<PublishActionButtonProps> = ({
+  onCancel,
+  onPublish,
+}) => {
   return (
     <PublishActionButtonBlock>
-      <StyledButton color="gray">취소</StyledButton>
-      <StyledButton>출간하기</StyledButton>
+      <StyledButton data-testid="cancelPublish" color="gray" onClick={onCancel}>
+        취소
+      </StyledButton>
+      <StyledButton data-testid="publish" onClick={onPublish}>
+        출간하기
+      </StyledButton>
     </PublishActionButtonBlock>
   );
 };
