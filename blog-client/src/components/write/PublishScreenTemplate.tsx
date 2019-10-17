@@ -1,10 +1,10 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import palette from '../../lib/styles/palette';
 import zIndexes from '../../lib/styles/zIndexes';
 import transitions from '../../lib/styles/transitions';
 import HideScroll from '../common/HideScroll';
-const PublishScreenTemplateBlock = styled.div`
+const PublishScreenTemplateBlock = styled.div<{ closing: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,6 +16,11 @@ const PublishScreenTemplateBlock = styled.div`
   background: ${palette.gray0};
   z-index: ${zIndexes.PublishScreen};
   animation: ${transitions.slideUp} 0.25s forwards ease-in;
+  ${props =>
+    props.closing &&
+    css`
+      animation: ${transitions.slideDown} 0.25s forwards ease-in;
+    `}
 `;
 const Wrapper = styled.div`
   width: 768px;
@@ -46,14 +51,31 @@ export interface PublishScreenTemplateProps {
   right: React.ReactNode;
 }
 
+const { useState, useEffect } = React;
 const PublishScreenTemplate: React.SFC<PublishScreenTemplateProps> = ({
   visible,
   left,
   right,
 }) => {
-  if (!visible) return null;
+  const [animate, setAnimate] = useState(false);
+  useEffect(() => {
+    let timeoutId: number | null = null;
+    if (visible) {
+      setAnimate(true);
+    } else if (!visible && animate) {
+      timeoutId = setTimeout(() => {
+        setAnimate(false);
+      }, 250);
+    }
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [visible]);
+  if (!visible && !animate) return null;
   return (
-    <PublishScreenTemplateBlock>
+    <PublishScreenTemplateBlock closing={!visible}>
       <Wrapper>
         <Pane>{left}</Pane>
         <Separator />
