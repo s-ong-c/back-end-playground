@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, fireEvent } from 'react-testing-library';
+import { render, fireEvent, wait } from 'react-testing-library';
 import PublishScreen, { PublishScreenProps } from '../PublishScreen';
 import { Provider } from 'react-redux';
 import rootReducer from '../../../modules';
@@ -29,12 +29,14 @@ describe('PublishScreen', () => {
     utils.store;
     utils.getByText('포스트카드 미리보기');
   });
-  it('closes PublishScreen when cancel button is clicked', () => {
+  it('closes PublishScreen when cancel button is clicked', async () => {
     const utils = setup();
     utils.store.dispatch(openPublish());
     utils.getByText('포스트카드 미리보기');
     const cancelButton = utils.getByText('취소');
     fireEvent.click(cancelButton);
-    expect(utils.queryByText('취소')).toBeFalsy();
+    await wait(() => {
+      expect(utils.queryByText('취소')).not.toBeInTheDocument();
+    });
   });
 });

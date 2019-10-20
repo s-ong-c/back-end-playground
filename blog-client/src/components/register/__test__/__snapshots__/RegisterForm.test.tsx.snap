@@ -3,7 +3,7 @@
 exports[`RegisterForm matches snapshot 1`] = `
 <div>
   <div
-    class="sc-htpNat jeRpxP"
+    class="sc-htpNat cSOxAO"
   >
     <div
       class="sc-bdVaJa eQDxPg"
@@ -116,13 +116,13 @@ exports[`RegisterForm matches snapshot 1`] = `
         class="buttons"
       >
         <button
-          class="sc-bwzfXH kLyosE"
-          color="gray"
+          class="sc-bwzfXH jljVVT"
+          color="lightGray"
         >
           취소
         </button>
         <button
-          class="sc-bwzfXH eqBGAJ"
+          class="sc-bwzfXH eJXGVC"
           color="teal"
           type="submit"
         >

@@ -4,7 +4,7 @@ import palette from '../../lib/styles/palette';
 import zIndexes from '../../lib/styles/zIndexes';
 import transitions from '../../lib/styles/transitions';
 import HideScroll from '../common/HideScroll';
-const PublishScreenTemplateBlock = styled.div<{ closing: boolean }>`
+const PublishScreenTemplateBlock = styled.div<{ visible: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,9 +17,9 @@ const PublishScreenTemplateBlock = styled.div<{ closing: boolean }>`
   z-index: ${zIndexes.PublishScreen};
   animation: ${transitions.slideUp} 0.25s forwards ease-in;
   ${props =>
-    props.closing &&
+    props.visible &&
     css`
-      animation: ${transitions.slideDown} 0.25s forwards ease-in;
+      animation: ${transitions.slideDown} 0.125s forwards ease-out;
     `}
 `;
 const Wrapper = styled.div`
@@ -58,6 +58,7 @@ const PublishScreenTemplate: React.SFC<PublishScreenTemplateProps> = ({
   right,
 }) => {
   const [animate, setAnimate] = useState(false);
+
   useEffect(() => {
     let timeoutId: number | null = null;
     if (visible) {
@@ -65,7 +66,7 @@ const PublishScreenTemplate: React.SFC<PublishScreenTemplateProps> = ({
     } else if (!visible && animate) {
       timeoutId = setTimeout(() => {
         setAnimate(false);
-      }, 250);
+      }, 125);
     }
     return () => {
       if (timeoutId) {
@@ -75,7 +76,7 @@ const PublishScreenTemplate: React.SFC<PublishScreenTemplateProps> = ({
   }, [visible]);
   if (!visible && !animate) return null;
   return (
-    <PublishScreenTemplateBlock closing={!visible}>
+    <PublishScreenTemplateBlock visible={!visible}>
       <Wrapper>
         <Pane>{left}</Pane>
         <Separator />

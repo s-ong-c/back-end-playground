@@ -4,29 +4,31 @@ import AuthForm, { AuthFormProps } from '../AuthForm';
 import { AuthMode } from '../../../modules/core';
 
 describe('AuthForm', () => {
-    const setup = (props: Partial<AuthFormProps> = {}) => {
-       const initialProps: AuthFormProps = {
-          mode:'REGISTER',
-          onToggleMode:() => {},
-          onSendAuthEmail: (email: string) => {},
-          load: false,
-          registered: null,
-       };
-     return render(<AuthForm {...initialProps} {...props} />);
-    }
-    it('renders correctly', () => {
-      const { container } = setup();
-     // expect(container).toMatchSnapshot();
-    });
+  const setup = (props: Partial<AuthFormProps> = {}) => {
+    const initialProps: AuthFormProps = {
+      mode: 'REGISTER',
+      onToggleMode: () => {},
+      onSendAuthEmail: (email: string) => {},
+      loading: false,
+      registered: null,
+    };
+    return render(<AuthForm {...initialProps} {...props} />);
+  };
+  it('renders correctly', () => {
+    const { container } = setup();
+    // expect(container).toMatchSnapshot();
+  });
 
   describe('handles modes', () => {
     it('REGISTER', () => {
-      const { getByText } = setup();
-      getByText('회원가입');
+      const { getByTestId } = setup();
+      const title = getByTestId('title');
+      expect(title).toHaveTextContent('회원가입');
     });
     it('LOGIN', () => {
-      const { getByText } =setup({mode: 'LOGIN'});
-      getByText('로그인');
+      const { getByTestId } = setup({ mode: 'LOGIN' });
+      const title = getByTestId('title');
+      expect(title).toHaveTextContent('로그인');
     });
   });
 

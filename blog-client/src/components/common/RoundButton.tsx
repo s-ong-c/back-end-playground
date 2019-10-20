@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
-import palette from '../../lib/styles/palette';
+import palette, { buttonColorMap } from '../../lib/styles/palette';
 import { Route } from 'react-router';
 import Button from './Button';
 
@@ -13,30 +13,6 @@ type RoundButtonBlockProps = {
   border: boolean;
 };
 
-const colorMap: {
-  [color: string]: {
-    background: string;
-    color: string;
-    hoverBackground: string;
-  };
-} = {
-  teal: {
-    background: palette.teal6,
-    color: 'white',
-    hoverBackground: palette.teal5,
-  },
-  gray: {
-    background: palette.gray2,
-    color: palette.gray7,
-    hoverBackground: palette.gray1,
-  },
-  darkGray: {
-    background: palette.gray8,
-    color: 'white',
-    hoverBackground: palette.gray6,
-  },
-};
-
 const RoundButtonBlock = styled.button<RoundButtonBlockProps>`
   ${props =>
     props.inline &&
@@ -45,7 +21,6 @@ const RoundButtonBlock = styled.button<RoundButtonBlockProps>`
         margin-left: 1rem;
       }
     `}
-
   ${props =>
     props.size === 'SMALL' &&
     css`
@@ -73,29 +48,26 @@ const RoundButtonBlock = styled.button<RoundButtonBlockProps>`
       padding-right: 2rem;
       border-radius: 1.5rem;
     `}
-
   background: none;
-  outline: none;
   border: none;
+  outline: none;
   font-weight: bold;
-  background: ${props => colorMap[props.color].background};
-  color: ${props => colorMap[props.color].color};
+  background: ${props => buttonColorMap[props.color].background};
+  color: ${props => buttonColorMap[props.color].color};
   &:hover {
-    background: ${props => colorMap[props.color].hoverBackground};
+    background: ${props => buttonColorMap[props.color].hoverBackground};
   }
-
   ${props =>
     props.border &&
     css<RoundButtonBlockProps>`
       background: transparent;
-      border: 1px solid ${props => colorMap[props.color].background};
-      color: ${props => colorMap[props.color].background};
+      border: 1px solid ${props => buttonColorMap[props.color].background};
+      color: ${props => buttonColorMap[props.color].background};
       &:hover {
-        background: ${props => colorMap[props.color].background};
+        background: ${props => buttonColorMap[props.color].background};
         color: white;
       }
     `}
-
   transition: 0.125s all ease-in;
   &:focus {
     box-shadow: 0px 2px 12px #00000030;
@@ -107,6 +79,7 @@ type ButtonProps = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 >;
+
 interface RoundButtonProps extends ButtonProps {
   inline?: boolean;
   to?: string;
@@ -117,8 +90,8 @@ interface RoundButtonProps extends ButtonProps {
 
 const RoundButton: React.SFC<RoundButtonProps> = ({
   ref,
-  color = 'teal',
   to,
+  color = 'teal',
   size = 'DEFAULT',
   border = false,
   ...rest

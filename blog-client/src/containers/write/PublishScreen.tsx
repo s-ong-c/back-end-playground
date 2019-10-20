@@ -25,7 +25,6 @@ const PublishScreen: React.SFC<PublishScreenProps> = ({
   closePublish,
 }) => {
   const onCancel = useCallback(() => {
-    console.log('aa');
     closePublish();
   }, [closePublish]);
 
