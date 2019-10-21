@@ -7,6 +7,7 @@ import {
   changeTitle,
   setHtml,
   convertEditorMode,
+  openPublish,
 } from '../../modules/write';
 
 import remark from 'remark';
@@ -24,6 +25,7 @@ interface DispatchProps {
   changeTitle: typeof changeTitle;
   setHtml: typeof setHtml;
   convertEditorMode: typeof convertEditorMode;
+  openPublish: typeof openPublish;
 }
 export type MarkdownEditorContainerProps = OwnProps &
   StateProps &
@@ -36,6 +38,7 @@ const MarkdownEditorContainer: React.SFC<MarkdownEditorContainerProps> = ({
   convertEditorMode,
   title,
   markdown,
+  openPublish,
 }) => {
   const onConvert = (markdown: string) => {
     remark()
@@ -47,6 +50,9 @@ const MarkdownEditorContainer: React.SFC<MarkdownEditorContainerProps> = ({
         convertEditorMode();
       });
   };
+  const onPublish = React.useCallback(() => {
+    openPublish();
+  }, [openPublish]);
   return (
     <MarkdownEditor
       title={title}
@@ -55,7 +61,7 @@ const MarkdownEditorContainer: React.SFC<MarkdownEditorContainerProps> = ({
       onChangeTitle={changeTitle}
       onConvert={onConvert}
       tagInput={<TagInputContainer />}
-      footer={<WriteFooter onPublish={() => {}} onTempSave={() => {}} />}
+      footer={<WriteFooter onPublish={onPublish} onTempSave={() => {}} />}
     />
   );
 };
@@ -70,5 +76,6 @@ export default connect<StateProps, DispatchProps, OwnProps, RootState>(
     changeTitle,
     setHtml,
     convertEditorMode,
+    openPublish,
   },
 )(MarkdownEditorContainer);
