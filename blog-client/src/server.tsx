@@ -19,7 +19,7 @@ const clientStats = path.resolve('./build/loadable-stats.json');
 
 function createPage(
     html: string, 
-    collected:{ script: string; link: string; style:string;}
+    collected: { script: string; link: string; style: string}
     ) 
     {
     return `<!doctype html>

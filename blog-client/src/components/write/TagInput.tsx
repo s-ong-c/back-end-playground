@@ -137,7 +137,7 @@ const TagInput: React.SFC<TagInputProps> = (props, ref) => {
         insertTag(e.currentTarget.innerText);
       }
     },
-    [tags, value],
+    [insertTag, tags, value],
   );
 
   const onFocus = () => {

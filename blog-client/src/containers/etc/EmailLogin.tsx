@@ -1,5 +1,4 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import { withRouter, RouteComponentProps } from 'react-router';
 import qs from 'qs';
 import { emailCodeLogin } from '../../lib/api/auth';
@@ -37,7 +36,7 @@ const EmailLogin: React.SFC<EmailLoginProps> = props => {
       }
     };
     fn();
-  }, []);
+  }, [props.history, props.location.search]);
   return null;
 };
 

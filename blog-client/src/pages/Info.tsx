@@ -4,9 +4,9 @@ const { useReducer } = React;
 interface InfoProps{}
 interface Action {
     name: string;
-    value:string;
+    value: string;
 }
-function reducer(state:any, action:Action) {
+function reducer(state: any, action: Action) {
     return {
       ...state,
       [action.name]: action.value

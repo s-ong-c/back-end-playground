@@ -70,7 +70,7 @@ const AddLink: React.SFC<AddLinkProps> = ({
       e.preventDefault();
       onConfirm(value);
     },
-    [value],
+    [onConfirm, value],
   );
   const input = useRef<HTMLInputElement>(null);
   useEffect(() => {

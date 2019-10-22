@@ -5,9 +5,9 @@ export type AuthMode = 'REGISTER' | 'LOGIN'
 type CoreState = {
   layer: boolean;
   auth: {
-    visible: boolean,
-    mode: AuthMode,
-  }
+    visible: boolean;
+    mode: AuthMode;
+  };
 };
 
 type CoreActions = {

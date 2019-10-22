@@ -3,9 +3,9 @@ import * as React from 'react';
 const { useReducer } = React;
 interface CounterProps{}
 interface Action {
-    type: String;
+    type: string;
 }
-function reducer(state:any, action:Action) {
+function reducer(state: any, action: Action) {
     // action.type 에 따라 다른 작업 수행
     switch (action.type) {
       case 'INCREMENT':

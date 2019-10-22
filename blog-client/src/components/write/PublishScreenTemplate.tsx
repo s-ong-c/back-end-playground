@@ -73,7 +73,7 @@ const PublishScreenTemplate: React.SFC<PublishScreenTemplateProps> = ({
         clearTimeout(timeoutId);
       }
     };
-  }, [visible]);
+  }, [animate, visible]);
   if (!visible && !animate) return null;
   return (
     <PublishScreenTemplateBlock visible={!visible}>

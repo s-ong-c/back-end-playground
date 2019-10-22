@@ -63,7 +63,7 @@ const HeaderContainer: React.SFC<HeaderContainerProps> = ({
       document.removeEventListener('scroll', onScroll);
     };
     return reset;
-  }, [floating, baseY, floatingMargin]);
+  }, [floating, baseY, floatingMargin, onScroll]);
 
   const onLoginClick = () => {
     // core.actions.showAuthModal('LOGIN');

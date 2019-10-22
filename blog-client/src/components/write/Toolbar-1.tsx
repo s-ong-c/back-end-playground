@@ -107,7 +107,7 @@ const Toolbar: React.SFC<ToolbarProps> = ({ visible }) => {
     return () => {
       document.removeEventListener('scroll', onScroll);
     };
-  }, [shadow]);
+  }, [onScroll, shadow]);
 
   return (
     <ToolbarBlock visible={visible} id="toolbar" shadow={shadow}>

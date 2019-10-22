@@ -94,7 +94,7 @@ const RegisterFormContainer: React.SFC<RegisterFormContainerProps> = ({
       // TODO : show Error page
     }
     onGetRegisterToken(query.code);
-  }, []);
+  }, [onGetRegisterToken, query.code]);
   return (
     <RegisterForm
       onSubmit={onSubmint}

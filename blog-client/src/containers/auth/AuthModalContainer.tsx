@@ -35,11 +35,11 @@ const AuthModalContainer: React.SFC<AuthModalContainerProps> = ({
   const onClose = useCallback(() => {
     closeAuthModal();
     resetSendAuthEmail();
-  }, []);
+  }, [closeAuthModal, resetSendAuthEmail]);
   const onToggleMode = useCallback(() => {
     const nextMode = mode === 'REGISTER' ? 'LOGIN' : 'REGISTER';
     changeAuthModalMode(nextMode);
-  }, [mode]);
+  }, [changeAuthModalMode, mode]);
   // const [load, setLoad ] = useState(false);
   //  const [registered, setRegistered] = useState<boolean | null>(null);
   const registered = data && data.registered;
@@ -53,7 +53,7 @@ const AuthModalContainer: React.SFC<AuthModalContainerProps> = ({
     // } catch (e) {
     //     console.log(e);
     // }
-  }, []);
+  }, [_sendAuthEmail]);
   return (
     <AuthModal visible={visible} onClose={onClose}>
       <AuthForm
