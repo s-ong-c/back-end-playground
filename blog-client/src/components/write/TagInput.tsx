@@ -68,18 +68,11 @@ export interface TagInputProps {
   tags: string[];
   onChange: (tags: string[]) => void;
 }
-const TagItem: React.FC<{
-  onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-}> = ({ onClick, children }) => {
-  return <Tag onClick={onClick}># {children}</Tag>;
-};
-
 const { useState, useCallback, useEffect, useRef } = React;
-const TagInput: React.SFC<TagInputProps> = (props, ref) => {
+const TagInput: React.FC<TagInputProps> = props => {
   const [tags, setTags] = useState<string[]>([]);
   const [value, setValue] = useState('');
   const [focus, setFocus] = useState(false);
-
   const ignore = useRef(false);
   const editableDiv = useRef<HTMLDivElement>(null);
 
@@ -91,23 +84,30 @@ const TagInput: React.SFC<TagInputProps> = (props, ref) => {
     if (tags.length === 0) return;
     props.onChange(tags);
   });
+
   const onChange = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     if (ignore.current) {
-      // 중복 입력시 초기화
-      setValue('');
       ignore.current = false;
       return;
     }
+
     setValue(e.target.innerText);
+  }, []);
+
+  const onPaste = useCallback((e: React.ClipboardEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const text = e.clipboardData.getData('text');
+    document.execCommand('insertText', false, text);
   }, []);
 
   useEffect(() => {
     if (editableDiv.current) {
       if (value === '') {
-        editableDiv.current.innerHTML = value;
+        editableDiv.current.innerText = value;
       }
     }
   }, [value]);
+
   const insertTag = useCallback(
     (tag: string) => {
       ignore.current = true;
@@ -117,11 +117,6 @@ const TagInput: React.SFC<TagInputProps> = (props, ref) => {
     },
     [tags],
   );
-  const onPaste = useCallback((e: React.ClipboardEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const text = e.clipboardData.getData('text');
-    document.execCommand('insertText', false, text);
-  }, []);
 
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -129,10 +124,9 @@ const TagInput: React.SFC<TagInputProps> = (props, ref) => {
         setTags(tags.slice(0, tags.length - 1));
         return;
       }
-
       const keys = [',', 'Enter'];
       if (keys.includes(e.key)) {
-        // 태그 삽입
+        // 등록
         e.preventDefault();
         insertTag(e.currentTarget.innerText);
       }
@@ -147,39 +141,38 @@ const TagInput: React.SFC<TagInputProps> = (props, ref) => {
   const onBlur = () => {
     setFocus(false);
   };
+
   const onRemove = (tag: string) => {
     const nextTags = tags.filter(t => t !== tag);
     setTags(nextTags);
   };
 
   return (
-    <>
-      <TagInputBlock>
-        {tags.map(tag => (
-          <TagItem key={tag} onClick={() => onRemove(tag)}>
-            {tag}
-          </TagItem>
-        ))}
-        <EditableContent
-          contentEditable={true}
-          placeholder="#태그입력"
-          tabIndex={2}
-          onKeyDown={onKeyDown}
-          onPaste={onPaste}
-          onInput={onChange}
-          ref={editableDiv}
-          onFocus={onFocus}
-          onBlur={onBlur}
-        />
-        <Help visible={focus}>
-          <div className="inside">
-            Enter 를 사용하여 태그를 사용해보세요!
-            <br />
-            등록된 태그를 클릭하면 삭제됩니다.
-          </div>
-        </Help>
-      </TagInputBlock>
-    </>
+    <TagInputBlock>
+      {tags.map(tag => (
+        <Tag key={tag} onClick={() => onRemove(tag)}>
+          {tag}
+        </Tag>
+      ))}
+      <EditableContent
+        contentEditable={true}
+        placeholder="태그를 입력하세요"
+        tabIndex={2}
+        onKeyDown={onKeyDown}
+        onInput={onChange}
+        ref={editableDiv}
+        onPaste={onPaste}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      />
+      <Help visible={focus}>
+        <div className="inside">
+          쉼표 혹은 엔터를 입력하여 태그를 등록 할 수 있습니다.
+          <br />
+          등록된 태그를 클릭하면 삭제됩니다.
+        </div>
+      </Help>
+    </TagInputBlock>
   );
 };
 

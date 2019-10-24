@@ -32,7 +32,7 @@ describe('TagInput', () => {
     const utils = setup({
       onChange,
     });
-    const editableBlock = utils.getByPlaceholderText('#태그입력');
+    const editableBlock = utils.getByPlaceholderText('태그를 입력하세요');
     fireEvent.change(editableBlock, {
       target: {
         innerText: '태그1',
