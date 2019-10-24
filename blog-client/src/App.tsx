@@ -2,10 +2,6 @@ import * as React from 'react';
 import { Route, Switch } from 'react-router';
 import MainPage from './pages/main/MainPage';
 import PostPage from './pages/PostPage';
-import loadable from '@loadable/component';
-import Counter from './pages/Counter';
-import Info from './pages/Info';
-import InfoPage from './pages/InfoPage';
 import Core from './containers/base/Core';
 import RegisterPage from './pages/RegisterPage';
 import EmailLoginPage from './pages/EmailLoginPage';
@@ -17,9 +13,9 @@ interface AppProps {}
 
 const App: React.SFC<AppProps> = props => {
   return (
-  <>
+    <>
       <Switch>
-        <Route path="/" component={MainPage} exact  />
+        <Route path="/" component={MainPage} exact />
         <Route path="/register" component={RegisterPage} />
         <Route path="/:mode(trending|recent|following)" component={MainPage} />
         <Route path="/@:username/:urlSlug" component={PostPage} />
@@ -29,7 +25,7 @@ const App: React.SFC<AppProps> = props => {
         <Route path="/counter" component={Counter} /> */}
       </Switch>
       <Core />
-  </>
+    </>
   );
 };
 

@@ -26,11 +26,6 @@ interface AuthSocialButtonProps {
   provider: 'facebook' | 'github' | 'google';
   tabIndex?: number;
 }
-const iconMap = {
-  facebook: FacebookIcon,
-  google: GoogleIcon,
-  github: GithubIcon,
-};
 
 const providerMap = {
   github: {

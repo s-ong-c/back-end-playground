@@ -22,14 +22,14 @@ interface DispatchProps {
 }
 type AuthModalContainerProps = OwnProps & StateProps & DispatchProps;
 
-const { useCallback, useState } = React;
+const { useCallback } = React;
 const AuthModalContainer: React.SFC<AuthModalContainerProps> = ({
   visible,
   mode,
   closeAuthModal,
   changeAuthModalMode,
 }) => {
-  const [_sendAuthEmail, loading, data, error, resetSendAuthEmail] = useRequest<
+  const [_sendAuthEmail, loading, data, , resetSendAuthEmail] = useRequest<
     SendAuthEmailResponse
   >(sendAuthEmail);
   const onClose = useCallback(() => {
@@ -43,17 +43,20 @@ const AuthModalContainer: React.SFC<AuthModalContainerProps> = ({
   // const [load, setLoad ] = useState(false);
   //  const [registered, setRegistered] = useState<boolean | null>(null);
   const registered = data && data.registered;
-  const onSendAuthEmail = useCallback(async (email: string) => {
-    _sendAuthEmail(email);
-    // try {
-    //     setLoad(true);
-    //     const result = await sendAuthEmail(email);
-    //     setLoad(false);
-    //     setRegistered(result.data.registered);
-    // } catch (e) {
-    //     console.log(e);
-    // }
-  }, [_sendAuthEmail]);
+  const onSendAuthEmail = useCallback(
+    async (email: string) => {
+      _sendAuthEmail(email);
+      // try {
+      //     setLoad(true);
+      //     const result = await sendAuthEmail(email);
+      //     setLoad(false);
+      //     setRegistered(result.data.registered);
+      // } catch (e) {
+      //     console.log(e);
+      // }
+    },
+    [_sendAuthEmail],
+  );
   return (
     <AuthModal visible={visible} onClose={onClose}>
       <AuthForm

@@ -14,7 +14,6 @@ import {
 import { FaMarkdown } from 'react-icons/fa';
 import palette from '../../lib/styles/palette';
 import zIndexes from '../../lib/styles/zIndexes';
-import { getScrollTop } from '../../lib/utils';
 
 const ToolbarBlock = styled.div<{
   shadow: boolean;
@@ -98,7 +97,6 @@ export interface ToolbarProps {
   onConvert?: () => void;
 }
 
-const { useEffect, useState, useCallback } = React;
 const Toolbar: React.SFC<ToolbarProps> = ({
   shadow,
   mode,

@@ -73,7 +73,10 @@ const PostCard: React.SFC<PostCardProps> = React.memo(({ post }) => {
   return (
     <PostCardBlock>
       <div className="user-info">
-        <img src={post.user.profile.thumbnail || defaultThumbnail} />
+        <img
+          src={post.user.profile.thumbnail || defaultThumbnail}
+          alt="thumbnail"
+        />
         <div className="username">{post.user.username}</div>
       </div>
 
@@ -81,7 +84,7 @@ const PostCard: React.SFC<PostCardProps> = React.memo(({ post }) => {
         <img
           className="post-thumbnail"
           src={post.thumbnail}
-          //"https://thumb.velog.io/resize?url=https://images.velog.io/post-images/velopert/fa31faf0-95cb-11e9-9edc-c99912cb3e22/55c1bff8-8014-4997-9b0b-e5f52f1ddfed.jpeg&width=512"
+          alt="post-thumbnail"
         />
       )}
       <h2>{post.title}</h2>

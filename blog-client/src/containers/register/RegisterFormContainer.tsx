@@ -22,16 +22,12 @@ const RegisterFormContainer: React.SFC<RegisterFormContainerProps> = ({
   const query: { code?: string } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
-  const [onGetRegisterToken, loading, registerToken] = useRequest<
+  const [onGetRegisterToken, , registerToken] = useRequest<
     GetRegisterTokenResponse
   >((code: string) => getRegisterToken(code));
 
   const [error, setError] = useState<null | string>(null);
-  const [
-    onLocalRegister,
-    localRegisterLoading,
-    localRegisterResult,
-  ] = useRequest<AuthResponse>(localEmailRegister);
+  const [onLocalRegister, ,] = useRequest<AuthResponse>(localEmailRegister);
 
   const onSubmint = async (form: RegisterFormType) => {
     // validate

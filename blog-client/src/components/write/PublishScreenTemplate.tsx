@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 import palette from '../../lib/styles/palette';
 import zIndexes from '../../lib/styles/zIndexes';
 import transitions from '../../lib/styles/transitions';
-import HideScroll from '../common/HideScroll';
 const PublishScreenTemplateBlock = styled.div<{ visible: boolean }>`
   display: flex;
   justify-content: center;

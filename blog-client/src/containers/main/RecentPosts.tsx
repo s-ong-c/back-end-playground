@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PostCardList from '../../components/common/PostCardList';
 import { Query, QueryResult } from 'react-apollo';
-import { GET_POST_LIST, Post, PartialPost } from '../../lib/graphql/post';
+import { GET_POST_LIST, PartialPost } from '../../lib/graphql/post';
 import ScrollingPagination from '../../components/common/ScrollingPagination';
 import client from '../../lib/graphql/client';
 

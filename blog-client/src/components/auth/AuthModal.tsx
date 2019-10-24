@@ -5,7 +5,6 @@ import zIndexes from '../../lib/styles/zIndexes';
 import palette from '../../lib/styles/palette';
 import { done } from '../../static/images';
 import transitions from '../../lib/styles/transitions';
-import useMounted from '../../lib/hooks/useMounted';
 
 const { useState, useEffect } = React;
 const AuthModalBlock = styled.div<{ visible: boolean }>`
@@ -90,7 +89,6 @@ const AuthModal: React.SFC<AuthModalProps> = ({
   onClose,
 }) => {
   const [closed, setClosed] = useState(true);
-  const mounted = useMounted();
   useEffect(() => {
     //    if (!mounted) return;
     let timeoutId: number | null = null;

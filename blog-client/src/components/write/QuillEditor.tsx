@@ -5,7 +5,6 @@ import Quill, { RangeStatic } from 'quill';
 import 'highlight.js/styles/atom-one-dark.css';
 import 'quill/dist/quill.snow.css';
 import MarkdownShortcuts from '../../lib/quill/markdownShortcuts';
-import TextareaAutosize from 'react-textarea-autosize';
 import palette from '../../lib/styles/palette';
 import Toolbar from './Toolbar';
 import AddLink from './AddLink';
@@ -13,12 +12,9 @@ import postStyles from '../../lib/styles/postStyles';
 import TitleTextarea from './TitleTextarea';
 import { getScrollTop, detectJSDOM, getScrollBottom } from '../../lib/utils';
 import convertToMarkdown from '../../lib/convertToMarkdown';
-import PopupOKCancel from '../common/PopupOKCancel';
 
-import PopupBase from '../common/PopupBase';
 import AskChangeEditor from './AskChangeEditor';
 import { WriteMode } from '../../modules/write';
-import TagInput from './TagInput';
 import zIndexes from '../../lib/styles/zIndexes';
 
 Quill.register('modules/markdownShortcuts', MarkdownShortcuts);
@@ -331,7 +327,7 @@ export default class QuillEditor extends React.Component<
       if (format['code-block']) {
         let indentation = getIndent(lastLine);
         const shouldExtraIndent = (() => {
-          return /\)\:$/.test(lastLine) || /\)? ?{$/.test(lastLine);
+          return /\):$/.test(lastLine) || /\)? ?{$/.test(lastLine);
         })();
         if (shouldExtraIndent) {
           indentation += 2;
@@ -451,7 +447,6 @@ export default class QuillEditor extends React.Component<
     const {
       addLink,
       addLinkPosition,
-      titleFocus,
       askChangeEditor,
       addLinkDefaultValue,
       shadow,

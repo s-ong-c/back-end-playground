@@ -2,7 +2,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { CurrentUser } from '../../lib/graphql/user';
 import { MdArrowDropDown } from 'react-icons/md';
-import { defaultThumbnail } from '../../static/images';
 import palette from '../../lib/styles/palette';
 const HeaderUserIconBlock = styled.div`
   cursor: pointer;

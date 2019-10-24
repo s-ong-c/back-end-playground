@@ -1,8 +1,7 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
-import palette, { buttonColorMap } from '../../lib/styles/palette';
+import { buttonColorMap } from '../../lib/styles/palette';
 import { Route } from 'react-router';
-import Button from './Button';
 
 type ButtonSize = 'SMALL' | 'DEFAULT' | 'LARGE';
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
-import { Logo, Register } from '../../static/svg';
+import { Register } from '../../static/svg';
 
 const RegisterTemplateBlock = styled.div`
   width: 768px;

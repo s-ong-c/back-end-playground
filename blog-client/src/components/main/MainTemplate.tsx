@@ -1,7 +1,6 @@
 import * as React from 'react';
-import styled, { StyledComponent } from 'styled-components';
+import styled from 'styled-components';
 import PageTemplate from '../base/PageTemplate';
-import { any } from 'prop-types';
 import { breakpoints } from '../../lib/styles/responsive';
 
 const MainTemplateBlock = styled(PageTemplate)`

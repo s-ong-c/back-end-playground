@@ -1,9 +1,6 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import PopupOKCancel from '../common/PopupOKCancel';
 import { WriteMode } from '../../modules/write';
-
-const AskChangeEditorBlock = styled.div``;
 
 export interface AskChangeEditorProps {
   visible: boolean;
