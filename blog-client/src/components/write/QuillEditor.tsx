@@ -22,6 +22,8 @@ Quill.register('modules/markdownShortcuts', MarkdownShortcuts);
 export interface QuillEditorProps {
   onConvertEditorMode: (markdown: string) => void;
   onChangeTitle: (title: string) => void;
+  onChangeHTML: (html: string) => void;
+  onChangeTextBody: (text: string) => void;
   title: string;
   initialHtml: string;
 
@@ -343,6 +345,8 @@ export default class QuillEditor extends React.Component<
       }
     };
     quill.on('text-change', (delta, oldContents, source) => {
+      this.props.onChangeHTML(quill.root.innerHTML);
+      this.props.onChangeTextBody(quill.getText());
       const lastOps = delta.ops[delta.ops.length - 1];
       if (lastOps) {
         if (lastOps.insert === '\n') {

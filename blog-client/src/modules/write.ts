@@ -5,6 +5,7 @@ const CHANGE_MARKDOWN = 'write/CHANGE_MARKDOWN';
 const CHANGE_TITLE = 'write/CHANGE_TITLE';
 const CONVERT_EDITOR_MODE = 'write/CONVERT_EDITOR_MODE';
 const SET_HTML = 'write/SET_HTML';
+const SET_TEXT_BODY = 'write/SET_TEXT_BODY';
 const CHANGE_TAGS = 'write/CHANGE_TAGS';
 const OPEN_PUBLISH = 'write/OPEN_PUBLISH';
 const CLOSE_PUBLISH = 'write/CLOSE_PUBLISH';
@@ -16,6 +17,7 @@ export const setHtml = createStandardAction(SET_HTML)<string>();
 export const changeTags = createStandardAction(CHANGE_TAGS)<string[]>();
 export const openPublish = createStandardAction(OPEN_PUBLISH)<void>();
 export const closePublish = createStandardAction(CLOSE_PUBLISH)<void>();
+export const setTextBody = createStandardAction(SET_TEXT_BODY)<string>();
 
 type ChangeMarkdown = ReturnType<typeof changeMarkdown>;
 type ChangeTitle = ReturnType<typeof changeTitle>;
@@ -23,6 +25,7 @@ type SetHtml = ReturnType<typeof setHtml>;
 type ChangeTags = ReturnType<typeof changeTags>;
 type OpenPublish = ReturnType<typeof openPublish>;
 type ClosePublish = ReturnType<typeof closePublish>;
+type SetTextBody = ReturnType<typeof setTextBody>;
 
 export enum WriteMode {
   MARKDOWN = 'MARKDOWN',
@@ -36,6 +39,7 @@ export type WriteState = {
   html: string;
   tags: string[];
   publish: boolean;
+  textBody: string;
 };
 
 const initialState: WriteState = {
@@ -45,6 +49,7 @@ const initialState: WriteState = {
   html: '',
   tags: [],
   publish: false,
+  textBody: '',
 };
 
 const write = createReducer(
@@ -67,6 +72,8 @@ const write = createReducer(
       updateKey(state, 'tags', action.payload),
     [OPEN_PUBLISH]: state => updateKey(state, 'publish', true),
     [CLOSE_PUBLISH]: state => updateKey(state, 'publish', false),
+    [SET_TEXT_BODY]: (state, { payload: textBody }: SetTextBody) =>
+      updateKey(state, 'textBody', textBody),
   },
   initialState,
 );

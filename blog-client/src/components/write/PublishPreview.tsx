@@ -81,7 +81,9 @@ const TextLimit = styled.div`
   color: ${palette.gray6};
 `;
 
-export interface PublishPreviewProps {}
+export interface PublishPreviewProps {
+  title: string;
+}
 
 interface ThumbnailProps {}
 const Thumbnail: React.SFC<ThumbnailProps> = () => {
@@ -96,12 +98,13 @@ const Thumbnail: React.SFC<ThumbnailProps> = () => {
     </ThumbnailSizer>
   );
 };
-const PublishPreview: React.SFC<PublishPreviewProps> = props => {
+const PublishPreview: React.SFC<PublishPreviewProps> = ({ title }) => {
   return (
     <PublishPreviewBlock title="포스트카드 미리보기">
       <Thumbnail />
       <PostInfo>
-        <h4>Git 101: Git workflow to get you started pushing code.</h4>
+        {/* <h4>Git 101: Git workflow to get you started pushing code.</h4> */}
+        <h4>{title}</h4>
         <ShortDescriptionTextarea />
         <TextLimit>118/150</TextLimit>
       </PostInfo>
