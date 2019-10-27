@@ -16,7 +16,7 @@ describe('QuillEditor', () => {
     };
     const utils = render(<QuillEditor {...initialProps} {...props} />);
     const titleTextarea = utils.getByPlaceholderText(
-      '제목을 입력하세요',
+      'Title',
     ) as HTMLTextAreaElement;
     return {
       titleTextarea,
