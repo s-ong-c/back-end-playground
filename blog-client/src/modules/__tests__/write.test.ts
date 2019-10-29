@@ -72,6 +72,10 @@ describe('write redux module', () => {
       let state = getInitialState();
       state = reducer(state, write.changeDescription('description'));
       expect(state.description).toBe('description');
+      const longText = new Array(151).fill('a').join('');
+      state = reducer(state, write.changeDescription(longText));
+      expect(state.description).toBe(longText.slice(0, 150));
+      expect(state.description).toHaveLength(150);
     });
   });
 });

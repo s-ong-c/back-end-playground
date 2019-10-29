@@ -95,7 +95,7 @@ const write = createReducer(
     [CHANGE_DESCRIPTION]: (
       state,
       { payload: description }: ChangeDescription,
-    ) => updateKey(state, 'description', description),
+    ) => updateKey(state, 'description', description.slice(0, 150)),
   },
   initialState,
 );
