@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PublishSection from './PublishSection';
 import palette from '../../lib/styles/palette';
 import { ImageVector } from '../../static/svg';
@@ -74,11 +74,16 @@ const ShortDescriptionTextarea = styled.textarea`
   margin-top: 0.5rem;
 `;
 
-const TextLimit = styled.div`
+const TextLimit = styled.div<{ limit: boolean }>`
   text-align: right;
   margin-top: 0.25rem;
   font-size: 0.75rem;
   color: ${palette.gray6};
+  ${props =>
+    props.limit &&
+    css`
+      color: ${palette.red6};
+    `}
 `;
 
 export interface PublishPreviewProps {
@@ -122,7 +127,9 @@ const PublishPreview: React.SFC<PublishPreviewProps> = ({
           value={descriptionToShow}
           onChange={onChange}
         />
-        <TextLimit>{descriptionToShow.length}/150</TextLimit>
+        <TextLimit limit={descriptionToShow.length === 150}>
+          {descriptionToShow.length}/150
+        </TextLimit>
       </PostInfo>
     </PublishPreviewBlock>
   );

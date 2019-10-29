@@ -67,4 +67,12 @@ describe('PublishPreview', () => {
     });
     utils.getByText('11/150');
   });
+  it('text limit turns red', () => {
+    const longDescription = new Array(150).fill('a').join('');
+    const utils = setup({ description: longDescription });
+    const textLimitDiv = utils.getByText('150/150');
+    expect(window.getComputedStyle(textLimitDiv).color).toBe(
+      'rgb(250, 82, 82)',
+    );
+  });
 });
