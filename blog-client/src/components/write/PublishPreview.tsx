@@ -116,6 +116,14 @@ const PublishPreview: React.SFC<PublishPreviewProps> = ({
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChangeDescription(e.target.value);
   };
+  const onKeyDown = React.useCallback(
+    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+      }
+    },
+    [],
+  );
   return (
     <PublishPreviewBlock title="포스트카드 미리보기">
       <Thumbnail />
@@ -126,8 +134,14 @@ const PublishPreview: React.SFC<PublishPreviewProps> = ({
           placeholder="당신의 포스트를 소개해보세요"
           value={descriptionToShow}
           onChange={onChange}
+          onKeyDown={onKeyDown}
         />
-        <TextLimit limit={descriptionToShow.length === 150}>
+        <TextLimit
+          limit={
+            descriptionToShow !== defaultDescription &&
+            descriptionToShow.length === 150
+          }
+        >
           {descriptionToShow.length}/150
         </TextLimit>
       </PostInfo>

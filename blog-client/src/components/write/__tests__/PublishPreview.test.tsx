@@ -75,4 +75,13 @@ describe('PublishPreview', () => {
       'rgb(250, 82, 82)',
     );
   });
+  it('ignores enter', async () => {
+    const onChangeDescription = jest.fn();
+    const utils = setup({ onChangeDescription });
+    fireEvent.keyDown(utils.textarea, {
+      keyCode: 13,
+    });
+    await new Promise(resolve => setTimeout(resolve, 1));
+    expect(onChangeDescription).not.toBeCalled();
+  });
 });
