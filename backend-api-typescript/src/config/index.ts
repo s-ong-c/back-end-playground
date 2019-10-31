@@ -2,18 +2,18 @@ require('dotenv').config();
 
 export const config = {
   development: {
-    username: 'songc',
+    username: 'song',
     password: process.env.SEQUELIZE_PASSWORD,
-    database: 'songc',
+    database: 'song',
     host: '127.0.0.1',
-    dialect: 'mysql',
+    dialect: 'mysql'
   },
   production: {
-    username: 'songc',
+    username: 'song',
     password: process.env.SEQUELIZE_PASSWORD,
-    database: 'songc',
+    database: 'song',
     host: '127.0.0.1',
     dialect: 'mysql',
-    logging: false,
-  },
+    logging: false
+  }
 };
