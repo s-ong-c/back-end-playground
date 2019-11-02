@@ -27,6 +27,7 @@ const Button = styled.button<{ active: boolean }>`
   padding-left: 1rem;
   border-radius: 4px;
   cursor: pointer;
+  border: 1px solid transparent;
   &:hover {
     background: #fdfdfd;
   }
@@ -43,27 +44,30 @@ const Button = styled.button<{ active: boolean }>`
     margin-left: 1rem;
   }
 `;
-export enum PrivacySetting {
-  PRIVATE = 'PRIVATE',
-  PUBLIC = 'PUBLIC',
-}
 
 export interface PublishPrivacySettingsProps {
-  selected: PrivacySetting;
-  onSelect: (value: PrivacySetting) => any;
+  isPrivate: boolean;
+  onSelect: (value: boolean) => any;
 }
-
+const { useCallback } = React;
 const PublishPrivacySettings: React.SFC<PublishPrivacySettingsProps> = ({
-  selected,
+  isPrivate,
   onSelect,
 }) => {
+  const onClickPrivate = useCallback(() => {
+    onSelect(true);
+  }, [onSelect]);
+  const onClickPublic = useCallback(() => {
+    onSelect(false);
+  }, [onSelect]);
+  console.log(isPrivate);
   return (
     <PublishPrivacySettingsBlock title="공개 설정">
-      <Button active={selected === PrivacySetting.PUBLIC}>
+      <Button active={!isPrivate} onClick={onClickPublic}>
         <GlobeIcon />
         전체 공개
       </Button>
-      <Button active={selected === PrivacySetting.PRIVATE}>
+      <Button active={isPrivate} onClick={onClickPrivate}>
         <LockIcon />
         나만 보기
       </Button>

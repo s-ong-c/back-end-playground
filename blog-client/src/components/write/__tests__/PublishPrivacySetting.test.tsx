@@ -1,14 +1,13 @@
 import * as React from 'react';
-import { render } from 'react-testing-library';
+import { render, fireEvent } from 'react-testing-library';
 import PublishPrivacySettings, {
   PublishPrivacySettingsProps,
-  PrivacySetting,
 } from '../PublishPrivacySettings';
 
 describe('PublishPrivacySettings', () => {
   const setup = (props: Partial<PublishPrivacySettingsProps> = {}) => {
     const initialProps: PublishPrivacySettingsProps = {
-      selected: PrivacySetting.PUBLIC,
+      isPrivate: false,
       onSelect: () => {},
     };
     const utils = render(
@@ -38,11 +37,18 @@ describe('PublishPrivacySettings', () => {
       );
     });
     it('PRIVATE', () => {
-      const utils = setup({ selected: PrivacySetting.PRIVATE });
+      const utils = setup({ isPrivate: true });
       expect(getComputedStyle(utils.buttons.private).color).toBe(
         'rgb(32, 201, 151)',
       );
     });
   });
-  // it('call onSelect fucntion onClick')
+  it('call onSelect fucntion onClick', () => {
+    const onSelect = jest.fn();
+    const utils = setup({ onSelect });
+    fireEvent.click(utils.buttons.private);
+    expect(onSelect).toBeCalledWith(true);
+    fireEvent.click(utils.buttons.public);
+    expect(onSelect).toBeCalledWith(false);
+  });
 });

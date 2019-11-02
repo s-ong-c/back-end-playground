@@ -1,29 +1,31 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../modules';
-import PublishPrivacySettings, {
-  PrivacySetting,
-} from '../../components/write/PublishPrivacySettings';
-
+import PublishPrivacySettings from '../../components/write/PublishPrivacySettings';
+import { setPrivacy } from '../../modules/write';
+const mapStateToProps = (state: RootState) => ({
+  isPrivate: state.write.isPrivate,
+});
+const mapDispatchToProps = {
+  setPrivacy,
+};
 interface OwnProps {}
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
-type PublishPrivacySettingContainerProps = OwnProps &
+export type PublishPrivacySettingContainerProps = OwnProps &
   StateProps &
   DispatchProps;
 
-const mapStateToProps = (state: RootState) => ({});
-const mapDispatchToProps = {};
-
 const PublishPrivacySettingContainer: React.SFC<
   PublishPrivacySettingContainerProps
-> = props => {
-  return (
-    <PublishPrivacySettings
-      selected={PrivacySetting.PUBLIC}
-      onSelect={() => {}}
-    />
+> = ({ isPrivate, setPrivacy }) => {
+  const onSelect = React.useCallback(
+    isPrivate => {
+      setPrivacy(isPrivate);
+    },
+    [setPrivacy],
   );
+  return <PublishPrivacySettings isPrivate={isPrivate} onSelect={onSelect} />;
 };
 
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(
