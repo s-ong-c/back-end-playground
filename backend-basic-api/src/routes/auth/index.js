@@ -1,8 +1,8 @@
-const Router = require('koa-router')
-const axios = require('axios')
-const stringify = require('json-stringify-safe')
-require('dotenv').config()
-const auth = new Router()
+const Router = require('koa-router');
+const axios = require('axios');
+const stringify = require('json-stringify-safe');
+require('dotenv').config();
+const auth = new Router();
 auth.get('/drugs', async (ctx, next) => {
   try {
     await axios
@@ -15,11 +15,11 @@ auth.get('/drugs', async (ctx, next) => {
         // const drugStore = JSON.parse(stringify(data.data.response.body.items));
         ctx.body = {
           Store: JSON.parse(stringify(data.data.response.body.items.item))
-        }
-      })
+        };
+      });
   } catch (err) {
-    ctx.throw(500, err)
+    ctx.throw(500, err);
   }
-})
+});
 
-module.exports = auth
+module.exports = auth;
