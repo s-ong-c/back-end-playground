@@ -1,12 +1,14 @@
 import { createStandardAction } from 'typesafe-actions';
 import produce from 'immer';
-import { createReducer } from '../lib/utils';
+import { createReducer, updateKey } from '../lib/utils';
+import { User } from '../lib/graphql/user';
 
 // actions 함수
 const SET_LAYER = 'core/SET_LAYER';
 const SHOW_AUTH_MODAL = 'core/SHOW_AUTH_MODAL';
 const CHANGE_AUTH_MODAL_MODE = 'core/CHANGE_AUTH_MODAL_MODE';
 const CLOSE_AUTH_MODAL = 'core/CLOSE_AUTH_MODAL';
+const SET_USER = 'core/SET_USER';
 
 export type AuthMode = 'REGISTER' | 'LOGIN';
 
@@ -16,17 +18,19 @@ export const changeAuthModalMode = createStandardAction(CHANGE_AUTH_MODAL_MODE)<
   AuthMode
 >();
 export const closeAuthModal = createStandardAction(CLOSE_AUTH_MODAL)();
+export const setUser = createStandardAction(SET_USER)<User | null>();
 
 type SetLayer = ReturnType<typeof setLayer>;
 type ShowAuthModal = ReturnType<typeof showAuthModal>;
 type ChangeAuthModalMode = ReturnType<typeof changeAuthModalMode>;
-
+type SetUser = ReturnType<typeof setUser>;
 export type CoreState = {
   layer: boolean;
   auth: {
     visible: boolean;
     mode: AuthMode;
   };
+  user: User | null;
 };
 const initialState: CoreState = {
   layer: false,
@@ -34,6 +38,7 @@ const initialState: CoreState = {
     visible: false,
     mode: 'LOGIN',
   },
+  user: null,
 };
 const core = createReducer<CoreState>(
   {
@@ -56,6 +61,8 @@ const core = createReducer<CoreState>(
         draft.auth.visible = false;
         draft.layer = false;
       }),
+    [SET_USER]: (state, { payload: user }: SetUser) =>
+      updateKey(state, 'user', user),
   },
   initialState,
 );
