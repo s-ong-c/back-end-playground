@@ -89,11 +89,7 @@ const Header: React.SFC<HeaderProps> = ({
                 >
                   새 글 작성
                 </RoundButton>
-                <HeaderUserIcon
-                  user={user}
-                  img={user.profile.thumbnail}
-                  onClick={toggleUserMenu}
-                />
+                <HeaderUserIcon user={user} onClick={toggleUserMenu} />
                 <HeaderUserMenu
                   onClose={toggleUserMenu}
                   username={user.username}

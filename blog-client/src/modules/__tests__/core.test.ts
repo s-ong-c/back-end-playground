@@ -1,20 +1,14 @@
 import * as core from '../core';
-import { User } from '../../lib/graphql/user';
+import { CurrentUser } from '../../lib/graphql/user';
 
 const reducer = core.default;
 
-export const dummy: User = {
+export const dummy: CurrentUser = {
   id: 'sampleId',
   username: 'dummy',
-  email: 'dummy@gmail.com',
-  is_certified: true,
   profile: {
-    id: 'dummy_profile_id',
     display_name: '',
-    short_bio: 'i am dummy_user',
     thumbnail: null,
-    about: 'about dummy',
-    profile_links: {},
   },
 };
 describe('core reducer', () => {

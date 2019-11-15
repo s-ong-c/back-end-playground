@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { CurrentUser } from '../../lib/graphql/user';
 import { MdArrowDropDown } from 'react-icons/md';
 import palette from '../../lib/styles/palette';
+import { defaultThumbnail } from '../../static/images';
 const HeaderUserIconBlock = styled.div`
   cursor: pointer;
   img {
@@ -34,13 +35,12 @@ const HeaderUserIconBlock = styled.div`
 export interface HeaderUserIconProps {
   user: CurrentUser;
   onClick: () => void;
-  img?: string;
 }
 
-const HeaderUserIcon: React.SFC<HeaderUserIconProps> = ({ onClick, img }) => {
+const HeaderUserIcon: React.SFC<HeaderUserIconProps> = ({ onClick, user }) => {
   return (
     <HeaderUserIconBlock onClick={onClick}>
-      <img src={img} alt="thumbnail" />
+      <img src={user.profile.thumbnail || defaultThumbnail} alt="thumbnail" />
       <MdArrowDropDown />
     </HeaderUserIconBlock>
   );

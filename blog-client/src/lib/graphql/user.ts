@@ -33,7 +33,7 @@ export type CurrentUser = {
   id: string;
   username: string;
   profile: {
-    thumbnail: string;
+    thumbnail: string | null;
     display_name: string;
   };
 };

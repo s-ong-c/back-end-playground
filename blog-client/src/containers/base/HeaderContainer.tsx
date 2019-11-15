@@ -4,13 +4,13 @@ import Header from '../../components/base/Header';
 import { getScrollTop } from '../../lib/utils';
 import { RootState } from '../../modules';
 import { showAuthModal } from '../../modules/core';
-import { Query, QueryResult } from 'react-apollo';
-import { GET_CURRENT_USER, CurrentUser } from '../../lib/graphql/user';
-import storage from '../../lib/storage';
+import { CurrentUser } from '../../lib/graphql/user';
 const { useEffect, useRef, useState, useCallback } = React;
 
 interface OwnProps {}
-interface StateProps {}
+interface StateProps {
+  user: CurrentUser | null;
+}
 interface DispatchProps {
   showAuthModal: typeof showAuthModal;
 }
@@ -18,6 +18,7 @@ type HeaderContainerProps = OwnProps & StateProps & DispatchProps;
 
 const HeaderContainer: React.SFC<HeaderContainerProps> = ({
   showAuthModal,
+  user,
 }) => {
   const lastY = useRef(0);
   const direction = useRef<null | 'UP' | 'DOWN'>(null);
@@ -70,28 +71,38 @@ const HeaderContainer: React.SFC<HeaderContainerProps> = ({
     showAuthModal('LOGIN');
   };
   return (
-    <Query query={GET_CURRENT_USER}>
-      {({ loading, error, data }: QueryResult<{ auth: CurrentUser }>) => {
-        const currentUser = storage.getItem('CURRENT_USER');
-        return (
-          <Header
-            floating={floating}
-            floatingMargin={floatingMargin}
-            onLoginClick={onLoginClick}
-            user={(() => {
-              if (loading) {
-                return currentUser;
-              }
-              return data ? data.auth : null;
-            })()}
-          />
-        );
-      }}
-    </Query>
+    <Header
+      floating={floating}
+      floatingMargin={floatingMargin}
+      onLoginClick={onLoginClick}
+      user={user}
+    />
   );
 };
+// return (
+//   <Query query={GET_CURRENT_USER}>
+//     {({ loading, error, data }: QueryResult<{ auth: CurrentUser }>) => {
+//       const currentUser = storage.getItem('CURRENT_USER');
+//       return (
+//         <Header
+//           floating={floating}
+//           floatingMargin={floatingMargin}
+//           onLoginClick={onLoginClick}
+//           user={(() => {
+//             if (loading) {
+//               return currentUser;
+//             }
+//             return data ? data.auth : null;
+//           })()}
+//         />
+//       );
+//     }}
+//   </Query>
+// );
 
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(
-  state => ({}),
+  state => ({
+    user: state.core.user,
+  }),
   { showAuthModal },
 )(HeaderContainer);

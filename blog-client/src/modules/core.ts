@@ -1,7 +1,7 @@
 import { createStandardAction } from 'typesafe-actions';
 import produce from 'immer';
 import { createReducer, updateKey } from '../lib/utils';
-import { User } from '../lib/graphql/user';
+import { CurrentUser } from '../lib/graphql/user';
 
 // actions 함수
 const SET_LAYER = 'core/SET_LAYER';
@@ -18,7 +18,7 @@ export const changeAuthModalMode = createStandardAction(CHANGE_AUTH_MODAL_MODE)<
   AuthMode
 >();
 export const closeAuthModal = createStandardAction(CLOSE_AUTH_MODAL)();
-export const setUser = createStandardAction(SET_USER)<User | null>();
+export const setUser = createStandardAction(SET_USER)<CurrentUser | null>();
 
 type SetLayer = ReturnType<typeof setLayer>;
 type ShowAuthModal = ReturnType<typeof showAuthModal>;
@@ -30,7 +30,7 @@ export type CoreState = {
     visible: boolean;
     mode: AuthMode;
   };
-  user: User | null;
+  user: CurrentUser | null;
 };
 const initialState: CoreState = {
   layer: false,
