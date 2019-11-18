@@ -12,11 +12,17 @@ const typeDef = gql`
   type Query {
     _version: String
   }
+  type Mutation {
+    _version: String
+  }
 `;
 
 const resolvers: IResolvers = {
   Query: {
     _version: () => '1.0'
+  },
+  Mutation: {
+    _version: () => 'v1.0'
   },
   Date: DateScalar
 };

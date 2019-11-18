@@ -35,6 +35,9 @@ export const typeDef = gql`
     posts(cursor: ID, limit: Int, username: String): [Post]
     trendingPosts(offset: Int, limit: Int): [Post]
   }
+  extend type Mutation {
+    writePost(title: String, body: String): Post
+  }
 `;
 
 export const resolvers: IResolvers = {
@@ -167,6 +170,13 @@ export const resolvers: IResolvers = {
 
       return ordered;
       return [];
+    }
+  },
+  Mutation: {
+    writePost: async (parent: any, args) => {
+      return {
+        id: 1
+      };
     }
   }
 };
