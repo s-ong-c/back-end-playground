@@ -1,4 +1,4 @@
-import { gql, IResolvers, ApolloError } from 'apollo-server-koa';
+import { gql, IResolvers, ApolloError, AuthenticationError } from 'apollo-server-koa';
 import Post from '../entity/Post';
 import { getRepository, getManager } from 'typeorm';
 import User from '../entity/User';
@@ -36,9 +36,29 @@ export const typeDef = gql`
     trendingPosts(offset: Int, limit: Int): [Post]
   }
   extend type Mutation {
-    writePost(title: String, body: String): Post
+    writePost(
+      title: String
+      body: String
+      tags: [String]
+      is_markdown: Boolean
+      is_temp: Boolean
+      url_slug: String
+      thumbnail: String
+      meta: JSON
+    ): Post
   }
 `;
+
+type WritePostArgs = {
+  title: String;
+  body: String;
+  tags: [String];
+  is_markdown: Boolean;
+  is_temp: Boolean;
+  url_slug: String;
+  thumbnail: String;
+  meta: JSON;
+};
 
 export const resolvers: IResolvers = {
   Post: {
@@ -173,10 +193,12 @@ export const resolvers: IResolvers = {
     }
   },
   Mutation: {
-    writePost: async (parent: any, args) => {
-      return {
-        id: 1
-      };
+    writePost: async (parent: any, args, ctx) => {
+      if (!ctx.user_id) {
+        throw new AuthenticationError('Not Logged In');
+      }
+      const data = args as WritePostArgs;
+      const post = new Post();
     }
   }
 };
