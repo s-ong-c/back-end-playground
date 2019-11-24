@@ -1,12 +1,13 @@
 import { gql, IResolvers, ApolloError, AuthenticationError } from 'apollo-server-koa';
 import Post from '../entity/Post';
 import { getRepository, getManager } from 'typeorm';
-import User from '../entity/User';
 import PostScore from '../entity/PostScore';
 import { normalize } from '../lib/utils';
 import removeMd from 'remove-markdown';
 import { commentsLoader } from '../entity/Comment';
+import { userLoader } from '../entity/User';
 import { tagsLoader } from '../entity/PostsTags';
+import Tag from '../entity/Tag';
 
 export const typeDef = gql`
   type Post {
@@ -48,21 +49,23 @@ export const typeDef = gql`
     ): Post
   }
 `;
-
 type WritePostArgs = {
-  title: String;
-  body: String;
-  tags: [String];
-  is_markdown: Boolean;
-  is_temp: Boolean;
-  url_slug: String;
-  thumbnail: String;
-  meta: JSON;
+  title: string;
+  body: string;
+  tags: string[];
+  is_markdown: boolean;
+  is_temp: boolean;
+  url_slug: string;
+  thumbnail: string | null;
+  meta: any;
 };
 
 export const resolvers: IResolvers = {
   Post: {
     user: (parent: Post) => {
+      if (!parent.user) {
+        return userLoader.load(parent.fk_user_id);
+      }
       // TODO: fetch user if null
       return parent.user;
     },
@@ -129,6 +132,7 @@ export const resolvers: IResolvers = {
         console.log(e);
       }
     },
+
     posts: async (parent: any, { cursor, limit = 20, username }: any, context: any) => {
       const query = getManager()
         .createQueryBuilder(Post, 'post')
@@ -189,7 +193,6 @@ export const resolvers: IResolvers = {
       const ordered = ids.map(id => normalized[id]);
 
       return ordered;
-      return [];
     }
   },
   Mutation: {
@@ -197,8 +200,23 @@ export const resolvers: IResolvers = {
       if (!ctx.user_id) {
         throw new AuthenticationError('Not Logged In');
       }
-      const data = args as WritePostArgs;
       const post = new Post();
+      const data = args as WritePostArgs;
+      post.fk_user_id = ctx.user_id;
+      post.title = data.title;
+      post.body = data.body;
+      post.is_temp = data.is_temp;
+      post.is_markdown = data.is_markdown;
+      post.meta = data.meta;
+      post.thumbnail = data.thumbnail;
+      post.url_slug = data.url_slug;
+
+      const postRepo = getRepository(Post);
+      const tagsData = await Promise.all(data.tags.map(Tag.findOrCreate));
+      await postRepo.save(post);
+
+      post.tags = tagsData;
+      return post;
     }
   }
 };
