@@ -6,8 +6,7 @@ import PublishPreviewContainer from './PublishPreviewContainer';
 import PublishPrivacySettingContainer from './PublishPrivacySettingContainer';
 import PublishURLSettingContainer from './PublishURLSettingContainer';
 import PublishSeriesSectionContainer from './PublishSeriesSectionContainer';
-import PublishActionButton from '../../components/write/PublishActionButton';
-import { closePublish } from '../../modules/write';
+import PublishActionButtonContainer from './PublishActionButtonContainer';
 interface OwnProps {}
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
@@ -16,18 +15,8 @@ export type PublishScreenProps = OwnProps & StateProps & DispatchProps;
 const mapStateToProps = ({ write }: RootState) => ({
   visible: write.publish,
 });
-const mapDispatchToProps = {
-  closePublish,
-};
-const { useCallback } = React;
-const PublishScreen: React.SFC<PublishScreenProps> = ({
-  visible,
-  closePublish,
-}) => {
-  const onCancel = useCallback(() => {
-    closePublish();
-  }, [closePublish]);
-
+const mapDispatchToProps = {};
+const PublishScreen: React.SFC<PublishScreenProps> = ({ visible }) => {
   return (
     <PublishScreenTemplate
       visible={visible}
@@ -39,7 +28,7 @@ const PublishScreen: React.SFC<PublishScreenProps> = ({
             <PublishURLSettingContainer />
             <PublishSeriesSectionContainer />
           </div>
-          <PublishActionButton onCancel={onCancel} onPublish={() => {}} />
+          <PublishActionButtonContainer />
         </>
       }
     />
