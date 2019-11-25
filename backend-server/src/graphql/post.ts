@@ -49,6 +49,7 @@ export const typeDef = gql`
     ): Post
   }
 `;
+
 type WritePostArgs = {
   title: string;
   body: string;
