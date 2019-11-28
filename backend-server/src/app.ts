@@ -9,6 +9,7 @@ import { consumeUser } from './lib/token';
 
 const app = new Koa();
 /* setup middlewares */
+app.use(consumeUser);
 app.use(bodyParser());
 app.use(routes.routes()).use(routes.allowedMethods());
 if (process.env.NODE_ENV === 'development') {
@@ -18,7 +19,7 @@ const apollo = new ApolloServer({
   schema,
   context: async ({ ctx }: { ctx: Context }) => {
     try {
-      await consumeUser(ctx);
+      // await consumeUser(ctx);
       return {
         user_id: ctx.state.user_id
       };
