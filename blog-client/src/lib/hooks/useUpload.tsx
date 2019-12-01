@@ -10,8 +10,9 @@ const useUpload = () => {
       const file = input.files[0];
       setFile(file);
     };
+    input.click();
   }, []);
-  return [upload, file];
+  return [upload, file] as [typeof upload, typeof file];
 };
 
 export default useUpload;
