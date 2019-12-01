@@ -11,7 +11,7 @@ import {
 import User from './User';
 
 @Entity('user_images', {
-  synchronize: false
+  synchronize: true
 })
 export default class UserImage {
   @PrimaryGeneratedColumn('uuid')
@@ -25,16 +25,16 @@ export default class UserImage {
   @Column('uuid')
   fk_user_id!: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, nullable: true })
   path!: string;
 
-  @Column()
+  @Column({ nullable: true })
   filesize!: number;
 
   @Column({ length: 255 })
   type!: string;
 
-  @Column('uuid')
+  @Column('uuid', { nullable: true })
   ref_id!: string;
 
   @Column('timestampz')

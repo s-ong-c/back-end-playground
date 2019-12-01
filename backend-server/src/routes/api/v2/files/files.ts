@@ -11,12 +11,14 @@ import { getRepository } from 'typeorm';
 const files = new Router();
 
 const BUCKET_NAME = 's3.images.songc.io';
+
 const s3 = new AWS.S3({
   region: 'ap-northest-2',
   signatureVersion: 'v4'
 });
 
 const generateSignedUrl = (path: string, filename: string) => {
+  console.log(path, filename);
   const contentType = mime.lookup(filename);
   if (!contentType) {
     const error = new Error('Failed to parse Content-Type from filename');
@@ -29,6 +31,7 @@ const generateSignedUrl = (path: string, filename: string) => {
     throw error;
   }
   const uploadPath = `${path}/${filename}`;
+
   return s3.getSignedUrl('putObject', {
     Bucket: BUCKET_NAME,
     Key: uploadPath,
@@ -58,7 +61,7 @@ files.post('/create-url/', authorized, async ctx => {
   const schema = Joi.object().keys({
     type: Joi.string().valid('post', 'profile'),
     filename: Joi.string().required(),
-    refId: Joi.any()
+    payload: Joi.any()
   });
 
   if (!validateBody(ctx, schema)) return;
@@ -67,13 +70,15 @@ files.post('/create-url/', authorized, async ctx => {
     const user = await userLoader.load(ctx.state.user_id);
     const userImage = new UserImage();
     userImage.fk_user_id = user.id;
-    userImage.type;
+    userImage.type = type;
+    userImage.ref_id = refId || null;
 
     const userImageRepo = getRepository(UserImage);
     await userImageRepo.save(userImage);
 
     const path = generateUploadPath({ type, id: userImage.id, username: user.username });
     const signedUrl = generateSignedUrl(path, filename);
+    console.log(signedUrl);
     userImage.path = `${path}/${filename}`;
     await userImageRepo.save(userImage);
 
