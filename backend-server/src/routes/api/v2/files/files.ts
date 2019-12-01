@@ -8,17 +8,17 @@ import authorized from '../../../../lib/middlewares/authorized';
 import { userLoader } from '../../../../entity/User';
 import UserImage from '../../../../entity/UserImage';
 import { getRepository } from 'typeorm';
-const files = new Router();
 
 const BUCKET_NAME = 's3.images.songc.io';
 
+const files = new Router();
+
 const s3 = new AWS.S3({
-  region: 'ap-northest-2',
+  region: 'ap-northeast-2',
   signatureVersion: 'v4'
 });
 
 const generateSignedUrl = (path: string, filename: string) => {
-  console.log(path, filename);
   const contentType = mime.lookup(filename);
   if (!contentType) {
     const error = new Error('Failed to parse Content-Type from filename');
@@ -31,7 +31,6 @@ const generateSignedUrl = (path: string, filename: string) => {
     throw error;
   }
   const uploadPath = `${path}/${filename}`;
-
   return s3.getSignedUrl('putObject', {
     Bucket: BUCKET_NAME,
     Key: uploadPath,
@@ -39,7 +38,7 @@ const generateSignedUrl = (path: string, filename: string) => {
   });
 };
 
-export const generateUploadPath = ({
+const generateUploadPath = ({
   id,
   type,
   username
@@ -51,13 +50,12 @@ export const generateUploadPath = ({
   return `images/${username}/${type}/${id}`;
 };
 
-files.post('/create-url/', authorized, async ctx => {
+files.post('/create-url', authorized, async ctx => {
   type RequestBody = {
     type: string;
-    filename: string;
     refId?: any;
+    filename: string;
   };
-
   const schema = Joi.object().keys({
     type: Joi.string().valid('post', 'profile'),
     filename: Joi.string().required(),
@@ -65,7 +63,9 @@ files.post('/create-url/', authorized, async ctx => {
   });
 
   if (!validateBody(ctx, schema)) return;
+
   const { type, filename, refId } = ctx.request.body as RequestBody;
+
   try {
     const user = await userLoader.load(ctx.state.user_id);
     const userImage = new UserImage();
@@ -78,7 +78,6 @@ files.post('/create-url/', authorized, async ctx => {
 
     const path = generateUploadPath({ type, id: userImage.id, username: user.username });
     const signedUrl = generateSignedUrl(path, filename);
-    console.log(signedUrl);
     userImage.path = `${path}/${filename}`;
     await userImageRepo.save(userImage);
 
