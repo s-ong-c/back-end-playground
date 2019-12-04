@@ -11,7 +11,7 @@ import WritePage from './pages/WritePage';
 // const PostPage = loadable(() => import('./pages/PostPage'));
 interface AppProps {}
 
-const App: React.SFC<AppProps> = props => {
+const App: React.FC<AppProps> = props => {
   return (
     <>
       <Switch>

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const TagListBlock = styled.div``;
 interface TagListProps {}
 
-const TagList: React.SFC<TagListProps> = props => {
+const TagList: React.FC<TagListProps> = props => {
   return <TagListBlock />;
 };
 

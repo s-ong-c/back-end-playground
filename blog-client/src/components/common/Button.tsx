@@ -36,7 +36,7 @@ interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
   inline?: boolean;
 }
 
-const Button: React.SFC<ButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   children,
   ref,
   color = 'teal',

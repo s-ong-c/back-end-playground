@@ -7,7 +7,7 @@ import client from '../../lib/graphql/client';
 
 interface RecentPostsProps {}
 const { useState } = React;
-const RecentPosts: React.SFC<RecentPostsProps> = props => {
+const RecentPosts: React.FC<RecentPostsProps> = props => {
   const [loadingMore, setLoadingMore] = useState(false);
   return (
     <Query query={GET_POST_LIST}>

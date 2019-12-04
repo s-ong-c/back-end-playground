@@ -100,7 +100,7 @@ export interface LabelInputProps extends InputProps {
   onChange?: React.ChangeEventHandler;
 }
 const { useEffect, useState, useCallback } = React;
-const LabelInput: React.SFC<LabelInputProps> = ({
+const LabelInput: React.FC<LabelInputProps> = ({
   label,
   name,
   value,

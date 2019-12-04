@@ -32,7 +32,7 @@ export interface RegisterFormProps {
   error: string | null;
 }
 
-const RegisterForm: React.SFC<RegisterFormProps> = ({
+const RegisterForm: React.FC<RegisterFormProps> = ({
   onSubmit,
   defaultEmail,
   error,

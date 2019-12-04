@@ -28,7 +28,7 @@ const SeriesButton = styled.button`
 `;
 export interface PublishSeriesSectionProps {}
 
-const PublishSeriesSection: React.SFC<PublishSeriesSectionProps> = props => {
+const PublishSeriesSection: React.FC<PublishSeriesSectionProps> = props => {
   return (
     <PublishSeriesSectionBlock title="시리즈 설정">
       <SeriesButton>

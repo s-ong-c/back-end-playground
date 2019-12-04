@@ -69,7 +69,7 @@ interface PostCardProps {
   post: PartialPost;
 }
 
-const PostCard: React.SFC<PostCardProps> = React.memo(({ post }) => {
+const PostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
   return (
     <PostCardBlock>
       <div className="user-info">

@@ -55,7 +55,7 @@ interface AddLinkProps {
 }
 
 const { useCallback, useRef, useEffect } = React;
-const AddLink: React.SFC<AddLinkProps> = ({
+const AddLink: React.FC<AddLinkProps> = ({
   left,
   top,
   stickToRight,

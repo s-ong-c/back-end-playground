@@ -20,9 +20,12 @@ export type PublishURLSettingContainerProps = OwnProps &
   StateProps &
   DispatchProps;
 
-const PublishURLSettingContainer: React.SFC<
-  PublishURLSettingContainerProps
-> = ({ username, title, urlSlug, changeUrlSlug }) => {
+const PublishURLSettingContainer: React.FC<PublishURLSettingContainerProps> = ({
+  username,
+  title,
+  urlSlug,
+  changeUrlSlug,
+}) => {
   const defaultUrlSlug = escapeForUrl(title);
   const urlSlugToShow = urlSlug || defaultUrlSlug;
   const onChangeUrlSlug = useCallback(urlSlug => changeUrlSlug(urlSlug), [

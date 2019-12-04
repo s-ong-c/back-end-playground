@@ -5,26 +5,26 @@ import Average from './Average';
 
 const { useState } = React;
 
-interface InfoPageProps{}
+interface InfoPageProps {}
 
-const InfoPage: React.SFC<InfoPageProps> = props => {
-    const [visible, setVisible] = useState(false);
+const InfoPage: React.FC<InfoPageProps> = props => {
+  const [visible, setVisible] = useState(false);
   return (
     <div>
-        <ContextSample />
-        <Average />
-        <button
-            onClick={() =>{
-                setVisible(!visible);
-            }}
-        >
-        {visible ? 'Hide': 'Show'}
-        </button>
-        <br />
-        <br />
-        {visible && <Info />}
+      <ContextSample />
+      <Average />
+      <button
+        onClick={() => {
+          setVisible(!visible);
+        }}
+      >
+        {visible ? 'Hide' : 'Show'}
+      </button>
+      <br />
+      <br />
+      {visible && <Info />}
     </div>
   );
-  };
+};
 
 export default InfoPage;

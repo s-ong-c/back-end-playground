@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import RecentPosts from '../../containers/main/RecentPosts';
 
 const RecentPostsPageBlock = styled.div``;
-interface RecentPostsPageProps{}
+interface RecentPostsPageProps {}
 
-const RecentPostsPage: React.SFC<RecentPostsPageProps> = props => {
+const RecentPostsPage: React.FC<RecentPostsPageProps> = props => {
   return (
     <RecentPostsPageBlock>
-        <RecentPosts />
+      <RecentPosts />
     </RecentPostsPageBlock>
-    );
-  };
+  );
+};
 
 export default RecentPostsPage;

@@ -91,26 +91,30 @@ export interface PublishPreviewProps {
   description: string;
   defaultDescription: string;
   onChangeDescription: (description: string) => void;
+  onUpload: () => any;
 }
 
-interface ThumbnailProps {}
-const Thumbnail: React.SFC<ThumbnailProps> = () => {
+interface ThumbnailProps {
+  onUploadClick: () => void;
+}
+const Thumbnail: React.FC<ThumbnailProps> = ({ onUploadClick }) => {
   return (
     <ThumbnailSizer>
       <ThumbnailBlock>
         <MissingThumbnail>
           <ImageVector />
-          <UploadButton>썸네일 업로드</UploadButton>
+          <UploadButton onClick={onUploadClick}>썸네일 업로드</UploadButton>
         </MissingThumbnail>
       </ThumbnailBlock>
     </ThumbnailSizer>
   );
 };
-const PublishPreview: React.SFC<PublishPreviewProps> = ({
+const PublishPreview: React.FC<PublishPreviewProps> = ({
   title,
   description,
   defaultDescription,
   onChangeDescription,
+  onUpload,
 }) => {
   const descriptionToShow: string = description || defaultDescription;
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -126,7 +130,7 @@ const PublishPreview: React.SFC<PublishPreviewProps> = ({
   );
   return (
     <PublishPreviewBlock title="포스트카드 미리보기">
-      <Thumbnail />
+      <Thumbnail onUploadClick={onUpload} />
       <PostInfo>
         {/* <h4>Git 101: Git workflow to get you started pushing code.</h4> */}
         <h4>{title}</h4>

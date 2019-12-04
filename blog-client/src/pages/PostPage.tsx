@@ -3,7 +3,7 @@ import PostTemplate from '../components/post/PostTemplate';
 
 interface PostPageProps {}
 
-const PostPage: React.SFC<PostPageProps> = props => {
+const PostPage: React.FC<PostPageProps> = props => {
   return <PostTemplate />;
 };
 

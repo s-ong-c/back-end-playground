@@ -33,7 +33,7 @@ interface DispatchProps {
 export type MarkdownEditorContainerProps = OwnProps &
   StateProps &
   DispatchProps;
-const MarkdownEditorContainer: React.SFC<MarkdownEditorContainerProps> = ({
+const MarkdownEditorContainer: React.FC<MarkdownEditorContainerProps> = ({
   changeMarkdown,
   changeTitle,
   setHtml,

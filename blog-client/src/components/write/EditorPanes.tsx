@@ -27,7 +27,7 @@ export interface EditorPanesProps {
   right?: React.ReactNode;
 }
 
-const EditorPanes: React.SFC<EditorPanesProps> = ({
+const EditorPanes: React.FC<EditorPanesProps> = ({
   theme = 'LIGHT',
   left,
   right,

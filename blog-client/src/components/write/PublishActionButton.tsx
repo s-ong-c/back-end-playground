@@ -18,7 +18,7 @@ export interface PublishActionButtonProps {
   onPublish: () => void;
 }
 
-const PublishActionButton: React.SFC<PublishActionButtonProps> = ({
+const PublishActionButton: React.FC<PublishActionButtonProps> = ({
   onCancel,
   onPublish,
 }) => {

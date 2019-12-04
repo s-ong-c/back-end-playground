@@ -47,19 +47,3 @@ export default class ScrollingPagination extends React.Component<
     return <div />;
   }
 }
-// const { useEffect, useRef, useCallback} = React;
-// const ScrollingPagination: React.SFC<ScrollingPaginationProps> = ({ loading }) => {
-//     const onScroll = useCallback(() => {
-//         const scrollBottom = getScrollBottom();
-//         console.log(loading);
-//     },[]);
-//     useEffect(() => {
-//         window.addEventListener('scroll', onScroll);
-//         return () => {
-//             window.removeEventListener('scroll', onScroll);
-//         }
-//     });
-//   return null;
-//   };
-
-// export default ScrollingPagination;

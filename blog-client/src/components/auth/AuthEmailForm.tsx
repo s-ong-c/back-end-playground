@@ -50,7 +50,7 @@ interface AuthEmailFormProps {
   disabled: boolean;
 }
 
-const AuthEmailForm: React.SFC<AuthEmailFormProps> = ({
+const AuthEmailForm: React.FC<AuthEmailFormProps> = ({
   onChange,
   value,
   onSubmit,

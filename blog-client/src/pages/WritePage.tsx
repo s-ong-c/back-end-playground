@@ -12,7 +12,7 @@ const WritePageBlock = styled.div`
 
 interface WritePageProps {}
 
-const WritePage: React.SFC<WritePageProps> = props => {
+const WritePage: React.FC<WritePageProps> = props => {
   return (
     <WritePageBlock>
       <HeaderContainer />

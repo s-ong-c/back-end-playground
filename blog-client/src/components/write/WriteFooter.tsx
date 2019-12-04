@@ -28,10 +28,7 @@ export interface WriteFooterProps {
   onPublish: () => void;
 }
 
-const WriteFooter: React.SFC<WriteFooterProps> = ({
-  onTempSave,
-  onPublish,
-}) => {
+const WriteFooter: React.FC<WriteFooterProps> = ({ onTempSave, onPublish }) => {
   return (
     <WriteFooterBlock>
       <StyledButton color="lightGray" inline onClick={onTempSave}>

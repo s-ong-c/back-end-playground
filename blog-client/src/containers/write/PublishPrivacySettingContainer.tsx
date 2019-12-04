@@ -16,9 +16,10 @@ export type PublishPrivacySettingContainerProps = OwnProps &
   StateProps &
   DispatchProps;
 
-const PublishPrivacySettingContainer: React.SFC<
-  PublishPrivacySettingContainerProps
-> = ({ isPrivate, setPrivacy }) => {
+const PublishPrivacySettingContainer: React.FC<PublishPrivacySettingContainerProps> = ({
+  isPrivate,
+  setPrivacy,
+}) => {
   const onSelect = React.useCallback(
     isPrivate => {
       setPrivacy(isPrivate);

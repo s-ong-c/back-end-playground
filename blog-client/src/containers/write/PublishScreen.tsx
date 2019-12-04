@@ -16,7 +16,7 @@ const mapStateToProps = ({ write }: RootState) => ({
   visible: write.publish,
 });
 const mapDispatchToProps = {};
-const PublishScreen: React.SFC<PublishScreenProps> = ({ visible }) => {
+const PublishScreen: React.FC<PublishScreenProps> = ({ visible }) => {
   return (
     <PublishScreenTemplate
       visible={visible}

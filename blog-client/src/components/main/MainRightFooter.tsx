@@ -23,7 +23,7 @@ const MainRightFooterBlock = styled.div`
 `;
 interface MainRightFooterProps {}
 
-const MainRightFooter: React.SFC<MainRightFooterProps> = props => {
+const MainRightFooter: React.FC<MainRightFooterProps> = props => {
   return (
     <MainRightFooterBlock>
       <div className="links">

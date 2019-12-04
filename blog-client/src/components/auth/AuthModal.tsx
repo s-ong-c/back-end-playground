@@ -83,7 +83,7 @@ interface AuthModalProps {
   onClose: () => void;
 }
 
-const AuthModal: React.SFC<AuthModalProps> = ({
+const AuthModal: React.FC<AuthModalProps> = ({
   visible,
   children,
   onClose,

@@ -51,7 +51,7 @@ export interface PublishScreenTemplateProps {
 }
 
 const { useState, useEffect } = React;
-const PublishScreenTemplate: React.SFC<PublishScreenTemplateProps> = ({
+const PublishScreenTemplate: React.FC<PublishScreenTemplateProps> = ({
   visible,
   left,
   right,

@@ -50,7 +50,7 @@ export interface PublishPrivacySettingsProps {
   onSelect: (value: boolean) => any;
 }
 const { useCallback } = React;
-const PublishPrivacySettings: React.SFC<PublishPrivacySettingsProps> = ({
+const PublishPrivacySettings: React.FC<PublishPrivacySettingsProps> = ({
   isPrivate,
   onSelect,
 }) => {

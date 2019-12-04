@@ -8,7 +8,7 @@ import RecentPostsPage from './RecentPostsPage';
 
 interface MainPageProps {}
 
-const MainPage: React.SFC<MainPageProps> = props => {
+const MainPage: React.FC<MainPageProps> = props => {
   return (
     <MainTemplate>
       <MainTemplate.Left>

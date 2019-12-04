@@ -16,7 +16,7 @@ interface DispatchProps {
 }
 type HeaderContainerProps = OwnProps & StateProps & DispatchProps;
 
-const HeaderContainer: React.SFC<HeaderContainerProps> = ({
+const HeaderContainer: React.FC<HeaderContainerProps> = ({
   showAuthModal,
   user,
 }) => {

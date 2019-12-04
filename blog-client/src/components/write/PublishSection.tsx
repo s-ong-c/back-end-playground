@@ -21,7 +21,7 @@ export interface PublishSectionProps extends React.HTMLProps<HTMLElement> {
   children: React.ReactNode;
 }
 
-const PublishSection: React.SFC<PublishSectionProps> = ({
+const PublishSection: React.FC<PublishSectionProps> = ({
   title,
   children,
   ...rest

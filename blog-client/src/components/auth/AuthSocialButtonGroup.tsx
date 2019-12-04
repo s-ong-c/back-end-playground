@@ -9,7 +9,7 @@ const AuthSocialButtonGroupBlock = styled.div`
 `;
 interface AuthSocialButtonGroupProps {}
 
-const AuthSocialButtonGroup: React.SFC<AuthSocialButtonGroupProps> = props => {
+const AuthSocialButtonGroup: React.FC<AuthSocialButtonGroupProps> = props => {
   return (
     <AuthSocialButtonGroupBlock>
       <AuthSocialButton provider="github" tabIndex={4} />

@@ -2,13 +2,14 @@ import * as React from 'react';
 import RegisterTemplate from '../components/register/RegisterTemplate';
 import RegisterFormContainer from '../containers/register/RegisterFormContainer';
 
-interface RegisterPageProps{}
+interface RegisterPageProps {}
 
-const RegisterPage: React.SFC<RegisterPageProps> = props => {
+const RegisterPage: React.FC<RegisterPageProps> = props => {
   return (
     <RegisterTemplate>
-        <RegisterFormContainer />
-    </RegisterTemplate>);
-  };
+      <RegisterFormContainer />
+    </RegisterTemplate>
+  );
+};
 
 export default RegisterPage;

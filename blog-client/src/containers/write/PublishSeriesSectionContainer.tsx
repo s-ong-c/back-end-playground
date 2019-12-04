@@ -11,9 +11,7 @@ type PublishSeriesSectionContainerProps = OwnProps & StateProps & DispatchProps;
 const mapStateToProps = (state: RootState) => ({});
 const mapDispatchToProps = {};
 
-const PublishSeriesSectionContainer: React.SFC<
-  PublishSeriesSectionContainerProps
-> = props => {
+const PublishSeriesSectionContainer: React.FC<PublishSeriesSectionContainerProps> = props => {
   return <PublishSeriesSection />;
 };
 

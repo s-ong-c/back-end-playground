@@ -86,7 +86,7 @@ interface ToolbarProps {
 }
 
 const { useEffect, useState, useCallback } = React;
-const Toolbar: React.SFC<ToolbarProps> = ({ visible }) => {
+const Toolbar: React.FC<ToolbarProps> = ({ visible }) => {
   const [shadow, setShadow] = useState(false);
   const onScroll = useCallback(
     (e: Event) => {

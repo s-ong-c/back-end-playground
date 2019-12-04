@@ -97,7 +97,7 @@ export interface ToolbarProps {
   onConvert?: () => void;
 }
 
-const Toolbar: React.SFC<ToolbarProps> = ({
+const Toolbar: React.FC<ToolbarProps> = ({
   shadow,
   mode,
   onClick = () => {},

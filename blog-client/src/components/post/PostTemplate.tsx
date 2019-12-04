@@ -5,7 +5,7 @@ import PageTemplate from '../base/PageTemplate';
 const PostTemplateBlock = styled(PageTemplate)``;
 interface PostTemplateProps {}
 
-const PostTemplate: React.SFC<PostTemplateProps> = props => {
+const PostTemplate: React.FC<PostTemplateProps> = props => {
   return <PostTemplateBlock>포스트임</PostTemplateBlock>;
 };
 

@@ -30,7 +30,7 @@ export interface PublishURLSettingProps {
   onChangeUrlSlug: (urlSlug: string) => void;
 }
 
-const PublishURLSetting: React.SFC<PublishURLSettingProps> = ({
+const PublishURLSetting: React.FC<PublishURLSettingProps> = ({
   username,
   urlSlug,
   onChangeUrlSlug,

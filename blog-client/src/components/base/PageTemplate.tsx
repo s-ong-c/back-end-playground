@@ -9,7 +9,7 @@ interface PageTemplateProps {
   className?: string;
 }
 
-const PageTemplate: React.SFC<PageTemplateProps> = ({
+const PageTemplate: React.FC<PageTemplateProps> = ({
   hideHeader,
   style,
   className,

@@ -37,7 +37,7 @@ const { useEffect, useLayoutEffect } = React;
  *  useLayoutEffect :components 가 나타나기전에
  *                   반영이 되는 componentWillMount() 과 같은역할을 한다
  */
-const HideScroll: React.SFC<HideScrollProps> = props => {
+const HideScroll: React.FC<HideScrollProps> = props => {
   useLayoutEffect(() => {
     const prevStyles = getComputedStyle(window.document.body);
     window.document.body.style.overflowX = 'hidden';

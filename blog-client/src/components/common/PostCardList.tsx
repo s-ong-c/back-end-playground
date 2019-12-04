@@ -8,7 +8,7 @@ interface PostCardListProps {
   posts: PartialPost[];
 }
 
-const PostCardList: React.SFC<PostCardListProps> = ({ posts }) => {
+const PostCardList: React.FC<PostCardListProps> = ({ posts }) => {
   return (
     <PostCardListBlock>
       {posts.map(post => (

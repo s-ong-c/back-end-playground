@@ -33,7 +33,7 @@ const MenuItem = styled(NavLink)`
 
 interface MainSideMenuProps {}
 
-const MainSideMenu: React.SFC<MainSideMenuProps> = props => {
+const MainSideMenu: React.FC<MainSideMenuProps> = props => {
   return (
     <MainSideMenuBlock>
       <MenuItem

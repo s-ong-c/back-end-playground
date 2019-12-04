@@ -15,7 +15,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = {
   changeTags,
 };
-const TagInputContainer: React.SFC<TagInputContainerProps> = ({
+const TagInputContainer: React.FC<TagInputContainerProps> = ({
   tags,
   changeTags,
 }) => {
