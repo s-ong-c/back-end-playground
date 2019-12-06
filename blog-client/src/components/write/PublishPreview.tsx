@@ -30,6 +30,13 @@ const MissingThumbnail = styled.div`
   flex-direction: column;
 `;
 
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+`;
+
 const UploadButton = styled.button`
   margin-top: 1rem;
   padding: 0.25rem 2rem;
@@ -86,35 +93,43 @@ const TextLimit = styled.div<{ limit: boolean }>`
     `}
 `;
 
+interface ThumbnailProps {
+  thumbnail: string | null;
+  onUploadClick: () => void;
+}
+const Thumbnail: React.FC<ThumbnailProps> = ({ onUploadClick, thumbnail }) => {
+  return (
+    <ThumbnailSizer>
+      <ThumbnailBlock>
+        {thumbnail ? (
+          <Image src={thumbnail} data-testid="image" />
+        ) : (
+          <MissingThumbnail>
+            <ImageVector />
+            <UploadButton onClick={onUploadClick}>썸네일 업로드</UploadButton>
+          </MissingThumbnail>
+        )}
+      </ThumbnailBlock>
+    </ThumbnailSizer>
+  );
+};
+
 export interface PublishPreviewProps {
   title: string;
   description: string;
   defaultDescription: string;
   onChangeDescription: (description: string) => void;
   onUpload: () => any;
+  thumbnail: string | null;
 }
 
-interface ThumbnailProps {
-  onUploadClick: () => void;
-}
-const Thumbnail: React.FC<ThumbnailProps> = ({ onUploadClick }) => {
-  return (
-    <ThumbnailSizer>
-      <ThumbnailBlock>
-        <MissingThumbnail>
-          <ImageVector />
-          <UploadButton onClick={onUploadClick}>썸네일 업로드</UploadButton>
-        </MissingThumbnail>
-      </ThumbnailBlock>
-    </ThumbnailSizer>
-  );
-};
 const PublishPreview: React.FC<PublishPreviewProps> = ({
   title,
   description,
   defaultDescription,
   onChangeDescription,
   onUpload,
+  thumbnail,
 }) => {
   const descriptionToShow: string = description || defaultDescription;
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -130,7 +145,7 @@ const PublishPreview: React.FC<PublishPreviewProps> = ({
   );
   return (
     <PublishPreviewBlock title="포스트카드 미리보기">
-      <Thumbnail onUploadClick={onUpload} />
+      <Thumbnail onUploadClick={onUpload} thumbnail={thumbnail} />
       <PostInfo>
         {/* <h4>Git 101: Git workflow to get you started pushing code.</h4> */}
         <h4>{title}</h4>

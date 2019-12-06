@@ -9,6 +9,8 @@ describe('PublishPreview', () => {
       description: '',
       defaultDescription: '',
       onChangeDescription: () => {},
+      onUpload: () => {},
+      thumbnail: null,
     };
     const utils = render(<PublishPreview {...initialProps} {...props} />);
     const textarea = utils.getByPlaceholderText(
@@ -83,5 +85,23 @@ describe('PublishPreview', () => {
     });
     await new Promise(resolve => setTimeout(resolve, 1));
     expect(onChangeDescription).not.toBeCalled();
+  });
+  it('calls onUpload', () => {
+    const onUpload = jest.fn();
+    const utils = setup({ onUpload });
+    const uploadButton = utils.getByText('썸네일 업로드');
+    fireEvent.click(uploadButton);
+    expect(onUpload).toBeCalled();
+  });
+  it('shows a thumbnail', () => {
+    const utils = setup({
+      thumbnail:
+        'https://images.songc.io/images/songc/post/832ac2e5-5d74-40ce-93eb-d84ba0d8d837/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202019-11-14%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%2011.46.21.png',
+    });
+    const image = utils.getByTestId('image') as HTMLImageElement;
+    expect(image).toHaveAttribute(
+      'src',
+      'https://images.songc.io/images/songc/post/832ac2e5-5d74-40ce-93eb-d84ba0d8d837/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202019-11-14%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%2011.46.21.png',
+    );
   });
 });

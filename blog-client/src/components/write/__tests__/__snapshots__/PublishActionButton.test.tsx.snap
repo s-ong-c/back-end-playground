@@ -6,14 +6,14 @@ exports[`PublishActionButton matches snapshot 1`] = `
     class="sc-bwzfXH eprlzE"
   >
     <button
-      class="sc-htpNat kIspaC sc-bdVaJa bAArFn"
+      class="sc-bdVaJa bAArFn sc-htpNat kIspaC"
       color="gray"
       data-testid="cancelPublish"
     >
       취소
     </button>
     <button
-      class="sc-htpNat kIspaC sc-bdVaJa lgjZOb"
+      class="sc-bdVaJa lgjZOb sc-htpNat kIspaC"
       color="teal"
       data-testid="publish"
     >
