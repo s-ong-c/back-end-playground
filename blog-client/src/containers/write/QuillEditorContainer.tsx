@@ -13,6 +13,8 @@ import {
 } from '../../modules/write';
 import TagInputContainer from './TagInputContainer';
 import WriteFooter from '../../components/write/WriteFooter';
+import useUpload from '../../lib/hooks/useUpload';
+import useS3Upload from '../../lib/hooks/useS3Upload';
 
 interface OwnProps {}
 type StateProps = ReturnType<typeof mapStateToProps>;
@@ -64,6 +66,15 @@ const QuillEditorContainer: React.FC<QuillEditorContainerProps> = ({
     setDefaultDescription(textBody.replace(/\n/g, '').slice(0, 150));
   }, [openPublish, setDefaultDescription, textBody]);
 
+  const [upload, file] = useUpload();
+  const [s3Upload, image] = useS3Upload();
+
+  React.useEffect(() => {
+    if (!file) return;
+    s3Upload(file, {
+      type: 'post',
+    });
+  }, [file, s3Upload]);
   return (
     <QuillEditor
       title={title}
@@ -74,6 +85,8 @@ const QuillEditorContainer: React.FC<QuillEditorContainerProps> = ({
       onChangeHTML={onChangeHTML}
       onChangeTextBody={onChangeTextBody}
       footer={<WriteFooter onPublish={onPulish} onTempSave={() => {}} />}
+      onUpload={upload}
+      lastUploadedImage={image}
     />
   );
 };

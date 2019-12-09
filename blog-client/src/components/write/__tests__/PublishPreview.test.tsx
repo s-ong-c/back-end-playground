@@ -9,6 +9,7 @@ describe('PublishPreview', () => {
       description: '',
       defaultDescription: '',
       onChangeDescription: () => {},
+      onResetThumbnail: () => {},
       onUpload: () => {},
       thumbnail: null,
     };
