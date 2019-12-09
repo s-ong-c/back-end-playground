@@ -114,12 +114,69 @@ const Thumbnail: React.FC<ThumbnailProps> = ({ onUploadClick, thumbnail }) => {
   );
 };
 
+const ThumbnailModifyBlock = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+  & > .actions {
+    display: flex;
+    align-items: center;
+    button {
+      background: none;
+      outline: none;
+      border: none;
+      font-size: 1rem;
+      color: ${palette.gray6};
+      padding: 0;
+      text-decoration: underline;
+      cursor: pointer;
+      &:hover {
+        color: ${palette.gray5};
+      }
+      &:active {
+        color: ${palette.gray7};
+      }
+    }
+    .middledot {
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      display: block;
+      width: 2px;
+      height: 2px;
+      border-radius: 1px;
+      background: ${palette.gray6};
+    }
+  }
+`;
+type ThumbnailModifyProps = {
+  visible: boolean;
+  onResetThumbnail: () => void;
+  onChangeThumbnail: () => void;
+};
+const ThumbnailModify: React.FC<ThumbnailModifyProps> = ({
+  visible,
+  onResetThumbnail,
+  onChangeThumbnail,
+}) => {
+  if (!visible) return null;
+  return (
+    <ThumbnailModifyBlock>
+      <div className="actions">
+        <button onClick={onChangeThumbnail}>재업로드</button>
+        <div className="middledot"></div>
+        <button onClick={onResetThumbnail}>제거</button>
+      </div>
+    </ThumbnailModifyBlock>
+  );
+};
+
 export interface PublishPreviewProps {
   title: string;
   description: string;
   defaultDescription: string;
   onChangeDescription: (description: string) => void;
   onUpload: () => any;
+  onResetThumbnail: () => void;
   thumbnail: string | null;
 }
 
@@ -130,6 +187,7 @@ const PublishPreview: React.FC<PublishPreviewProps> = ({
   onChangeDescription,
   onUpload,
   thumbnail,
+  onResetThumbnail,
 }) => {
   const descriptionToShow: string = description || defaultDescription;
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -145,6 +203,11 @@ const PublishPreview: React.FC<PublishPreviewProps> = ({
   );
   return (
     <PublishPreviewBlock title="포스트카드 미리보기">
+      <ThumbnailModify
+        visible={!!thumbnail}
+        onResetThumbnail={onResetThumbnail}
+        onChangeThumbnail={onUpload}
+      />
       <Thumbnail onUploadClick={onUpload} thumbnail={thumbnail} />
       <PostInfo>
         {/* <h4>Git 101: Git workflow to get you started pushing code.</h4> */}

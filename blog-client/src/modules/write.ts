@@ -31,7 +31,9 @@ export const changeDescription = createStandardAction(CHANGE_DESCRIPTION)<
 >();
 export const setPrivacy = createStandardAction(SET_PRIVACY)<boolean>();
 export const changeUrlSlug = createStandardAction(CHANGE_URL_SLUG)<string>();
-export const setThumbnail = createStandardAction(SET_THUMBNAIL)<string>();
+export const setThumbnail = createStandardAction(SET_THUMBNAIL)<
+  string | null
+>();
 
 type ChangeMarkdown = ReturnType<typeof changeMarkdown>;
 type ChangeTitle = ReturnType<typeof changeTitle>;

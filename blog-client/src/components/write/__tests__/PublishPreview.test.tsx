@@ -103,5 +103,7 @@ describe('PublishPreview', () => {
       'src',
       'https://images.songc.io/images/songc/post/832ac2e5-5d74-40ce-93eb-d84ba0d8d837/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202019-11-14%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%2011.46.21.png',
     );
+    utils.getByText('재업로드');
+    utils.getByText('제거');
   });
 });
