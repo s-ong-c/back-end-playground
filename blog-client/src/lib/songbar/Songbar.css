@@ -1,0 +1,21 @@
+.__songbar {
+    z-index: 1000;
+    position: fixed;
+    top:0;
+    width: 100%;
+    height: 4px;
+    background: #12B886;
+    opacity: 1;
+    transition: all 0.4s ease-in-out;
+}
+
+.__songbar.hiding {
+    height: 0px;
+    opacity: 0;
+    transition: all 0.2s ease-in;
+}
+
+.__songbar.zero {
+    width: 0px !important;
+    transition: none;
+}

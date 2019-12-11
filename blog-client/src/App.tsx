@@ -6,6 +6,7 @@ import Core from './containers/base/Core';
 import RegisterPage from './pages/RegisterPage';
 import EmailLoginPage from './pages/EmailLoginPage';
 import WritePage from './pages/WritePage';
+import { SongbarProvider } from './lib/songbar';
 // import { CoreProvider } from './contexts/CoreContext';
 // const MainPage = loadable(() => import('./pages/main/MainPage'));
 // const PostPage = loadable(() => import('./pages/PostPage'));
@@ -13,7 +14,7 @@ interface AppProps {}
 
 const App: React.FC<AppProps> = props => {
   return (
-    <>
+    <SongbarProvider>
       <Switch>
         <Route path="/" component={MainPage} exact />
         <Route path="/register" component={RegisterPage} />
@@ -25,7 +26,7 @@ const App: React.FC<AppProps> = props => {
         <Route path="/counter" component={Counter} /> */}
       </Switch>
       <Core />
-    </>
+    </SongbarProvider>
   );
 };
 
