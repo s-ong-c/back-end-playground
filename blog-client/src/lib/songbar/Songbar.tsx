@@ -40,7 +40,7 @@ const Songbar: React.FC<SongbarProps> = props => {
   }, [set, zero]);
   return (
     <div
-      className={['__songbar', hiding && 'hiding'].join(' ')}
+      className={['__songbar', hiding && 'hiding', zero && 'zero'].join(' ')}
       style={{
         width: `${value}%`,
       }}
