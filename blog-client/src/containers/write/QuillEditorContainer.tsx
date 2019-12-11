@@ -10,6 +10,7 @@ import {
   setHtml,
   setTextBody,
   setDefaultDescription,
+  setThumbnail,
 } from '../../modules/write';
 import TagInputContainer from './TagInputContainer';
 import WriteFooter from '../../components/write/WriteFooter';
@@ -26,6 +27,7 @@ const mapStateToProps = ({ write }: RootState) => ({
   title: write.title,
   html: write.html,
   textBody: write.textBody,
+  thumbnail: write.thumbnail,
 });
 const mapDispatchToProps = {
   convertEditorMode,
@@ -35,8 +37,8 @@ const mapDispatchToProps = {
   setHtml,
   setTextBody,
   setDefaultDescription,
+  setThumbnail,
 };
-
 const QuillEditorContainer: React.FC<QuillEditorContainerProps> = ({
   title,
   changeMarkdown,
@@ -48,6 +50,8 @@ const QuillEditorContainer: React.FC<QuillEditorContainerProps> = ({
   setTextBody,
   setDefaultDescription,
   textBody,
+  thumbnail,
+  setThumbnail,
 }) => {
   const onConvertEditorMode = (markdown: string) => {
     batch(() => {
@@ -75,6 +79,12 @@ const QuillEditorContainer: React.FC<QuillEditorContainerProps> = ({
       type: 'post',
     });
   }, [file, s3Upload]);
+
+  React.useEffect(() => {
+    if (!thumbnail && image) {
+      setThumbnail(image);
+    }
+  }, [image, setThumbnail, thumbnail]);
   return (
     <QuillEditor
       title={title}
