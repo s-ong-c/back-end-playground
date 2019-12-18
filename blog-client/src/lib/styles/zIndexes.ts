@@ -5,6 +5,7 @@ const zIndexes = {
   Popup: 25,
   WriteFooter: 10,
   PublishScreen: 30,
+  DragDropUpload: 100,
 };
 
 export default zIndexes;

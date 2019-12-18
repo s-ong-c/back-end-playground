@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { connect, batch } from 'react-redux';
 import QuillEditor from '../../components/write/QuillEditor';
 import { RootState } from '../../modules';
@@ -16,6 +16,8 @@ import TagInputContainer from './TagInputContainer';
 import WriteFooter from '../../components/write/WriteFooter';
 import useUpload from '../../lib/hooks/useUpload';
 import useS3Upload from '../../lib/hooks/useS3Upload';
+import DragDropUpload from '../../components/common/DragDropUpload';
+import PasteUpload from '../../components/common/PasteUpload';
 
 interface OwnProps {}
 type StateProps = ReturnType<typeof mapStateToProps>;
@@ -28,6 +30,7 @@ const mapStateToProps = ({ write }: RootState) => ({
   html: write.html,
   textBody: write.textBody,
   thumbnail: write.thumbnail,
+  publish: write.publish,
 });
 const mapDispatchToProps = {
   convertEditorMode,
@@ -52,6 +55,7 @@ const QuillEditorContainer: React.FC<QuillEditorContainerProps> = ({
   textBody,
   thumbnail,
   setThumbnail,
+  publish,
 }) => {
   const onConvertEditorMode = (markdown: string) => {
     batch(() => {
@@ -73,31 +77,44 @@ const QuillEditorContainer: React.FC<QuillEditorContainerProps> = ({
   const [upload, file] = useUpload();
   const [s3Upload, image] = useS3Upload();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!file) return;
     s3Upload(file, {
       type: 'post',
     });
   }, [file, s3Upload]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!thumbnail && image) {
       setThumbnail(image);
     }
   }, [image, setThumbnail, thumbnail]);
+
+  const onDragDropUpload = useCallback(
+    (file: File) => {
+      s3Upload(file, {
+        type: 'post',
+      });
+    },
+    [s3Upload],
+  );
   return (
-    <QuillEditor
-      title={title}
-      onConvertEditorMode={onConvertEditorMode}
-      onChangeTitle={onChangeTitle}
-      initialHtml={html}
-      tagInput={<TagInputContainer />}
-      onChangeHTML={onChangeHTML}
-      onChangeTextBody={onChangeTextBody}
-      footer={<WriteFooter onPublish={onPulish} onTempSave={() => {}} />}
-      onUpload={upload}
-      lastUploadedImage={image}
-    />
+    <>
+      <QuillEditor
+        title={title}
+        onConvertEditorMode={onConvertEditorMode}
+        onChangeTitle={onChangeTitle}
+        initialHtml={html}
+        tagInput={<TagInputContainer />}
+        onChangeHTML={onChangeHTML}
+        onChangeTextBody={onChangeTextBody}
+        footer={<WriteFooter onPublish={onPulish} onTempSave={() => {}} />}
+        onUpload={upload}
+        lastUploadedImage={publish ? null : image}
+      />
+      <DragDropUpload onUpload={onDragDropUpload} />
+      <PasteUpload onUpload={onDragDropUpload} />
+    </>
   );
 };
 

@@ -20,11 +20,14 @@ import TagInputContainer from './TagInputContainer';
 import WriteFooter from '../../components/write/WriteFooter';
 import useUpload from '../../lib/hooks/useUpload';
 import useS3Upload from '../../lib/hooks/useS3Upload';
+import DragDropUpload from '../../components/common/DragDropUpload';
+import PasteUpload from '../../components/common/PasteUpload';
 interface OwnProps {}
 interface StateProps {
   title: string;
   markdown: string;
   thumbnail: string | null;
+  publish: boolean;
 }
 interface DispatchProps {
   changeMarkdown: typeof changeMarkdown;
@@ -52,6 +55,7 @@ const MarkdownEditorContainer: React.FC<MarkdownEditorContainerProps> = ({
   setDefaultDescription,
   setThumbnail,
   thumbnail,
+  publish,
 }) => {
   const onConvert = (markdown: string) => {
     remark()
@@ -84,23 +88,37 @@ const MarkdownEditorContainer: React.FC<MarkdownEditorContainerProps> = ({
       type: 'post',
     });
   }, [file, s3Upload]);
+
   useEffect(() => {
     if (!thumbnail && image) {
       setThumbnail(image);
     }
   }, [image, setThumbnail, thumbnail]);
+
+  const onDragDropUpload = useCallback(
+    (file: File) => {
+      s3Upload(file, {
+        type: 'post',
+      });
+    },
+    [s3Upload],
+  );
   return (
-    <MarkdownEditor
-      title={title}
-      onUpload={upload}
-      lastUploadedImage={image}
-      markdown={markdown}
-      onChangeMarkdown={changeMarkdown}
-      onChangeTitle={changeTitle}
-      onConvert={onConvert}
-      tagInput={<TagInputContainer />}
-      footer={<WriteFooter onPublish={onPublish} onTempSave={() => {}} />}
-    />
+    <>
+      <MarkdownEditor
+        title={title}
+        onUpload={upload}
+        lastUploadedImage={image}
+        markdown={markdown}
+        onChangeMarkdown={changeMarkdown}
+        onChangeTitle={changeTitle}
+        onConvert={onConvert}
+        tagInput={<TagInputContainer />}
+        footer={<WriteFooter onPublish={onPublish} onTempSave={() => {}} />}
+      />
+      <DragDropUpload onUpload={onDragDropUpload} />
+      <PasteUpload onUpload={onDragDropUpload} />
+    </>
   );
 };
 
@@ -109,6 +127,7 @@ export default connect<StateProps, DispatchProps, OwnProps, RootState>(
     title: state.write.title,
     markdown: state.write.markdown,
     thumbnail: state.write.thumbnail,
+    publish: state.write.publish,
   }),
   {
     changeMarkdown,

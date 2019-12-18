@@ -6,6 +6,7 @@ import { closePublish, WriteMode } from '../../modules/write';
 import { Mutation, MutationResult } from 'react-apollo';
 import { WRITE_POST, Post } from '../../lib/graphql/post';
 import { pick } from 'ramda';
+import { escapeForUrl } from '../../lib/utils';
 
 const mapStateToProps = ({ write }: RootState) =>
   pick(
@@ -19,6 +20,7 @@ const mapStateToProps = ({ write }: RootState) =>
       'description',
       'isPrivate',
       'urlSlug',
+      'thumbnail',
     ],
     write,
   );
@@ -31,9 +33,10 @@ type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 type PublishActionButtonsContainerProps = OwnProps & StateProps & DispatchProps;
 
-const PublishActionButtonsContainer: React.FC<
-  PublishActionButtonsContainerProps
-> = ({ closePublish, ...rest }) => {
+const PublishActionButtonsContainer: React.FC<PublishActionButtonsContainerProps> = ({
+  closePublish,
+  ...rest
+}) => {
   const onCancel = useCallback(() => {
     closePublish();
   }, [closePublish]);
@@ -49,7 +52,7 @@ const PublishActionButtonsContainer: React.FC<
             is_temp: boolean;
             is_private: boolean;
             url_slug: string;
-            thumbnail: null;
+            thumbnail: string | null;
             meta: {};
           };
         }) => void,
@@ -71,8 +74,8 @@ const PublishActionButtonsContainer: React.FC<
                     is_markdown: rest.mode === WriteMode.MARKDOWN,
                     is_temp: false,
                     is_private: rest.isPrivate,
-                    url_slug: rest.urlSlug,
-                    thumbnail: null,
+                    url_slug: rest.urlSlug || escapeForUrl(rest.title),
+                    thumbnail: rest.thumbnail,
                     meta: {},
                   },
                 });
