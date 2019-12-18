@@ -25,6 +25,8 @@ export interface MarkdownEditorProps {
   markdown: string;
   tagInput: React.ReactNode;
   footer: React.ReactNode;
+  onUpload: () => void;
+  lastUploadedImage: string | null;
 }
 type MarkdownEditorState = {
   shadow: boolean;
@@ -190,6 +192,22 @@ export default class MarkdownEditor extends React.Component<
       });
     }
   };
+
+  addImageToEditor = (image: string) => {
+    if (!this.codemirror) return;
+    this.codemirror.getDoc().replaceSelection(`![](${encodeURI(image)})`);
+  };
+
+  componentDidUpdate(prevProps: MarkdownEditorProps) {
+    const { lastUploadedImage } = this.props;
+    if (
+      lastUploadedImage &&
+      prevProps.lastUploadedImage !== lastUploadedImage
+    ) {
+      this.addImageToEditor(lastUploadedImage);
+    }
+  }
+
   componentDidMount() {
     this.initialize();
     setTimeout(() => {
@@ -561,6 +579,9 @@ export default class MarkdownEditor extends React.Component<
       },
       link: () => {
         this.handleOpenAddLink();
+      },
+      image: () => {
+        this.props.onUpload();
       },
       codeblock: () => {
         const selected = doc.getSelection();

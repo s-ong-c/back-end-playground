@@ -9,6 +9,7 @@ import {
   convertEditorMode,
   openPublish,
   setDefaultDescription,
+  setThumbnail,
 } from '../../modules/write';
 
 import remark from 'remark';
@@ -17,10 +18,13 @@ import breaks from 'remark-breaks';
 import strip from 'strip-markdown';
 import TagInputContainer from './TagInputContainer';
 import WriteFooter from '../../components/write/WriteFooter';
+import useUpload from '../../lib/hooks/useUpload';
+import useS3Upload from '../../lib/hooks/useS3Upload';
 interface OwnProps {}
 interface StateProps {
   title: string;
   markdown: string;
+  thumbnail: string | null;
 }
 interface DispatchProps {
   changeMarkdown: typeof changeMarkdown;
@@ -29,10 +33,14 @@ interface DispatchProps {
   convertEditorMode: typeof convertEditorMode;
   openPublish: typeof openPublish;
   setDefaultDescription: typeof setDefaultDescription;
+  setThumbnail: typeof setThumbnail;
 }
+
 export type MarkdownEditorContainerProps = OwnProps &
   StateProps &
   DispatchProps;
+
+const { useCallback, useEffect } = React;
 const MarkdownEditorContainer: React.FC<MarkdownEditorContainerProps> = ({
   changeMarkdown,
   changeTitle,
@@ -42,6 +50,8 @@ const MarkdownEditorContainer: React.FC<MarkdownEditorContainerProps> = ({
   markdown,
   openPublish,
   setDefaultDescription,
+  setThumbnail,
+  thumbnail,
 }) => {
   const onConvert = (markdown: string) => {
     remark()
@@ -53,7 +63,7 @@ const MarkdownEditorContainer: React.FC<MarkdownEditorContainerProps> = ({
         convertEditorMode();
       });
   };
-  const onPublish = React.useCallback(() => {
+  const onPublish = useCallback(() => {
     // (/#(.*?)\n/g,'').replace(/\n/g,'');
     remark()
       .use(strip)
@@ -64,9 +74,26 @@ const MarkdownEditorContainer: React.FC<MarkdownEditorContainerProps> = ({
         openPublish();
       });
   }, [markdown, openPublish, setDefaultDescription]);
+
+  const [upload, file] = useUpload();
+  const [s3Upload, image] = useS3Upload();
+
+  useEffect(() => {
+    if (!file) return;
+    s3Upload(file, {
+      type: 'post',
+    });
+  }, [file, s3Upload]);
+  useEffect(() => {
+    if (!thumbnail && image) {
+      setThumbnail(image);
+    }
+  }, [image, setThumbnail, thumbnail]);
   return (
     <MarkdownEditor
       title={title}
+      onUpload={upload}
+      lastUploadedImage={image}
       markdown={markdown}
       onChangeMarkdown={changeMarkdown}
       onChangeTitle={changeTitle}
@@ -81,6 +108,7 @@ export default connect<StateProps, DispatchProps, OwnProps, RootState>(
   state => ({
     title: state.write.title,
     markdown: state.write.markdown,
+    thumbnail: state.write.thumbnail,
   }),
   {
     changeMarkdown,
@@ -89,5 +117,6 @@ export default connect<StateProps, DispatchProps, OwnProps, RootState>(
     convertEditorMode,
     openPublish,
     setDefaultDescription,
+    setThumbnail,
   },
 )(MarkdownEditorContainer);
