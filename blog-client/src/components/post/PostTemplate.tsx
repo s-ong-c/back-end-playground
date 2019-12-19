@@ -5,8 +5,8 @@ import PageTemplate from '../base/PageTemplate';
 const PostTemplateBlock = styled(PageTemplate)``;
 interface PostTemplateProps {}
 
-const PostTemplate: React.FC<PostTemplateProps> = props => {
-  return <PostTemplateBlock>포스트임</PostTemplateBlock>;
+const PostTemplate: React.FC<PostTemplateProps> = ({ children }) => {
+  return <PostTemplateBlock>{children}</PostTemplateBlock>;
 };
 
 export default PostTemplate;
