@@ -1,13 +1,13 @@
 import * as React from 'react';
 import PostCardList from '../../components/common/PostCardList';
-import { Query, QueryResult } from 'react-apollo';
 import { GET_POST_LIST, PartialPost } from '../../lib/graphql/post';
+import { QueryResult, Query } from 'react-apollo';
 import ScrollingPagination from '../../components/common/ScrollingPagination';
-import client from '../../lib/graphql/client';
 
 interface RecentPostsProps {}
+
 const { useState } = React;
-const RecentPosts: React.FC<RecentPostsProps> = props => {
+const RecentPosts: React.SFC<RecentPostsProps> = props => {
   const [loadingMore, setLoadingMore] = useState(false);
   return (
     <Query query={GET_POST_LIST}>
@@ -16,6 +16,7 @@ const RecentPosts: React.FC<RecentPostsProps> = props => {
         error,
         data,
         fetchMore,
+        client,
       }: QueryResult<{ posts: PartialPost[] }>) => {
         if (error || !data || !data.posts) return null;
         return (
@@ -25,7 +26,6 @@ const RecentPosts: React.FC<RecentPostsProps> = props => {
               loading={loadingMore}
               lastCursor={data.posts[data.posts.length - 1].id}
               onLoadMore={async cursor => {
-                setLoadingMore(true);
                 try {
                   const result = await client.query<{ posts: PartialPost[] }>({
                     query: GET_POST_LIST,
@@ -37,7 +37,9 @@ const RecentPosts: React.FC<RecentPostsProps> = props => {
                       posts: [...data.posts, ...result.data.posts],
                     },
                   });
-                } catch (error) {}
+                } catch (e) {
+                  console.log(e);
+                }
                 setLoadingMore(false);
               }}
               onPrefetch={cursor => {

@@ -67,6 +67,7 @@ export const WRITE_POST = gql`
     $tags: [String]
     $is_markdown: Boolean
     $is_temp: Boolean
+    $is_private: Boolean
     $url_slug: String
     $thumbnail: String
     $meta: JSON
@@ -77,25 +78,17 @@ export const WRITE_POST = gql`
       tags: $tags
       is_markdown: $is_markdown
       is_temp: $is_temp
+      is_private: $is_private
       url_slug: $url_slug
       thumbnail: $thumbnail
       meta: $meta
     ) {
       id
-      title
-      body
-      thumbnail
-      is_markdown
-      is_temp
       user {
         id
         username
-        profile {
-          thumbnail
-        }
       }
       url_slug
-      meta
     }
   }
 `;

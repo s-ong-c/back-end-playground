@@ -62,7 +62,10 @@ export default class Comment {
   @JoinColumn({ name: 'fk_user_id' })
   user!: User;
 
-  @ManyToOne(type => Post, post => post.comments)
+  @ManyToOne(
+    type => Post,
+    post => post.comments
+  )
   @JoinColumn({ name: 'fk_post_id' })
   post!: Post;
 
@@ -81,7 +84,6 @@ export const commentsLoader: DataLoader<string, Comment[]> = new DataLoader(asyn
     .getMany();
 
   const normalized = normalize<Post>(posts);
-
   const commentsGroups = postIds.map(id => (normalized[id] ? normalized[id].comments : []));
   return commentsGroups;
   // return posts.map(post => post.comments);

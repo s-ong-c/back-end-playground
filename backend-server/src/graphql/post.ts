@@ -1,12 +1,12 @@
 import { gql, IResolvers, ApolloError, AuthenticationError } from 'apollo-server-koa';
 import Post from '../entity/Post';
-import { getRepository, getManager } from 'typeorm';
+import { getRepository, getManager, getConnectionManager } from 'typeorm';
 import PostScore from '../entity/PostScore';
 import { normalize } from '../lib/utils';
 import removeMd from 'remove-markdown';
 import { commentsLoader } from '../entity/Comment';
+import PostsTags, { tagsLoader } from '../entity/PostsTags';
 import { userLoader } from '../entity/User';
-import { tagsLoader } from '../entity/PostsTags';
 import Tag from '../entity/Tag';
 
 export const typeDef = gql`
@@ -46,6 +46,7 @@ export const typeDef = gql`
       url_slug: String
       thumbnail: String
       meta: JSON
+      is_private: Boolean
     ): Post
   }
 `;
@@ -74,6 +75,7 @@ export const resolvers: IResolvers = {
       if (parent.meta.short_description) {
         return parent.meta.short_description;
       }
+
       const removed = removeMd(
         parent.body
           .replace(/```([\s\S]*?)```/g, '')
@@ -105,7 +107,6 @@ export const resolvers: IResolvers = {
             .leftJoinAndSelect('post.user', 'user')
             .leftJoinAndSelect('post.comments', 'comment')
             .where('post.id = :id', { id })
-            .andWhere('comment.level = 0')
             .orderBy({
               'comment.created_at': 'ASC'
             })
@@ -118,12 +119,16 @@ export const resolvers: IResolvers = {
           .leftJoinAndSelect('post.user', 'user')
           .leftJoinAndSelect('post.comments', 'comment')
           .where('user.username = :username AND url_slug = :url_slug', { username, url_slug })
-          .andWhere('comment.level = 0')
           .orderBy({
             'comment.created_at': 'ASC'
           })
           .getOne();
-        if (!post) return null;
+        if (!post) {
+          console.log('fuck');
+          return null;
+        }
+        console.log(post.is_temp);
+        console.log(post.is_private);
         if ((post.is_temp || post.is_private === true) && post.fk_user_id !== ctx.user_id) {
           return null;
         }
@@ -133,7 +138,6 @@ export const resolvers: IResolvers = {
         console.log(e);
       }
     },
-
     posts: async (parent: any, { cursor, limit = 20, username }: any, context: any) => {
       const query = getManager()
         .createQueryBuilder(Post, 'post')
@@ -215,6 +219,7 @@ export const resolvers: IResolvers = {
       const postRepo = getRepository(Post);
       const tagsData = await Promise.all(data.tags.map(Tag.findOrCreate));
       await postRepo.save(post);
+      PostsTags.syncPostTags(post.id, tagsData);
 
       post.tags = tagsData;
       return post;

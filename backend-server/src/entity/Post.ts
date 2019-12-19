@@ -17,7 +17,7 @@ import Comment from './Comment';
 import Tag from './Tag';
 
 @Entity('posts', {
-  synchronize: false
+  synchronize: true
 })
 export default class Post {
   @PrimaryGeneratedColumn('uuid')
@@ -58,10 +58,10 @@ export default class Post {
   })
   meta!: any;
 
-  @Column()
+  @Column({ default: 0 })
   views!: number;
 
-  @Column({ default: true })
+  @Column({ default: false })
   is_private!: boolean;
 
   @Index()
@@ -76,15 +76,18 @@ export default class Post {
   @CreateDateColumn()
   created_at!: Date;
 
+  @OneToMany(
+    type => Comment,
+    comment => comment.post
+  )
+  comments!: Comment[];
+
   @Column('timestamptz')
   @UpdateDateColumn()
   updated_at!: Date;
 
-  @Column('tsvector')
+  @Column({ type: 'tsvector', nullable: true })
   tsv!: any;
-
-  @OneToMany(type => Comment, comment => comment.post)
-  comments!: Comment[];
 
   // @ManyToMany(type => Tag)
   // @JoinTable({

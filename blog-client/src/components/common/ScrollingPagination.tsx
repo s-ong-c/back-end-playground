@@ -12,37 +12,41 @@ export default class ScrollingPagination extends React.Component<
   ScrollingPaginationProps,
   any
 > {
+  prevCursor: null | string = null;
   loadMore = () => {
     const { onLoadMore, lastCursor, loading } = this.props;
     if (!lastCursor) return;
     if (loading) return;
-    console.log('load more ....');
+    if (this.prevCursor === lastCursor) return;
+    console.log(lastCursor);
     onLoadMore(lastCursor);
+    this.prevCursor = lastCursor;
   };
-  handlerScroll = () => {
+  handleScroll = () => {
     const scrollBottom = getScrollBottom();
     if (scrollBottom < 768) {
-      console.log('start');
       this.loadMore();
     }
   };
   componentDidMount() {
-    window.addEventListener('scroll', this.handlerScroll);
+    window.addEventListener('scroll', this.handleScroll);
     if (this.props.lastCursor) {
       this.props.onPrefetch(this.props.lastCursor);
     }
   }
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handlerScroll);
+    window.removeEventListener('scroll', this.handleScroll);
   }
   componentDidUpdate(prevProps: ScrollingPaginationProps) {
     if (
       prevProps.lastCursor !== this.props.lastCursor &&
       this.props.lastCursor
     ) {
+      console.log('prefetch!');
       this.props.onPrefetch(this.props.lastCursor);
     }
   }
+
   public render() {
     return <div />;
   }
