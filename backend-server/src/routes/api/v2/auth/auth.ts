@@ -9,6 +9,8 @@ import { createAuthEmail } from '../../../../etc/emailTemplates';
 import sendMail from '../../../../lib/sendMail';
 import { generateToken, decodeToken, setTokenCookie } from '../../../../lib/token';
 import UserProfile from '../../../../entity/UserProfile';
+import SongcConfig from '../../../../entity/SongcConfig';
+
 const auth = new Router();
 
 /* LOCAL AUTH */
@@ -219,6 +221,10 @@ auth.post('/register/local', async ctx => {
   profile.display_name = display_name;
   profile.short_bio = short_bio;
   await getRepository(UserProfile).save(profile);
+
+  const songcConfig = new SongcConfig();
+  songcConfig.fk_user_id = user.id;
+  await getRepository(SongcConfig).save(songcConfig);
 
   const tokens = await user.generateUserToken();
   setTokenCookie(ctx, tokens);
