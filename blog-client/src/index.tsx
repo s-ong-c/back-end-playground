@@ -24,7 +24,20 @@ const loadUser = () => {
 
 loadUser();
 
-loadableReady(() => {
+if (process.env.NODE_ENV === 'production') {
+  loadableReady(() => {
+    ReactDOM.hydrate(
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ApolloProvider>
+      </Provider>,
+      document.getElementById('root'),
+    );
+  });
+} else {
   ReactDOM.hydrate(
     <Provider store={store}>
       <ApolloProvider client={client}>
@@ -35,7 +48,7 @@ loadableReady(() => {
     </Provider>,
     document.getElementById('root'),
   );
-});
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
