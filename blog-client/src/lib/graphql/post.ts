@@ -54,6 +54,9 @@ export interface SinglePost {
       thumbnail: string;
       short_bio: string;
     };
+    songc_config: {
+      title: string;
+    };
   };
 }
 
@@ -98,6 +101,9 @@ export const READ_POST = gql`
           display_name
           thumbnail
           short_bio
+        }
+        songc_config {
+          title
         }
       }
     }

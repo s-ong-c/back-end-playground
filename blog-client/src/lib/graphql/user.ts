@@ -8,12 +8,17 @@ export type UserProfile = {
   about: string;
   profile_links: any;
 };
+export type SongcConfig = {
+  id: string;
+  title: string;
+};
 export type User = {
   id: string;
   username: string;
   email: string | null;
   is_certified: boolean;
   profile: UserProfile;
+  songcConfig: SongcConfig | null;
 };
 
 export const GET_CURRENT_USER = gql`
