@@ -2,6 +2,7 @@ import { gql, IResolvers, AuthenticationError } from 'apollo-server-koa';
 import User from '../entity/User';
 import { getRepository } from 'typeorm';
 import { ApolloContext } from '../app';
+import SongcConfig from '../entity/SongcConfig';
 
 export const typeDef = gql`
   type User {
@@ -28,10 +29,12 @@ export const typeDef = gql`
   type SongcConfig {
     id: ID!
     title: String
+    logo_image: String
   }
 
   extend type Query {
     user(id: ID, username: String): User
+    songc_config(username: String): SongcConfig
     auth: User
   }
 `;
@@ -74,6 +77,15 @@ export const resolvers: IResolvers<any, ApolloContext> = {
       } catch (e) {
         console.log(e);
       }
+    },
+    songc_config: async (parent: any, { username }: any) => {
+      const repo = getRepository(SongcConfig);
+      const songcConfig = repo
+        .createQueryBuilder('songc_config')
+        .leftJoinAndSelect('songc_config.user', 'user')
+        .where('user.username = :username', { username })
+        .getOne();
+      return songcConfig;
     },
     auth: async (parent: any, params: any, ctx) => {
       if (!ctx.user_id) return null;
