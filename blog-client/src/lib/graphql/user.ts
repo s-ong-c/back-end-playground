@@ -34,6 +34,15 @@ export const GET_CURRENT_USER = gql`
   }
 `;
 
+export const GET_SONGC_CONFIG = gql`
+  query GetSongcConfig($username: String) {
+    songc_config(username: $username) {
+      title
+      logo_image
+    }
+  }
+`;
+
 export type CurrentUser = {
   id: string;
   username: string;

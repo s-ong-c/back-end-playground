@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router';
 import MainPage from './pages/main/MainPage';
-import PostPage from './pages/PostPage';
 import Core from './containers/base/Core';
 import RegisterPage from './pages/RegisterPage';
 import EmailLoginPage from './pages/EmailLoginPage';

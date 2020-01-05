@@ -5,8 +5,8 @@ import PageTemplate from '../base/PageTemplate';
 const SongcPageTemplateBlock = styled(PageTemplate)``;
 export interface SongcPageTemplateProps {}
 
-const SongcPageTemplate: React.FC<SongcPageTemplateProps> = props => {
-  return <SongcPageTemplateBlock />;
+const SongcPageTemplate: React.FC<SongcPageTemplateProps> = ({ children }) => {
+  return <SongcPageTemplateBlock>{children}</SongcPageTemplateBlock>;
 };
 
 export default SongcPageTemplate;
