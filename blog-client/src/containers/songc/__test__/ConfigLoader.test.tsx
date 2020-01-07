@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { render, waitForDomChange } from 'react-testing-library';
+import { waitForDomChange } from 'react-testing-library';
 import ConfigLoader, { ConfigLoaderProps } from '../ConfigLoader';
 import { MockedProvider } from 'react-apollo/test-utils';
 import { GET_SONGC_CONFIG } from '../../../lib/graphql/user';
+import renderWithRedux from '../../../lib/renderWithRedux';
+import waitUntil from '../../../lib/waitUntil';
 
 describe('ConfigLoader', () => {
   const setup = (props: Partial<ConfigLoaderProps> = {}) => {
@@ -22,7 +24,7 @@ describe('ConfigLoader', () => {
         },
       },
     ];
-    const utils = render(
+    const utils = renderWithRedux(
       <MockedProvider mocks={mocks} addTypename={false}>
         <ConfigLoader {...initialProps} {...props} />
       </MockedProvider>,
@@ -34,9 +36,11 @@ describe('ConfigLoader', () => {
   it('renders property', () => {
     setup();
   });
-  it('matches snapshot', async () => {
-    const { container } = setup();
-    await waitForDomChange({ container });
-    expect(container).toMatchSnapshot();
+  it('loads GET_SONGC_CONFIG and dispatches SET_USER_LOGO action', async () => {
+    const { container, store } = setup();
+    const userLogo = store.getState().header.userLogo;
+    await waitUntil(() => store.getState().header.userLogo !== userLogo);
+    console.log(store.getState().header.userLogo);
+    expect(store.getState().header.userLogo).toHaveProperty('title', 'SONGC');
   });
 });

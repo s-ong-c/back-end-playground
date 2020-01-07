@@ -10,7 +10,8 @@ export type UserProfile = {
 };
 export type SongcConfig = {
   id: string;
-  title: string;
+  title: string | null;
+  logo_image: string | null;
 };
 export type User = {
   id: string;
