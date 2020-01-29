@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { render } from 'react-testing-library';
 import SongcPageTemplate, {
   SongcPageTemplateProps,
@@ -9,7 +10,9 @@ describe('SongcPageTemplate', () => {
   const setup = (props: Partial<SongcPageTemplateProps> = {}) => {
     const initialProps: SongcPageTemplateProps = {};
     const utils = renderWithRedux(
-      <SongcPageTemplate {...initialProps} {...props} />,
+      <MemoryRouter>
+        <SongcPageTemplate {...initialProps} {...props} />
+      </MemoryRouter>,
     );
     return {
       ...utils,

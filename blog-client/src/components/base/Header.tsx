@@ -9,6 +9,8 @@ import useToggle from '../../lib/hooks/useToggle';
 import HeaderUserMenu from './HeaderUserMenu';
 import { logout } from '../../lib/api/auth';
 import storage from '../../lib/storage';
+import { UserLogo } from '../../modules/header';
+import HeaderLogo from './HeaderLogo';
 
 const HeaderBlock = styled.div<{
   floating: boolean;
@@ -50,6 +52,9 @@ interface HeaderProps {
   onLoginClick: () => void;
   user: CurrentUser | null;
   isWrite?: boolean;
+  custom: boolean;
+  userLogo: UserLogo | null;
+  songcUsername: string | null;
 }
 
 const { useCallback } = React;
@@ -58,6 +63,9 @@ const Header: React.FC<HeaderProps> = ({
   floatingMargin,
   onLoginClick,
   user,
+  custom,
+  userLogo,
+  songcUsername,
 }) => {
   const [userMenu, toggleUserMenu] = useToggle(false);
 
@@ -77,7 +85,11 @@ const Header: React.FC<HeaderProps> = ({
       >
         <div className="wrapper">
           <div className="brand">
-            <Logo />
+            <HeaderLogo
+              custom={custom}
+              userLogo={userLogo}
+              songcUsername={songcUsername}
+            />
           </div>
           <div className="right">
             {user ? (

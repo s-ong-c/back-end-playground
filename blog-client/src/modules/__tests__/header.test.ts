@@ -1,10 +1,11 @@
-import header, { setCustom, setUserLogo } from '../header';
+import header, { setCustom, setUserLogo, setSongcUsername } from '../header';
 
 describe('header redux module', () => {
   describe('reducer', () => {
     const initialState = {
       custom: false,
       userLogo: null,
+      songcUsername: null,
     };
 
     it('should have initialState', () => {
@@ -24,6 +25,10 @@ describe('header redux module', () => {
         setUserLogo({ title: 'SAMPLE', logo_image: null }),
       );
       expect(state.userLogo).toHaveProperty('title', 'SAMPLE');
+    });
+    it('handles SET_SONGC_USER', () => {
+      const state = header(initialState, setSongcUsername('songc'));
+      expect(state.songcUsername).toBe('songc');
     });
   });
 });

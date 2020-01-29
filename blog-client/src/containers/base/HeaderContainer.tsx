@@ -4,21 +4,31 @@ import Header from '../../components/base/Header';
 import { getScrollTop } from '../../lib/utils';
 import { RootState } from '../../modules';
 import { showAuthModal } from '../../modules/core';
-import { CurrentUser } from '../../lib/graphql/user';
+
 const { useEffect, useRef, useState, useCallback } = React;
 
+const mapStateToProps = (state: RootState) => ({
+  user: state.core.user,
+  custom: state.header.custom,
+  userLogo: state.header.userLogo,
+  songcUsername: state.header.songcUsername,
+});
+const mapDispatchToProps = {
+  showAuthModal,
+};
 interface OwnProps {}
-interface StateProps {
-  user: CurrentUser | null;
-}
-interface DispatchProps {
-  showAuthModal: typeof showAuthModal;
-}
+type StateProps = ReturnType<typeof mapStateToProps>;
+// interface StateProps {
+//   user: CurrentUser | null;
+// }
+type DispatchProps = typeof mapDispatchToProps;
 type HeaderContainerProps = OwnProps & StateProps & DispatchProps;
-
 const HeaderContainer: React.FC<HeaderContainerProps> = ({
   showAuthModal,
   user,
+  custom,
+  userLogo,
+  songcUsername,
 }) => {
   const lastY = useRef(0);
   const direction = useRef<null | 'UP' | 'DOWN'>(null);
@@ -76,6 +86,9 @@ const HeaderContainer: React.FC<HeaderContainerProps> = ({
       floatingMargin={floatingMargin}
       onLoginClick={onLoginClick}
       user={user}
+      custom={custom}
+      userLogo={userLogo}
+      songcUsername={songcUsername}
     />
   );
 };
@@ -101,8 +114,6 @@ const HeaderContainer: React.FC<HeaderContainerProps> = ({
 // );
 
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(
-  state => ({
-    user: state.core.user,
-  }),
-  { showAuthModal },
+  mapStateToProps,
+  mapDispatchToProps,
 )(HeaderContainer);

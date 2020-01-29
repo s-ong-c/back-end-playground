@@ -2,33 +2,52 @@ import React, { useEffect } from 'react';
 import { Query, QueryResult } from 'react-apollo';
 import { GET_SONGC_CONFIG, SongcConfig } from '../../lib/graphql/user';
 import { connect } from 'react-redux';
-import { setUserLogo } from '../../modules/header';
+import { setUserLogo, setCustom, setSongcUsername } from '../../modules/header';
+import { RootState } from '../../modules';
 
-export interface ConfigLoaderProps {
-  username: string;
-}
 interface ConfigEffectProps {
   songcConfig: SongcConfig;
-  setUserLogo: typeof setUserLogo;
+  onConfigChange: (config: SongcConfig) => any;
 }
 
-// interface ConfigEffectDispatchProps {
-//   setUserLogo: typeof setUserLogo;
-// }
 const ConfigEffect: React.FC<ConfigEffectProps> = ({
   songcConfig,
-  setUserLogo,
+  onConfigChange,
 }) => {
   useEffect(() => {
-    setUserLogo(songcConfig);
-  }, [setUserLogo, songcConfig]);
+    onConfigChange(songcConfig);
+  }, [onConfigChange, songcConfig]);
   return null;
 };
-const ConfigEffectContainer = connect(() => ({}), { setUserLogo })(
-  ConfigEffect,
-);
 
-const ConfigLoader: React.FC<ConfigLoaderProps> = ({ username }) => {
+const mapDispatchToProps = {
+  setUserLogo,
+  setCustom,
+  setSongcUsername,
+};
+
+type OwnProps = {
+  username: string;
+};
+type StateProps = {};
+type DispatchProps = typeof mapDispatchToProps;
+export type ConfigLoaderProps = OwnProps & StateProps & DispatchProps;
+const ConfigLoader: React.FC<ConfigLoaderProps> = ({
+  username,
+  setCustom,
+  setUserLogo,
+  setSongcUsername,
+}) => {
+  useEffect(() => {
+    setCustom(true);
+    return () => {
+      setCustom(false);
+    };
+  }, [setCustom]);
+
+  useEffect(() => {
+    setSongcUsername(username);
+  }, [setSongcUsername, username]);
   return (
     <Query query={GET_SONGC_CONFIG} variables={{ username }}>
       {({
@@ -41,10 +60,17 @@ const ConfigLoader: React.FC<ConfigLoaderProps> = ({ username }) => {
         }
         if (error || loading) return null;
         if (!data) return null;
-        return <ConfigEffectContainer songcConfig={data.songc_config} />;
+        return (
+          <ConfigEffect
+            songcConfig={data.songc_config}
+            onConfigChange={setUserLogo}
+          />
+        );
       }}
     </Query>
   );
 };
-
-export default ConfigLoader;
+export default connect<StateProps, DispatchProps, OwnProps, RootState>(
+  () => ({}),
+  mapDispatchToProps,
+)(ConfigLoader);
