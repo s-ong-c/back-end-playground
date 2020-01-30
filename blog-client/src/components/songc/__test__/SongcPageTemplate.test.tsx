@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { render } from 'react-testing-library';
 import SongcPageTemplate, {
   SongcPageTemplateProps,
 } from '../SongcPageTemplate';

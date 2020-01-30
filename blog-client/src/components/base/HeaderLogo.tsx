@@ -9,9 +9,9 @@ const createFallbackTitle = (username: string | null) => {
   if (!username) return null;
   const lastChar = username.slice(-1).toLowerCase();
   if (lastChar === 's') {
-    return `${username}' velog`;
+    return `${username}' Story`;
   }
-  return `${username}'s velog`;
+  return `${username}'s Story`;
 };
 
 const HeaderLogoBlock = styled(Link)`
