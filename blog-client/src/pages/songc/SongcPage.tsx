@@ -1,17 +1,22 @@
 import * as React from 'react';
 import SongcPageTemplate from '../../components/songc/SongcPageTemplate';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, Route } from 'react-router';
 import ConfigLoader from '../../containers/songc/ConfigLoader';
+import PostPage from './PostPage';
 
 export interface SongcPageProps
   extends RouteComponentProps<{
     username: string;
+    urlSlug: string;
   }> {}
 
 const SongcPage: React.FC<SongcPageProps> = ({ match }) => {
+  const { username } = match.params;
   return (
     <SongcPageTemplate>
-      <ConfigLoader username={match.params.username} />
+      {/* <PostViewer username={username} urlSlug={urlSlug} /> */}
+      <ConfigLoader username={username} />
+      <Route path="/@:username/:urlSlug" component={PostPage} />
     </SongcPageTemplate>
   );
 };

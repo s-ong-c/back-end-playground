@@ -1,9 +1,8 @@
 import * as React from 'react';
-import PostTemplate from '../components/post/PostTemplate';
-import PostViewer from '../containers/post/PostViewer';
 import { RouteComponentProps } from 'react-router';
+import PostViewer from '../../containers/post/PostViewer';
 
-interface PostPageProps
+export interface PostPageProps
   extends RouteComponentProps<{
     username: string;
     urlSlug: string;
@@ -11,11 +10,7 @@ interface PostPageProps
 
 const PostPage: React.FC<PostPageProps> = ({ match }) => {
   const { username, urlSlug } = match.params;
-  return (
-    <PostTemplate>
-      <PostViewer username={username} urlSlug={urlSlug} />
-    </PostTemplate>
-  );
+  return <PostViewer username={username} urlSlug={urlSlug} />;
 };
 
 export default PostPage;

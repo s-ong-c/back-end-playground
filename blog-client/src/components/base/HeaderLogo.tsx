@@ -9,9 +9,9 @@ const createFallbackTitle = (username: string | null) => {
   if (!username) return null;
   const lastChar = username.slice(-1).toLowerCase();
   if (lastChar === 's') {
-    return `${username}' Story`;
+    return `${username}' 크리에이터`;
   }
-  return `${username}'s Story`;
+  return `${username}'s 크리에이터`;
 };
 
 const HeaderLogoBlock = styled(Link)`
@@ -48,7 +48,8 @@ const HeaderLogo: React.FC<HeaderLogoProps> = ({
   const songcPath = `/@${songcUsername}`;
   return (
     <HeaderLogoBlock to={songcPath}>
-      {userLogo.title || createFallbackTitle(songcUsername)}
+      {/* {userLogo.title || createFallbackTitle(songcUsername)} */}
+      {createFallbackTitle(songcUsername)}
     </HeaderLogoBlock>
   );
 };

@@ -53,7 +53,7 @@ describe('HeaderLogo', () => {
       },
       songcUsername: 'songc',
     });
-    getByText(`songc's Story`);
+    getByText(`songc's 크리에이터`);
   });
   it('shows fallback songc title with username ends with s', () => {
     const { getByText } = setup({
@@ -65,6 +65,6 @@ describe('HeaderLogo', () => {
       songcUsername: 'usernames',
     });
     console.log(getByText);
-    getByText(`usernames' Story`);
+    getByText(`usernames' 크리에이터`);
   });
 });
