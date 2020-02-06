@@ -42,14 +42,12 @@ const HeaderLogo: React.FC<HeaderLogoProps> = ({
       </HeaderLogoBlock>
     );
   }
-  console.log(userLogo, songcUsername);
   if (!userLogo) return null;
   if (!songcUsername) return null;
   const songcPath = `/@${songcUsername}`;
   return (
     <HeaderLogoBlock to={songcPath}>
-      {/* {userLogo.title || createFallbackTitle(songcUsername)} */}
-      {createFallbackTitle(songcUsername)}
+      {userLogo.title || createFallbackTitle(songcUsername)}
     </HeaderLogoBlock>
   );
 };

@@ -14,7 +14,6 @@ const SongcPage: React.FC<SongcPageProps> = ({ match }) => {
   const { username } = match.params;
   return (
     <SongcPageTemplate>
-      {/* <PostViewer username={username} urlSlug={urlSlug} /> */}
       <ConfigLoader username={username} />
       <Route path="/@:username/:urlSlug" component={PostPage} />
     </SongcPageTemplate>

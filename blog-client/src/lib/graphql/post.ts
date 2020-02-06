@@ -47,7 +47,9 @@ export interface SinglePost {
   is_markdown: boolean;
   is_private: boolean;
   is_temp: boolean;
+  thumbnail: string | null;
   user: {
+    id: string;
     username: string;
     profile: {
       display_name: string;
@@ -95,7 +97,9 @@ export const READ_POST = gql`
       is_markdown
       is_private
       is_temp
+      thumbnail
       user {
+        id
         username
         profile {
           display_name
