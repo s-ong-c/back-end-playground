@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import SongcResponsive from '../songc/SongcResponsive';
 import palette from '../../lib/styles/palette';
 import { formatDate } from '../../lib/utils';
+import PostTags from './PostTags';
 
 const PostHeadBlock = styled(SongcResponsive)`
   margin-top: 5.5rem;
@@ -37,7 +38,7 @@ export interface PostHeadProps {
   date: string;
 }
 
-const PostHead: React.FC<PostHeadProps> = ({ title, username, date }) => {
+const PostHead: React.FC<PostHeadProps> = ({ title, username, date, tags }) => {
   return (
     <PostHeadBlock>
       <h1>{title}</h1>
@@ -46,6 +47,7 @@ const PostHead: React.FC<PostHeadProps> = ({ title, username, date }) => {
         <span className="separator">&middot;</span>
         <span>{formatDate(date)}</span>
       </SubInfo>
+      <PostTags tags={tags} />
     </PostHeadBlock>
   );
 };

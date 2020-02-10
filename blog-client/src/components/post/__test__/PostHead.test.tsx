@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render } from 'react-testing-library';
 import PostHead, { PostHeadProps } from '../PostHead';
+import { MemoryRouter } from 'react-router';
 
 describe('PostHead', () => {
   const setup = (props: Partial<PostHeadProps> = {}) => {
@@ -10,7 +11,11 @@ describe('PostHead', () => {
       username: 'songc',
       date: new Date(Date.now() - 1000 * 60 * 60 * 5).toString(),
     };
-    const utils = render(<PostHead {...initialProps} {...props} />);
+    const utils = render(
+      <MemoryRouter>
+        <PostHead {...initialProps} {...props} />
+      </MemoryRouter>,
+    );
     return {
       ...utils,
     };
@@ -26,6 +31,13 @@ describe('PostHead', () => {
     const { getByText } = setup();
     getByText('songc');
   });
-  it('renders date', () => {});
-  it('renders tags', () => {});
+  it('renders date', () => {
+    const { getByText } = setup();
+    getByText('약 5시간 전');
+  });
+  it('renders tags', () => {
+    const { getByText } = setup();
+    getByText('tagA');
+    getByText('tagB');
+  });
 });
