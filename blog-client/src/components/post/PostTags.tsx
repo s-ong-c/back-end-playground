@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 const PostTagsBlock = styled.div`
   margin-top: 0.875rem;
+  margin-bottom: -0.875rem;
 `;
 
 const Tag = styled(Link)`

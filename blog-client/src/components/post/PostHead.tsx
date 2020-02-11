@@ -31,14 +31,34 @@ const SubInfo = styled.div`
     margin-right: 0.5rem;
   }
 `;
+
+const PostThumbnail = styled.img`
+  max-height: 100vh;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+  display: block;
+  margin-top: 2rem;
+`;
 export interface PostHeadProps {
   title: string;
   tags: string[];
   username: string;
   date: string;
+  thumbnail: string | null;
+  hideThumbnail: boolean;
 }
 
-const PostHead: React.FC<PostHeadProps> = ({ title, username, date, tags }) => {
+const PostHead: React.FC<PostHeadProps> = ({
+  title,
+  username,
+  date,
+  tags,
+  thumbnail,
+  hideThumbnail,
+}) => {
   return (
     <PostHeadBlock>
       <h1>{title}</h1>
@@ -48,6 +68,9 @@ const PostHead: React.FC<PostHeadProps> = ({ title, username, date, tags }) => {
         <span>{formatDate(date)}</span>
       </SubInfo>
       <PostTags tags={tags} />
+      {!hideThumbnail && thumbnail && (
+        <PostThumbnail src={thumbnail} alt="post-thumbnail" />
+      )}
     </PostHeadBlock>
   );
 };

@@ -10,6 +10,9 @@ describe('PostHead', () => {
       tags: ['tagA', 'tagB'],
       username: 'songc',
       date: new Date(Date.now() - 1000 * 60 * 60 * 5).toString(),
+      thumbnail:
+        'https://images.songc.io/images/songc/post/759061ac-b56f-4b8c-b63e-b9a92a1170dd/image.png',
+      hideThumbnail: false,
     };
     const utils = render(
       <MemoryRouter>
@@ -39,5 +42,16 @@ describe('PostHead', () => {
     const { getByText } = setup();
     getByText('tagA');
     getByText('tagB');
+  });
+  it('renders thumbnail', () => {
+    const { getByAltText } = setup();
+    getByAltText('post-thumbnail');
+  });
+  it('hides thumbnail', () => {
+    const { queryByAltText } = setup({
+      hideThumbnail: true,
+    });
+    const thumbnail = queryByAltText('post-thumbnail');
+    expect(thumbnail).toBeFalsy();
   });
 });
