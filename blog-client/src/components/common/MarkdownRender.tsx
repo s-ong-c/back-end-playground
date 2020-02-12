@@ -12,7 +12,6 @@ export interface MarkdownRenderProps {
 }
 
 const MarkdownRenderBlock = styled.div`
-  font-size: 1.3125rem;
   &.atom-one-dark {
     ${prismThemes['atom-one-dark']}
   }

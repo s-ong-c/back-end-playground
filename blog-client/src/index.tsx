@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './typography.css';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -13,7 +14,6 @@ import client from './lib/graphql/client';
 import rootReducer from './modules';
 import storage from './lib/storage';
 import { setUser } from './modules/core';
-
 const store = createStore(rootReducer, composeWithDevTools());
 
 const loadUser = () => {
