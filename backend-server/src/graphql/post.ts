@@ -183,7 +183,6 @@ export const resolvers: IResolvers<any, ApolloContext> = {
         .orderBy('score', 'DESC')
         .addOrderBy('fk_post_id', 'DESC')
         .limit(limit);
-
       if (offset) {
         query.offset(offset);
       }
@@ -193,6 +192,7 @@ export const resolvers: IResolvers<any, ApolloContext> = {
       const posts = await getRepository(Post).findByIds(ids);
       const normalized = normalize(posts);
       const ordered = ids.map(id => normalized[id]);
+      console.log(offset, ordered);
 
       return ordered;
     }

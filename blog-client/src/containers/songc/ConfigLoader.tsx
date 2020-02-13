@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { Query, QueryResult } from 'react-apollo';
 import { GET_SONGC_CONFIG, SongcConfig } from '../../lib/graphql/user';
 import { connect } from 'react-redux';
 import { setUserLogo, setCustom, setSongcUsername } from '../../modules/header';
 import { RootState } from '../../modules';
+import { useQuery } from '@apollo/react-hooks';
 
 interface ConfigEffectProps {
   songcConfig: SongcConfig;
@@ -38,6 +38,15 @@ const ConfigLoader: React.FC<ConfigLoaderProps> = ({
   setUserLogo,
   setSongcUsername,
 }) => {
+  const { data, error } = useQuery<{ songc_config: SongcConfig }>(
+    GET_SONGC_CONFIG,
+    {
+      variables: {
+        username,
+      },
+    },
+  );
+
   useEffect(() => {
     setCustom(true);
     return () => {
@@ -48,26 +57,16 @@ const ConfigLoader: React.FC<ConfigLoaderProps> = ({
   useEffect(() => {
     setSongcUsername(username);
   }, [setSongcUsername, username]);
+
+  if (error) {
+    console.log(error);
+  }
+  if (!data) return null;
   return (
-    <Query query={GET_SONGC_CONFIG} variables={{ username }}>
-      {({
-        loading,
-        data,
-        error,
-      }: QueryResult<{ songc_config: SongcConfig }>) => {
-        if (error) {
-          console.log(error);
-        }
-        if (error || loading) return null;
-        if (!data) return null;
-        return (
-          <ConfigEffect
-            songcConfig={data.songc_config}
-            onConfigChange={setUserLogo}
-          />
-        );
-      }}
-    </Query>
+    <ConfigEffect
+      songcConfig={data.songc_config}
+      onConfigChange={setUserLogo}
+    />
   );
 };
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(

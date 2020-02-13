@@ -48,6 +48,11 @@ const PostCardBlock = styled.div`
     margin: 0;
     color: ${palette.gray9};
   }
+  h4 {
+    font-size: 0.875rem;
+    margin: 0;
+    color: ${palette.gray3};
+  }
   p {
     margin-bottom: 0;
     margin-top: 0.5rem;
@@ -97,6 +102,9 @@ const PostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
         <h2>{post.title}</h2>
       </Link>
       <p>{post.short_description}</p>
+      <Link to={url}>
+        <h4>Read more ...</h4>
+      </Link>
       <div className="subinfo">
         <span>2019년 3월 23일</span>
         <span>{post.comments_count}개의 댓글</span>

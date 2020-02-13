@@ -18,7 +18,10 @@ const App: React.FC<AppProps> = props => {
       <Switch>
         <Route path="/" component={MainPage} exact />
         <Route path="/register" component={RegisterPage} />
-        <Route path="/:mode(trending|recent|following)" component={MainPage} />
+        <Route
+          path="/:mode(trending|recent|following|programing|react|server)"
+          component={MainPage}
+        />
         <Route path="/@:username" component={SongcPage} />
         {/* <Route path="/@:username/:urlSlug" component={PostPage} /> */}
         <Route path="/email-login" component={EmailLoginPage} />

@@ -6,7 +6,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import { loadableReady } from '@loadable/component';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/react-hooks';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -14,6 +14,8 @@ import client from './lib/graphql/client';
 import rootReducer from './modules';
 import storage from './lib/storage';
 import { setUser } from './modules/core';
+import { HelmetProvider } from 'react-helmet-async';
+
 const store = createStore(rootReducer, composeWithDevTools());
 
 const loadUser = () => {
@@ -27,25 +29,29 @@ loadUser();
 if (process.env.NODE_ENV === 'production') {
   loadableReady(() => {
     ReactDOM.hydrate(
+      <HelmetProvider>
+        <Provider store={store}>
+          <ApolloProvider client={client}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ApolloProvider>
+        </Provider>
+      </HelmetProvider>,
+      document.getElementById('root'),
+    );
+  });
+} else {
+  ReactDOM.hydrate(
+    <HelmetProvider>
       <Provider store={store}>
         <ApolloProvider client={client}>
           <BrowserRouter>
             <App />
           </BrowserRouter>
         </ApolloProvider>
-      </Provider>,
-      document.getElementById('root'),
-    );
-  });
-} else {
-  ReactDOM.hydrate(
-    <Provider store={store}>
-      <ApolloProvider client={client}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ApolloProvider>
-    </Provider>,
+      </Provider>
+    </HelmetProvider>,
     document.getElementById('root'),
   );
 }
