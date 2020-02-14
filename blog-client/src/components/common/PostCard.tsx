@@ -5,10 +5,15 @@ import { defaultThumbnail } from '../../static/images';
 import Tag from './Tag';
 import { PartialPost } from '../../lib/graphql/post';
 import { Link } from 'react-router-dom';
+import media from '../../lib/styles/media';
 
 const PostCardBlock = styled.div`
   padding-top: 4rem;
   padding-bottom: 4rem;
+  ${media.small} {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
   a {
     color: inherit;
     text-decoration: none;

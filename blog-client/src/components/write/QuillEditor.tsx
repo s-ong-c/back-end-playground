@@ -17,6 +17,7 @@ import AskChangeEditor from './AskChangeEditor';
 import { WriteMode } from '../../modules/write';
 import zIndexes from '../../lib/styles/zIndexes';
 import Typography from '../common/Typography';
+import media from '../../lib/styles/media';
 
 Quill.register('modules/markdownShortcuts', MarkdownShortcuts);
 
@@ -51,6 +52,14 @@ const StyledTitleTextarea = styled(TitleTextarea)`
 `;
 
 const QuillEditorWrapper = styled.div`
+  ${media.medium} {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  ${media.small} {
+    width: 100%;
+  }
+  /** mobile */
   img {
     pointer-events: none;
   }

@@ -11,7 +11,7 @@ const MainTrendingWidget: React.FC<MainTrendingWidgetProps> = props => {
       limit: 6,
     },
   });
-  console.log(data);
+  if (!data) return null;
   return null;
 };
 export default MainTrendingWidget;

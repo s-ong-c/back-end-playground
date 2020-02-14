@@ -4,9 +4,16 @@ import SongcResponsive from '../songc/SongcResponsive';
 import palette from '../../lib/styles/palette';
 import { formatDate } from '../../lib/utils';
 import PostTags from './PostTags';
+import media from '../../lib/styles/media';
 
 const PostHeadBlock = styled(SongcResponsive)`
   margin-top: 5.5rem;
+  .head-wrapper {
+    ${media.medium} {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
   h1 {
     font-size: 3rem;
     line-height: 1.125;
@@ -15,6 +22,12 @@ const PostHeadBlock = styled(SongcResponsive)`
     font-weight: 800;
     color: ${palette.gray8};
     margin-bottom: 2rem;
+  }
+  ${media.medium} {
+    margin-top: 2rem;
+    h1 {
+      font-size: 2.25rem;
+    }
   }
 `;
 
@@ -61,13 +74,15 @@ const PostHead: React.FC<PostHeadProps> = ({
 }) => {
   return (
     <PostHeadBlock>
-      <h1>{title}</h1>
-      <SubInfo>
-        <span className="username">{username}</span>
-        <span className="separator">&middot;</span>
-        <span>{formatDate(date)}</span>
-      </SubInfo>
-      <PostTags tags={tags} />
+      <div className="head-wrapper">
+        <h1>{title}</h1>
+        <SubInfo>
+          <span className="username">{username}</span>
+          <span className="separator">&middot;</span>
+          <span>{formatDate(date)}</span>
+        </SubInfo>
+        <PostTags tags={tags} />
+      </div>
       {!hideThumbnail && thumbnail && (
         <PostThumbnail src={thumbnail} alt="post-thumbnail" />
       )}

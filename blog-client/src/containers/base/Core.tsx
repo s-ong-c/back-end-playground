@@ -4,7 +4,7 @@ import OpaqueLayer from '../../components/common/OpaqueLayer';
 import AuthModalContainer from '../auth/AuthModalContainer';
 import { RootState } from '../../modules';
 import UserLoader from './UserLoader';
-
+import GlobalStyles from '../../GlobalStyles';
 interface OwnProps {}
 interface StateProps {
   layer: boolean;
@@ -18,6 +18,7 @@ const Core: React.FC<CoreProps> = ({ layer }) => {
       <OpaqueLayer visible={layer} />
       <AuthModalContainer />
       <UserLoader />
+      <GlobalStyles />
     </>
   );
 };

@@ -49,10 +49,6 @@ function MainTopHead(props: MainTopHeadProps) {
           <MdAccessTime />
           essay
         </MenuItem>
-        <MenuItem to="/server" activeClassName="active">
-          <MdAccessTime />
-          server
-        </MenuItem>
       </div>
       <div ref={moreButtonRef}>
         <MdMoreVert className="more" onClick={toggle} />

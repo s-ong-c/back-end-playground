@@ -10,10 +10,9 @@ import { logout } from '../../lib/api/auth';
 import storage from '../../lib/storage';
 import { UserLogo } from '../../modules/header';
 import HeaderLogo from './HeaderLogo';
+import media from '../../lib/styles/media';
 
-const HeaderBlock = styled.div<{
-  floating: boolean;
-}>`
+const HeaderBlock = styled.div<{ floating: boolean }>`
   width: 100%;
   > .wrapper {
     width: ${breakpoints.xlarge};
@@ -25,6 +24,27 @@ const HeaderBlock = styled.div<{
     justify-content: space-between;
     align-items: center;
 
+    ${media.large} {
+      width: 1024px;
+    }
+    ${media.medium} {
+      width: 100%;
+      .write-button {
+        display: none;
+      }
+      .search {
+        display: block;
+      }
+    }
+    ${media.small} {
+      height: 3.5rem;
+
+      .login-button {
+        font-size: 0.875rem;
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+      }
+    }
     .logged-in {
       position: relative;
       display: flex;
@@ -110,7 +130,11 @@ const Header: React.FC<HeaderProps> = ({
                 />
               </div>
             ) : (
-              <RoundButton onClick={onLoginClick} size="DEFAULT">
+              <RoundButton
+                className="login-button"
+                onClick={onLoginClick}
+                size="DEFAULT"
+              >
                 로그인
               </RoundButton>
             )}

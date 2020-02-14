@@ -175,3 +175,14 @@ export const WRITE_POST = gql`
     }
   }
 `;
+
+export type WritePostResponse = {
+  writePost: {
+    id: string;
+    user: {
+      id: string;
+      username: string;
+    };
+    url_slug: string;
+  };
+};

@@ -1,12 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import PageTemplate from '../base/PageTemplate';
-import { breakpoints } from '../../lib/styles/responsive';
 import media from '../../lib/styles/media';
 
 const MainTemplateBlock = styled(PageTemplate)`
   main {
-    width: ${breakpoints.xlarge};
+    width: 1200px;
     ${media.large} {
       width: 1024px;
     }
@@ -15,11 +14,11 @@ const MainTemplateBlock = styled(PageTemplate)`
     margin-bottom: 8rem;
     display: flex;
     justify-content: space-between;
-  }
-  ${media.medium} {
-    justify-content: center;
-    width: 100%;
-    margin-top: 1rem;
+    ${media.medium} {
+      justify-content: center;
+      width: 100%;
+      margin-top: 1rem;
+    }
   }
 `;
 const Left = styled.div`
@@ -30,6 +29,17 @@ const Left = styled.div`
 `;
 const Main = styled.div`
   width: 702px;
+  ${media.large} {
+    width: 526px;
+  }
+  ${media.medium} {
+    width: 768px;
+  }
+  ${media.small} {
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 `;
 const Right = styled.div`
   width: 240px;

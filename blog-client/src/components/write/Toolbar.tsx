@@ -14,6 +14,7 @@ import {
 import { FaMarkdown } from 'react-icons/fa';
 import palette from '../../lib/styles/palette';
 import zIndexes from '../../lib/styles/zIndexes';
+import media from '../../lib/styles/media';
 
 const ToolbarBlock = styled.div<{
   shadow: boolean;
@@ -31,6 +32,9 @@ const ToolbarBlock = styled.div<{
   background: white;
   z-index: ${zIndexes.Toolbar};
   transition: all 0.125s ease-in;
+  ${media.small} {
+    width: 100%;
+  }
   ${props =>
     props.shadow &&
     css`
@@ -50,6 +54,11 @@ const ToolbarBlock = styled.div<{
 const ToolbarGroup = styled.div`
   display: flex;
   height: 100%;
+  .mobile {
+    ${media.medium} {
+      display: none;
+    }
+  }
 `;
 
 const Heading = styled.div`
@@ -61,6 +70,11 @@ const Heading = styled.div`
   }
 `;
 const ToolbarItem = styled.button`
+  ${media.small} {
+    width: 2rem;
+    font-size: 1.5rem;
+  }
+
   width: 3rem;
   height: 100%;
   display: flex;
@@ -185,15 +199,17 @@ const Toolbar: React.FC<ToolbarProps> = ({
       </ToolbarGroup>
       <Separator />
       <ToolbarGroup>
-        {forMarkdown ? (
-          <ToolbarItem data-testid="quillconvert" onClick={onConvert}>
-            <MdRemoveRedEye />
-          </ToolbarItem>
-        ) : (
-          <ToolbarItem data-testid="mdconvert" onClick={onConvert}>
-            <FaMarkdown />
-          </ToolbarItem>
-        )}
+        <div className="mobile">
+          {forMarkdown ? (
+            <ToolbarItem data-testid="quillconvert" onClick={onConvert}>
+              <MdRemoveRedEye />
+            </ToolbarItem>
+          ) : (
+            <ToolbarItem data-testid="mdconvert" onClick={onConvert}>
+              <FaMarkdown />
+            </ToolbarItem>
+          )}
+        </div>
       </ToolbarGroup>
     </ToolbarBlock>
   );

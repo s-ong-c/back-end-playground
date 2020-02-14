@@ -27,17 +27,25 @@ const MarkdownRenderBlock = styled.div`
   &.dracula {
     ${prismThemes['dracula']}
   }
-  &.duotone-light {
-    ${prismThemes['duotone-light']}
+  &.dracula {
+    ${prismThemes['dracula']}
+  }
+  &.gatsby-highlight-code-line {
+    ${prismThemes['gatsby-highlight-code-line']}
   }
   pre {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
+    /* font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace; */
+    font-weight: bold;
+    /* font-family: 'Fira Code', 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono',
+      monospace; */
     font-size: 1rem;
     padding: 1rem;
     border-radius: 4px;
-    line-height: 1.5;
+    line-height: 1.6;
     overflow-x: auto;
+    /*gatsby-highlight-code-line */
+    background: #212121;
   }
   img {
     display: block;
@@ -51,7 +59,7 @@ const MarkdownRenderBlock = styled.div`
 const { useState, useEffect } = React;
 const MarkdownRender: React.FC<MarkdownRenderProps> = ({
   markdown,
-  codeTheme = 'atom-one-light',
+  codeTheme = 'gatsby-highlight-code-line',
 }) => {
   const [html, setHtml] = useState('');
   useEffect(() => {
