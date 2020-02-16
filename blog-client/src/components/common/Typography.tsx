@@ -10,7 +10,6 @@ const TypographyBlock = styled.div`
   letter-spacing: -0.02em;
   word-break: keep-all;
   word-wrap: break-word;
-  /* font-family: 'Spoqa Han Sans'; */
   p {
     b {
       font-weight: 400;

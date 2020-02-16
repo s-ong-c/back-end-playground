@@ -3,30 +3,30 @@
 exports[`QuillEditor matches snapshot 1`] = `
 <div>
   <div
-    class="sc-jTzLTM hIUdWc"
+    class="sc-fjdhpX gRxyeo"
     data-testid="quill"
   >
     <textarea
-      class="sc-gzVnrw sc-VigVT jAgWZG"
+      class="sc-gzVnrw sc-jTzLTM ckuZHW"
       placeholder="Title"
       style="height: 0px;"
       tabindex="1"
     />
     <div
-      class="sc-fjdhpX bOKVbc"
+      class="sc-jzJRlG junpCn"
     />
     <div>
       tagInput
     </div>
     <div
-      class="sc-bdVaJa cuQacX"
+      class="sc-bdVaJa daZTkm"
       id="toolbar"
     >
       <div
-        class="sc-bwzfXH bgRFUk"
+        class="sc-bwzfXH cXAJkw"
       >
         <button
-          class="sc-bxivhb hNtdPr ql-header"
+          class="sc-bxivhb etMFdj ql-header"
           value="1"
         >
           <div
@@ -39,7 +39,7 @@ exports[`QuillEditor matches snapshot 1`] = `
           </div>
         </button>
         <button
-          class="sc-bxivhb hNtdPr ql-header"
+          class="sc-bxivhb etMFdj ql-header"
           value="2"
         >
           <div
@@ -52,7 +52,7 @@ exports[`QuillEditor matches snapshot 1`] = `
           </div>
         </button>
         <button
-          class="sc-bxivhb hNtdPr ql-header"
+          class="sc-bxivhb etMFdj ql-header"
           value="3"
         >
           <div
@@ -65,7 +65,7 @@ exports[`QuillEditor matches snapshot 1`] = `
           </div>
         </button>
         <button
-          class="sc-bxivhb hNtdPr ql-header"
+          class="sc-bxivhb etMFdj ql-header"
           value="4"
         >
           <div
@@ -82,10 +82,10 @@ exports[`QuillEditor matches snapshot 1`] = `
         class="sc-ifAKCX eqJNNy"
       />
       <div
-        class="sc-bwzfXH bgRFUk"
+        class="sc-bwzfXH cXAJkw"
       >
         <button
-          class="sc-bxivhb hNtdPr ql-bold"
+          class="sc-bxivhb etMFdj ql-bold"
         >
           <svg
             fill="currentColor"
@@ -102,7 +102,7 @@ exports[`QuillEditor matches snapshot 1`] = `
           </svg>
         </button>
         <button
-          class="sc-bxivhb hNtdPr ql-italic"
+          class="sc-bxivhb etMFdj ql-italic"
         >
           <svg
             fill="currentColor"
@@ -119,7 +119,7 @@ exports[`QuillEditor matches snapshot 1`] = `
           </svg>
         </button>
         <button
-          class="sc-bxivhb hNtdPr ql-underline"
+          class="sc-bxivhb etMFdj ql-underline"
         >
           <svg
             fill="currentColor"
@@ -136,7 +136,7 @@ exports[`QuillEditor matches snapshot 1`] = `
           </svg>
         </button>
         <button
-          class="sc-bxivhb hNtdPr ql-strike"
+          class="sc-bxivhb etMFdj ql-strike"
         >
           <svg
             fill="currentColor"
@@ -157,10 +157,10 @@ exports[`QuillEditor matches snapshot 1`] = `
         class="sc-ifAKCX eqJNNy"
       />
       <div
-        class="sc-bwzfXH bgRFUk"
+        class="sc-bwzfXH cXAJkw"
       >
         <button
-          class="sc-bxivhb hNtdPr ql-blockquote"
+          class="sc-bxivhb etMFdj ql-blockquote"
         >
           <svg
             fill="currentColor"
@@ -177,7 +177,7 @@ exports[`QuillEditor matches snapshot 1`] = `
           </svg>
         </button>
         <button
-          class="sc-bxivhb hNtdPr ql-link"
+          class="sc-bxivhb etMFdj ql-link"
         >
           <svg
             fill="currentColor"
@@ -194,7 +194,7 @@ exports[`QuillEditor matches snapshot 1`] = `
           </svg>
         </button>
         <button
-          class="sc-bxivhb hNtdPr ql-image"
+          class="sc-bxivhb etMFdj ql-image"
         >
           <svg
             fill="currentColor"
@@ -216,7 +216,7 @@ exports[`QuillEditor matches snapshot 1`] = `
           </svg>
         </button>
         <button
-          class="sc-bxivhb hNtdPr ql-code-block"
+          class="sc-bxivhb etMFdj ql-code-block"
         >
           <svg
             fill="currentColor"
@@ -237,37 +237,45 @@ exports[`QuillEditor matches snapshot 1`] = `
         class="sc-ifAKCX eqJNNy"
       />
       <div
-        class="sc-bwzfXH bgRFUk"
+        class="sc-bwzfXH cXAJkw"
       >
-        <button
-          class="sc-bxivhb hNtdPr"
-          data-testid="mdconvert"
+        <div
+          class="mobile"
         >
-          <svg
-            fill="currentColor"
-            height="1em"
-            stroke="currentColor"
-            stroke-width="0"
-            viewBox="0 0 640 512"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
+          <button
+            class="sc-bxivhb etMFdj"
+            data-testid="mdconvert"
           >
-            <path
-              d="M593.8 59.1H46.2C20.7 59.1 0 79.8 0 105.2v301.5c0 25.5 20.7 46.2 46.2 46.2h547.7c25.5 0 46.2-20.7 46.1-46.1V105.2c0-25.4-20.7-46.1-46.2-46.1zM338.5 360.6H277v-120l-61.5 76.9-61.5-76.9v120H92.3V151.4h61.5l61.5 76.9 61.5-76.9h61.5v209.2zm135.3 3.1L381.5 256H443V151.4h61.5V256H566z"
-            />
-          </svg>
-        </button>
+            <svg
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 640 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M593.8 59.1H46.2C20.7 59.1 0 79.8 0 105.2v301.5c0 25.5 20.7 46.2 46.2 46.2h547.7c25.5 0 46.2-20.7 46.1-46.1V105.2c0-25.4-20.7-46.1-46.2-46.1zM338.5 360.6H277v-120l-61.5 76.9-61.5-76.9v120H92.3V151.4h61.5l61.5 76.9 61.5-76.9h61.5v209.2zm135.3 3.1L381.5 256H443V151.4h61.5V256H566z"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
     <div
-      class="sc-jzJRlG PHsUy"
+      class="sc-cSHVUG bdIZNZ"
     >
       <div
-        tabindex="2"
-      />
+        class="sc-VigVT bUXYsH"
+      >
+        <div
+          tabindex="2"
+        />
+      </div>
     </div>
     <div
-      class="sc-cSHVUG cRNOr"
+      class="sc-kAzzGY eitSrB"
     >
       <div>
         footer

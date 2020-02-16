@@ -23,14 +23,14 @@ exports[`MarkdownEditor matches snapshot 1`] = `
         
       </div>
       <div
-        class="sc-bwzfXH knqGhr"
+        class="sc-bwzfXH gRNBvA"
         id="toolbar"
       >
         <div
-          class="sc-htpNat jgwOvs"
+          class="sc-htpNat bbZPob"
         >
           <button
-            class="sc-ifAKCX bHEhhn ql-header"
+            class="sc-ifAKCX evDbkq ql-header"
             value="1"
           >
             <div
@@ -43,7 +43,7 @@ exports[`MarkdownEditor matches snapshot 1`] = `
             </div>
           </button>
           <button
-            class="sc-ifAKCX bHEhhn ql-header"
+            class="sc-ifAKCX evDbkq ql-header"
             value="2"
           >
             <div
@@ -56,7 +56,7 @@ exports[`MarkdownEditor matches snapshot 1`] = `
             </div>
           </button>
           <button
-            class="sc-ifAKCX bHEhhn ql-header"
+            class="sc-ifAKCX evDbkq ql-header"
             value="3"
           >
             <div
@@ -69,7 +69,7 @@ exports[`MarkdownEditor matches snapshot 1`] = `
             </div>
           </button>
           <button
-            class="sc-ifAKCX bHEhhn ql-header"
+            class="sc-ifAKCX evDbkq ql-header"
             value="4"
           >
             <div
@@ -86,10 +86,10 @@ exports[`MarkdownEditor matches snapshot 1`] = `
           class="sc-EHOje cbmVMA"
         />
         <div
-          class="sc-htpNat jgwOvs"
+          class="sc-htpNat bbZPob"
         >
           <button
-            class="sc-ifAKCX bHEhhn ql-bold"
+            class="sc-ifAKCX evDbkq ql-bold"
           >
             <svg
               fill="currentColor"
@@ -106,7 +106,7 @@ exports[`MarkdownEditor matches snapshot 1`] = `
             </svg>
           </button>
           <button
-            class="sc-ifAKCX bHEhhn ql-italic"
+            class="sc-ifAKCX evDbkq ql-italic"
           >
             <svg
               fill="currentColor"
@@ -123,7 +123,7 @@ exports[`MarkdownEditor matches snapshot 1`] = `
             </svg>
           </button>
           <button
-            class="sc-ifAKCX bHEhhn ql-strike"
+            class="sc-ifAKCX evDbkq ql-strike"
           >
             <svg
               fill="currentColor"
@@ -144,10 +144,10 @@ exports[`MarkdownEditor matches snapshot 1`] = `
           class="sc-EHOje cbmVMA"
         />
         <div
-          class="sc-htpNat jgwOvs"
+          class="sc-htpNat bbZPob"
         >
           <button
-            class="sc-ifAKCX bHEhhn ql-blockquote"
+            class="sc-ifAKCX evDbkq ql-blockquote"
           >
             <svg
               fill="currentColor"
@@ -164,7 +164,7 @@ exports[`MarkdownEditor matches snapshot 1`] = `
             </svg>
           </button>
           <button
-            class="sc-ifAKCX bHEhhn ql-link"
+            class="sc-ifAKCX evDbkq ql-link"
           >
             <svg
               fill="currentColor"
@@ -181,7 +181,7 @@ exports[`MarkdownEditor matches snapshot 1`] = `
             </svg>
           </button>
           <button
-            class="sc-ifAKCX bHEhhn ql-image"
+            class="sc-ifAKCX evDbkq ql-image"
           >
             <svg
               fill="currentColor"
@@ -203,7 +203,7 @@ exports[`MarkdownEditor matches snapshot 1`] = `
             </svg>
           </button>
           <button
-            class="sc-ifAKCX bHEhhn ql-code-block"
+            class="sc-ifAKCX evDbkq ql-code-block"
           >
             <svg
               fill="currentColor"
@@ -224,26 +224,30 @@ exports[`MarkdownEditor matches snapshot 1`] = `
           class="sc-EHOje cbmVMA"
         />
         <div
-          class="sc-htpNat jgwOvs"
+          class="sc-htpNat bbZPob"
         >
-          <button
-            class="sc-ifAKCX bHEhhn"
-            data-testid="quillconvert"
+          <div
+            class="mobile"
           >
-            <svg
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 24 24"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
+            <button
+              class="sc-ifAKCX evDbkq"
+              data-testid="quillconvert"
             >
-              <path
-                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
-              />
-            </svg>
-          </button>
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 24 24"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
       <div

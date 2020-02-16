@@ -13,6 +13,7 @@
     "@loadable/server": "^5.10.2",
     "@loadable/webpack-plugin": "^5.7.1",
     "@svgr/webpack": "4.1.0",
+    "@testing-library/react": "^9.4.0",
     "@types/codemirror": "^0.0.76",
     "@types/date-fns": "^2.6.0",
     "@types/graphql": "^14.2.3",

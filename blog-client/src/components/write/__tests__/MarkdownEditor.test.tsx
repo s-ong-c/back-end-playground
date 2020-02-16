@@ -12,6 +12,8 @@ describe('MarkdownEditor', () => {
       title: '',
       tagInput: '',
       footer: '',
+      onUpload: () => {},
+      lastUploadedImage: null,
     };
     const utils = render(<MarkdownEditor {...initialProps} {...props} />);
     const titleTextarea = utils.getByPlaceholderText(

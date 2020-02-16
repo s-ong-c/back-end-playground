@@ -34,8 +34,6 @@ const MarkdownRenderBlock = styled.div`
     ${prismThemes['gatsby-highlight-code-line']}
   }
   pre {
-    /* font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace; */
     font-weight: bold;
     /* font-family: 'Fira Code', 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono',
       monospace; */

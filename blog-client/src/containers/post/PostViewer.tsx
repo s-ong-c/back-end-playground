@@ -3,6 +3,7 @@ import { READ_POST, SinglePost } from '../../lib/graphql/post';
 import PostHead from '../../components/post/PostHead';
 import PostContent from '../../components/post/PostContent';
 import { useQuery } from '@apollo/react-hooks';
+import PostComments from './PostComments';
 
 export interface PostViewerProps {
   username: string;
@@ -51,7 +52,6 @@ const PostViewer: React.FC<PostViewerProps> = ({ username, urlSlug }) => {
   // </Query>
   const { error, data } = readPost;
   if (error) {
-    console.log(error);
     return null;
   }
   if (!data || !data.post) return null;
@@ -67,6 +67,7 @@ const PostViewer: React.FC<PostViewerProps> = ({ username, urlSlug }) => {
         hideThumbnail={!!post.thumbnail && post.body.includes(post.thumbnail)}
       />
       <PostContent isMarkdown={post.is_markdown} body={post.body} />
+      <PostComments />
     </>
   );
 };
