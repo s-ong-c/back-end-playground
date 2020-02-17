@@ -7,6 +7,7 @@ import { normalize } from '../lib/utils';
 import removeMd from 'remove-markdown';
 import PostsTags from '../entity/PostsTags';
 import Tag from '../entity/Tag';
+import Comment from '../entity/Comment';
 
 export const typeDef = gql`
   type Post {
@@ -89,8 +90,14 @@ export const resolvers: IResolvers<any, ApolloContext> = {
     },
     comments_count: async (parent: Post, _: any, { loaders }) => {
       if (parent.comments) return parent.comments.length;
-      const comments = await loaders.comments.load(parent.id);
-      return comments.length;
+      const commentRepo = getRepository(Comment);
+      const count = await commentRepo.count({
+        where: {
+          fk_post_id: parent.id,
+          deleted: false
+        }
+      });
+      return count;
     },
     tags: async (parent: Post, _: any, { loaders }) => {
       const tags = await loaders.tags.load(parent.id);
@@ -104,11 +111,7 @@ export const resolvers: IResolvers<any, ApolloContext> = {
           const post = await getManager()
             .createQueryBuilder(Post, 'post')
             .leftJoinAndSelect('post.user', 'user')
-            .leftJoinAndSelect('post.comments', 'comment')
             .where('post.id = :id', { id })
-            .orderBy({
-              'comment.created_at': 'ASC'
-            })
             .getOne();
 
           return post;
@@ -116,12 +119,9 @@ export const resolvers: IResolvers<any, ApolloContext> = {
         const post = await getManager()
           .createQueryBuilder(Post, 'post')
           .leftJoinAndSelect('post.user', 'user')
-          .leftJoinAndSelect('post.comments', 'comment')
           .where('user.username = :username AND url_slug = :url_slug', { username, url_slug })
-          .orderBy({
-            'comment.created_at': 'ASC'
-          })
           .getOne();
+
         if (!post) {
           console.log('fuck');
           return null;

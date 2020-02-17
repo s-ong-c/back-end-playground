@@ -15,13 +15,16 @@ export const typeDef = gql`
     user: User
     replies: [Comment]
     created_at: Date
+    replies_count: Int
   }
   extend type Query {
+    comment(comment_id: ID): Comment
     subcomments(comment_id: ID): [Comment]
   }
 
   extend type Mutation {
     writeComment(post_id: ID!, text: String!, comment_id: ID): Comment
+    removeComment(id: ID): Boolean
   }
 `;
 type WriteCommentArgs = {
@@ -42,9 +45,38 @@ export const resolvers: IResolvers<any, ApolloContext> = {
       if (parent.user) return parent.user;
       const user = loaders.user.load(parent.fk_user_id);
       return user;
+    },
+    replies: async (parent: Comment, args: any) => {
+      console.log(args);
+      // TODO: Optimize
+      if (!parent.has_replies) return [];
+      const comments = await getRepository(Comment).find({
+        where: {
+          reply_to: parent.id,
+          deleted: false
+        },
+        order: {
+          created_at: 'ASC'
+        }
+      });
+      return comments;
+    },
+    replies_count: async (parent: Comment) => {
+      if (!parent.has_replies) return 0;
+      const count = await getRepository(Comment).count({
+        where: {
+          reply_to: parent.id,
+          deleted: false
+        }
+      });
+      return count;
     }
   },
   Query: {
+    comment: async (parent: any, { comment_id }) => {
+      const comment = await getRepository(Comment).findOne(comment_id);
+      return comment;
+    },
     subcomments: async (parent: any, { comment_id }) => {
       const comments = await getRepository(Comment).find({
         where: {
@@ -93,6 +125,22 @@ export const resolvers: IResolvers<any, ApolloContext> = {
 
       await commentRepo.save(comment);
       return comment;
+    },
+    removeComment: async (parent: any, { id }: any, ctx) => {
+      const commentRepo = getRepository(Comment);
+      const comment = await commentRepo.findOne(id);
+      if (!comment) {
+        throw new ApolloError('Comment not found');
+      }
+      if (!ctx.user_id) {
+        throw new AuthenticationError('Not Logged In');
+      }
+      if (ctx.user_id !== comment.fk_user_id) {
+        throw new ApolloError('No permission');
+      }
+      comment.deleted = true;
+      await commentRepo.save(comment);
+      return true;
     }
   }
 };
