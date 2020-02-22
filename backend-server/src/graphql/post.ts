@@ -126,7 +126,7 @@ export const resolvers: IResolvers<any, ApolloContext> = {
           console.log('fuck');
           return null;
         }
-        if ((post.is_temp || post.is_private === true) && post.fk_user_id !== ctx.user_id) {
+        if ((post.is_temp || post.is_private) && post.fk_user_id !== ctx.user_id) {
           return null;
         }
 

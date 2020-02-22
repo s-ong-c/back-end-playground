@@ -18,11 +18,24 @@ export type Post = {
   created_at: string;
   updated_at: string;
   short_description: string;
-  comments: [any];
-  tags: [string];
+  comments: Comment[];
+  tags: string[];
   comments_count: number;
 };
 
+export interface Comment {
+  id: string;
+  user: {
+    id: string;
+    username: string;
+    profile: {
+      thumbnail: string;
+    };
+  };
+  text: string;
+  replies_count: number;
+  replies?: Comment[];
+}
 // Post Type for PostList
 export type PartialPost = {
   id: string;
@@ -33,7 +46,7 @@ export type PartialPost = {
   url_slug: string;
   is_private: boolean;
   released_at: string;
-  tags: [string];
+  tags: string[];
   comments_count: number;
 };
 
@@ -60,6 +73,7 @@ export interface SinglePost {
       title: string;
     };
   };
+  comments: Comment[];
 }
 
 export const GET_POST_LIST = gql`
@@ -138,6 +152,18 @@ export const READ_POST = gql`
         songc_config {
           title
         }
+      }
+      comments {
+        id
+        user {
+          id
+          username
+          profile {
+            thumbnail
+          }
+        }
+        text
+        replies_count
       }
     }
   }

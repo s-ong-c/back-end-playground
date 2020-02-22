@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export interface HideScrollProps {}
 
-const { useEffect, useLayoutEffect } = React;
+const { useLayoutEffect } = React;
 /**
  *
  * Hides body scrollbar on mount
