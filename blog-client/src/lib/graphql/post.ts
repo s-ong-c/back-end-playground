@@ -202,6 +202,48 @@ export const WRITE_POST = gql`
   }
 `;
 
+export const WRITE_COMMENT = gql`
+  mutation WriteComment($post_id: ID!, $text: String!, $comment_id: ID) {
+    writeComment(post_id: $post_id, text: $text, comment_id: $comment_id) {
+      id
+      user {
+        id
+        username
+        profile {
+          id
+          thumbnail
+        }
+      }
+      text
+      replies_count
+    }
+  }
+`;
+export const RELOAD_COMMENTS = gql`
+  query ReloadComments($id: ID!) {
+    post(id: $id) {
+      id
+      comments_count
+      comments {
+        id
+        user {
+          id
+          username
+          profile {
+            id
+            thumbnail
+          }
+        }
+        text
+        replies_count
+        level
+        created_at
+        deleted
+      }
+    }
+  }
+`;
+
 export type WritePostResponse = {
   writePost: {
     id: string;

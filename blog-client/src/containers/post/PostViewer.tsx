@@ -35,7 +35,7 @@ const PostViewer: React.FC<PostViewerProps> = ({ username, urlSlug }) => {
         hideThumbnail={!!post.thumbnail && post.body.includes(post.thumbnail)}
       />
       <PostContent isMarkdown={post.is_markdown} body={post.body} />
-      <PostComments />
+      <PostComments comments={post.comments} postId={post.id} />
     </>
   );
 };
