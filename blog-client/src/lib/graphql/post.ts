@@ -29,12 +29,13 @@ export interface Comment {
     id: string;
     username: string;
     profile: {
-      thumbnail: string;
+      thumbnail: string | null;
     };
   };
   text: string;
   replies_count: number;
   replies?: Comment[];
+  created_at: string;
 }
 // Post Type for PostList
 export type PartialPost = {
@@ -164,6 +165,7 @@ export const READ_POST = gql`
         }
         text
         replies_count
+        created_at
       }
     }
   }

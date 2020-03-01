@@ -1,14 +1,17 @@
 import * as React from 'react';
-import { render } from 'react-testing-library';
 import PostCommentsWriteContainer, {
   PostCommentsWriteContainerProps,
 } from '../PostCommentsWriteContainer';
 import { fireEvent } from '@testing-library/react';
+import renderWithProviders from '../../../lib/renderWithProviders';
 
 describe('PostCommentsWriteContainer', () => {
   const setup = (props: Partial<PostCommentsWriteContainerProps> = {}) => {
-    const initialProps: PostCommentsWriteContainerProps = {};
-    const utils = render(
+    const initialProps: PostCommentsWriteContainerProps = {
+      postId: '41536102-556e-4d8c-9e83-5ae81acdf5e5',
+      commentId: 'f69dcf5c-5947-4da1-9151-6f0550ee47c7',
+    };
+    const utils = renderWithProviders(
       <PostCommentsWriteContainer {...initialProps} {...props} />,
     );
 
