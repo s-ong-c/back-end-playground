@@ -1,5 +1,7 @@
 import React, { useRef } from 'react';
-import { MdTrendingUp, MdAccessTime, MdMoreVert } from 'react-icons/md';
+import { MdMoreVert } from 'react-icons/md';
+//import {  } from 'react-icons/di';
+import { FiThumbsUp, FiActivity } from 'react-icons/fi';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
@@ -27,6 +29,10 @@ function MainTopHead(props: MainTopHeadProps) {
   return (
     <Section>
       <div className="menu">
+        <MenuItem to="/recent" activeClassName="active">
+          <FiActivity />
+          RECENTS
+        </MenuItem>
         <MenuItem
           to="/trending"
           activeClassName="active"
@@ -34,21 +40,17 @@ function MainTopHead(props: MainTopHeadProps) {
             ['/', '/trending'].includes(location.pathname)
           }
         >
-          <MdTrendingUp />
-          트렌딩
+          <FiThumbsUp />
+          EDITOR's PICK
         </MenuItem>
-        <MenuItem to="/recent" activeClassName="active">
-          <MdAccessTime />
-          최신
+        {/* <MenuItem to="/Frontend" activeClassName="active">
+          <DiReact className="reactIcon" />
+          FE.DEV
         </MenuItem>
-        <MenuItem to="/programing" activeClassName="active">
-          <MdAccessTime />
-          최신
-        </MenuItem>
-        <MenuItem to="/react" activeClassName="active">
-          <MdAccessTime />
-          essay
-        </MenuItem>
+        <MenuItem to="/Backend" activeClassName="active">
+          <FiCode />
+          BE.DEV
+        </MenuItem> */}
       </div>
       <div ref={moreButtonRef}>
         <MdMoreVert className="more" onClick={toggle} />
@@ -79,24 +81,28 @@ const Section = styled.section`
 `;
 
 const MenuItem = styled(NavLink)`
-  width: 5rem;
+  width: 8rem;
   height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 800;
   svg {
     font-size: 1.125rem;
     margin-right: 0.5rem;
   }
+  .reactIcon {
+    color:#61DBFB;
+  }
   font-size: 0.875rem;
   border-bottom: 2px solid transparent;
-  color: ${palette.gray7};
+  /* color: ${palette.gray7}; */
+  color:rgba(0,0,0,.65) !important;
   &.active {
     background: ${palette.teal0};
-    color: ${palette.teal6};
-    border-bottom: 2px solid ${palette.teal6};
+    color:rgba(0,0,0,.84) !important;
+    border-bottom: 2px solid #0184bc;
   }
 `;
 

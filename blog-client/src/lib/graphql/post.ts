@@ -246,6 +246,28 @@ export const RELOAD_COMMENTS = gql`
   }
 `;
 
+export const GET_REPLIES = gql`
+  query ReloadReplies($id: ID!) {
+    comment(comment_id: $id) {
+      id
+      replies {
+        id
+        user {
+          id
+          username
+          profile {
+            id
+            thumbnail
+          }
+        }
+        text
+        replies_count
+        created_at
+        level
+      }
+    }
+  }
+`;
 export type WritePostResponse = {
   writePost: {
     id: string;

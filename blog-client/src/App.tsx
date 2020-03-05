@@ -19,7 +19,7 @@ const App: React.FC<AppProps> = props => {
         <Route path="/" component={MainPage} exact />
         <Route path="/register" component={RegisterPage} />
         <Route
-          path="/:mode(trending|recent|following|programing|react|server)"
+          path="/:mode(trending|recent|Backend|Frontend|react|server)"
           component={MainPage}
         />
         <Route path="/@:username" component={SongcPage} />

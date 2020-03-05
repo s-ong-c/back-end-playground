@@ -11,7 +11,8 @@ import storage from '../../lib/storage';
 import { UserLogo } from '../../modules/header';
 import HeaderLogo from './HeaderLogo';
 import media from '../../lib/styles/media';
-
+import { IoMdTime } from 'react-icons/io';
+import { FiEdit } from 'react-icons/fi';
 const HeaderBlock = styled.div<{ floating: boolean }>`
   width: 100%;
   > .wrapper {
@@ -119,7 +120,15 @@ const Header: React.FC<HeaderProps> = ({
                   style={{ marginRight: '1.25rem' }}
                   to="/write"
                 >
-                  새 글 작성
+                  <IoMdTime />
+                </RoundButton>
+                <RoundButton
+                  border
+                  color="darkGray"
+                  style={{ marginRight: '1.25rem' }}
+                  to="/write"
+                >
+                  <FiEdit />
                 </RoundButton>
                 <HeaderUserIcon user={user} onClick={toggleUserMenu} />
                 <HeaderUserMenu
