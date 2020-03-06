@@ -1,9 +1,9 @@
 import * as React from 'react';
 import PostCommentsTemplate from '../../components/post/PostCommentsTemplate';
 import PostCommentsWriteContainer from './PostCommentsWriteContainer';
-import { Comment, RELOAD_COMMENTS } from '../../lib/graphql/post';
+import { Comment } from '../../lib/graphql/post';
 import PostCommentList from '../../components/post/PostCommentList';
-import { useQuery } from '@apollo/react-hooks';
+//import { useQuery } from '@apollo/react-hooks';
 
 export interface PostCommentsProps {
   comments: Comment[];

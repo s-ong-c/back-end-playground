@@ -141,10 +141,11 @@ const Header: React.FC<HeaderProps> = ({
             ) : (
               <RoundButton
                 className="login-button"
+                color="blue"
                 onClick={onLoginClick}
                 size="DEFAULT"
               >
-                로그인
+                Get Started
               </RoundButton>
             )}
           </div>
