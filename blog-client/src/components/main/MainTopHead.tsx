@@ -29,10 +29,6 @@ function MainTopHead(props: MainTopHeadProps) {
   return (
     <Section>
       <div className="menu">
-        <MenuItem to="/recent" activeClassName="active">
-          <FiActivity />
-          RECENTS
-        </MenuItem>
         <MenuItem
           to="/trending"
           activeClassName="active"
@@ -42,6 +38,10 @@ function MainTopHead(props: MainTopHeadProps) {
         >
           <FiThumbsUp />
           EDITOR's PICK
+        </MenuItem>
+        <MenuItem to="/recent" activeClassName="active">
+          <FiActivity />
+          RECENTS
         </MenuItem>
         {/* <MenuItem to="/Frontend" activeClassName="active">
           <DiReact className="reactIcon" />

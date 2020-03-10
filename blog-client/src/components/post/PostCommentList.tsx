@@ -8,13 +8,24 @@ const PostCommentListBlock = styled.div`
 `;
 export interface PostCommentListProps {
   comments: Comment[];
+  currentUserId: null | string;
+  onRemove: (id: string) => any;
 }
 
-const PostCommentList: React.FC<PostCommentListProps> = ({ comments }) => {
+const PostCommentList: React.FC<PostCommentListProps> = ({
+  comments,
+  currentUserId,
+  onRemove,
+}) => {
   return (
     <PostCommentListBlock>
       {comments.map(comment => (
-        <PostCommentItem comment={comment} key={comment.id} />
+        <PostCommentItem
+          ownComment={currentUserId === (comment.user && comment.user.id)}
+          onRemove={onRemove}
+          comment={comment}
+          key={comment.id}
+        />
       ))}
     </PostCommentListBlock>
   );

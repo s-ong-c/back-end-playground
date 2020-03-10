@@ -5,7 +5,10 @@ import palette from '../../lib/styles/palette';
 import { formatDate } from '../../lib/utils';
 import { defaultThumbnail } from '../../static/images';
 import Typography from '../common/Typography';
-
+import useBoolean from '../../lib/hooks/useBoolean';
+import PostCommentExtra from './PostCommentExtra';
+import useToggle from '../../lib/hooks/useToggle';
+import { MdMoreVert } from 'react-icons/md';
 const PostCommentItemBlock = styled.div`
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
@@ -81,12 +84,64 @@ const CommentFoot = styled.div`
     }
   }
 `;
+const TogglerBlock = styled.div`
+  display: flex;
+  align-items: center;
+  color: black;
+  font-weight: bold;
+  svg {
+    margin-right: 0.5rem;
+  }
+`;
 export interface PostCommentItemProps {
   comment: Comment;
+  ownComment: boolean;
+  onRemove: (id: string) => any;
 }
 
-const PostCommentItem: React.FC<PostCommentItemProps> = ({ comment }) => {
-  const { user, created_at, text } = comment;
+export interface TogglerProps {
+  open: boolean;
+  count: number;
+  onToggle: () => any;
+}
+
+const Toggler: React.FC<TogglerProps> = ({ open, onToggle, count }) => {
+  //const openText = count ? `${count}개의 답글` : `답글 달기`;
+  return (
+    <TogglerBlock onClick={onToggle}>
+      <div className="toggle">
+        <div className="__bar"></div>
+        <span> {open ? 'Hide replies' : 'View replie'}</span>
+      </div>
+    </TogglerBlock>
+  );
+};
+const PostCommentItem: React.FC<PostCommentItemProps> = ({
+  comment,
+  ownComment,
+  onRemove,
+}) => {
+  const [extra, toggle] = useToggle(false);
+  const moreButtonRef = React.useRef<HTMLDivElement | null>(null);
+
+  const onClose = (e: React.MouseEvent<HTMLElement>) => {
+    if (!moreButtonRef.current) return;
+    if (
+      e.target === moreButtonRef.current ||
+      moreButtonRef.current.contains(e.target as Node)
+    ) {
+      return;
+    }
+    toggle();
+  };
+
+  const { id, user, created_at, text, replies_count } = comment;
+  const [open, onToggle] = useBoolean(false);
+  const [editing, isEditing] = useBoolean(false);
+  const onAction = () => {
+    onRemove(id);
+    toggle();
+  };
   return (
     <PostCommentItemBlock>
       <CommentHead>
@@ -100,19 +155,27 @@ const PostCommentItem: React.FC<PostCommentItemProps> = ({ comment }) => {
             <div className="date">{formatDate(created_at)}</div>
           </div>
         </div>
+        {/* {ownComment && !editing && (
+            )} */}
         <div className="actions">
-          <span>수정</span>
-          <span>삭제</span>
+          {/* <span>수정</span>
+            <span onClick={() => onRemove(id)}>삭제</span> */}
+          <div ref={moreButtonRef}>
+            <MdMoreVert className="more" onClick={toggle} />
+          </div>
+          <PostCommentExtra
+            visible={extra}
+            onClose={onClose}
+            onRemove={onAction}
+            onConfirm={onAction}
+          />
         </div>
       </CommentHead>
       <Typography>
         <CommnetText>{text}</CommnetText>
       </Typography>
       <CommentFoot>
-        <div className="toggle">
-          <div className="__bar"></div>
-          <span>View replies</span>
-        </div>
+        <Toggler open={open} count={replies_count} onToggle={onToggle} />
       </CommentFoot>
     </PostCommentItemBlock>
   );

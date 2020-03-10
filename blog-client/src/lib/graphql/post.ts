@@ -221,6 +221,12 @@ export const WRITE_COMMENT = gql`
     }
   }
 `;
+
+export const REMOVE_COMMENT = gql`
+  mutation RemoveComment($id: ID!) {
+    removeComment(id: $id)
+  }
+`;
 export const RELOAD_COMMENTS = gql`
   query ReloadComments($id: ID!) {
     post(id: $id) {

@@ -16,11 +16,20 @@ const PopupBaseBlock = styled.div`
   justify-content: center;
 `;
 
-const PopupWrapper = styled.div<{ visible: boolean }>`
-  width: 25rem;
+const PopupWrapper = styled.div<{
+  visible: boolean;
+  isCommentOptions: boolean;
+}>`
+  width: 20rem;
   border-radius: 4px;
   background: white;
   padding: 2rem 1.5rem;
+  ${props =>
+    props.isCommentOptions &&
+    css`
+      width: 18rem;
+      padding: 0;
+    `}
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.09);
   ${props =>
     props.visible
@@ -34,11 +43,16 @@ const PopupWrapper = styled.div<{ visible: boolean }>`
 
 interface PopupBaseProps {
   visible: boolean;
+  isCommentOptions?: boolean;
 }
 
 const { useState, useEffect } = React;
 
-const PopupBase: React.FC<PopupBaseProps> = ({ visible, children }) => {
+const PopupBase: React.FC<PopupBaseProps> = ({
+  visible,
+  children,
+  isCommentOptions = false,
+}) => {
   const [closed, setClosed] = useState(true);
   useEffect(() => {
     let timeoutId: number | null = null;
@@ -62,7 +76,9 @@ const PopupBase: React.FC<PopupBaseProps> = ({ visible, children }) => {
     <>
       <OpaqueLayer visible={visible} />
       <PopupBaseBlock>
-        <PopupWrapper visible={visible}>{children}</PopupWrapper>
+        <PopupWrapper isCommentOptions={isCommentOptions} visible={visible}>
+          {children}
+        </PopupWrapper>
       </PopupBaseBlock>
     </>
   );
