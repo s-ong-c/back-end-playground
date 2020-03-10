@@ -12,6 +12,7 @@
     "@loadable/component": "^5.10.1",
     "@loadable/server": "^5.10.2",
     "@loadable/webpack-plugin": "^5.7.1",
+    "@reduxjs/toolkit": "^1.2.5",
     "@svgr/webpack": "4.1.0",
     "@testing-library/react": "^9.4.0",
     "@types/codemirror": "^0.0.76",

@@ -33,6 +33,8 @@ export interface PostCommentsWriteProps {
   comment: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onWrite: () => void;
+  onCancel?: () => void;
+  edit?: boolean;
 }
 
 const PostCommentsWrite: React.FC<PostCommentsWriteProps> = ({

@@ -4,6 +4,8 @@ import PostHead from '../../components/post/PostHead';
 import PostContent from '../../components/post/PostContent';
 import { useQuery } from '@apollo/react-hooks';
 import PostComments from './PostComments';
+import { useDispatch } from 'react-redux';
+import postSlice from '../../modules/post';
 
 export interface PostViewerProps {
   username: string;
@@ -11,6 +13,7 @@ export interface PostViewerProps {
 }
 
 const PostViewer: React.FC<PostViewerProps> = ({ username, urlSlug }) => {
+  const dispatch = useDispatch();
   const readPost = useQuery<{ post: SinglePost }>(READ_POST, {
     variables: {
       username,
@@ -23,6 +26,9 @@ const PostViewer: React.FC<PostViewerProps> = ({ username, urlSlug }) => {
     return null;
   }
   if (!data || !data.post) return null;
+
+  dispatch(postSlice.actions.setPostId(data.post.id));
+
   const { post } = data;
   return (
     <>

@@ -5,6 +5,7 @@ import palette from '../../lib/styles/palette';
 import { formatDate } from '../../lib/utils';
 import { defaultThumbnail } from '../../static/images';
 import Typography from '../common/Typography';
+import PostRepliesContainer from '../../containers/post/PostRepliesContainer';
 import useBoolean from '../../lib/hooks/useBoolean';
 import PostCommentExtra from './PostCommentExtra';
 import useToggle from '../../lib/hooks/useToggle';
@@ -135,9 +136,9 @@ const PostCommentItem: React.FC<PostCommentItemProps> = ({
     toggle();
   };
 
-  const { id, user, created_at, text, replies_count } = comment;
+  const { id, user, created_at, text, replies_count, level } = comment;
   const [open, onToggle] = useBoolean(false);
-  const [editing, isEditing] = useBoolean(false);
+  // const [editing, isEditing] = useBoolean(false);
   const onAction = () => {
     onRemove(id);
     toggle();
@@ -175,7 +176,10 @@ const PostCommentItem: React.FC<PostCommentItemProps> = ({
         <CommnetText>{text}</CommnetText>
       </Typography>
       <CommentFoot>
-        <Toggler open={open} count={replies_count} onToggle={onToggle} />
+        {level < 2 && (
+          <Toggler open={open} count={replies_count} onToggle={onToggle} />
+        )}
+        {open && <PostRepliesContainer commentId={id} onHide={onToggle} />}
       </CommentFoot>
     </PostCommentItemBlock>
   );

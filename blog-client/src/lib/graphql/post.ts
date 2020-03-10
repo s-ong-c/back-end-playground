@@ -34,6 +34,7 @@ export interface Comment {
   };
   text: string;
   replies_count: number;
+  level: number;
   replies?: Comment[];
   created_at: string;
 }
@@ -75,6 +76,11 @@ export interface SinglePost {
     };
   };
   comments: Comment[];
+}
+
+export interface CommentWithReplies {
+  id: string;
+  replies: Comment[];
 }
 
 export const GET_POST_LIST = gql`
@@ -164,6 +170,7 @@ export const READ_POST = gql`
           }
         }
         text
+        level
         replies_count
         created_at
       }
@@ -227,6 +234,16 @@ export const REMOVE_COMMENT = gql`
     removeComment(id: $id)
   }
 `;
+
+export const GET_COMMENTS_COUNT = gql`
+  query GetCommentsCount($id: ID!) {
+    post(id: $id) {
+      id
+      comments_count
+    }
+  }
+`;
+
 export const RELOAD_COMMENTS = gql`
   query ReloadComments($id: ID!) {
     post(id: $id) {
@@ -248,6 +265,26 @@ export const RELOAD_COMMENTS = gql`
         created_at
         deleted
       }
+    }
+  }
+`;
+
+export const GET_COMMENT = gql`
+  query GetComment($id: ID!) {
+    comment(comment_id: $id) {
+      id
+      user {
+        id
+        username
+        profile {
+          thumbnail
+        }
+      }
+      text
+      replies_count
+      level
+      created_at
+      deleted
     }
   }
 `;
