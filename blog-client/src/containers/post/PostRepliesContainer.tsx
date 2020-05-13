@@ -57,7 +57,6 @@ const PostRepliesContainer: React.FC<PostRepliesProps> = ({
     [getCommentsCount, removeComment, replies],
   );
 
-  console.log(replies);
   if (replies.loading || !replies.data) {
     return null;
   }
