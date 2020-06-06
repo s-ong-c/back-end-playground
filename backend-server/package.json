@@ -22,7 +22,7 @@
     "@types/remove-markdown": "^0.1.1",
     "@types/sanitize-html": "^1.20.0",
     "@types/shortid": "^0.0.29",
-    "apollo-server-koa": "^2.5.0-rc.0",
+    "apollo-server-koa": "^2.14.2",
     "aws-sdk": "^2.481.0",
     "dataloader": "^1.4.0",
     "dotenv": "^8.0.0",
