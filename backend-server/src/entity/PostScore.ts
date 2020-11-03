@@ -1,16 +1,17 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  Index,
-  UpdateDateColumn,
   CreateDateColumn,
-  OneToOne,
+  Entity,
+  Index,
   JoinColumn,
-  ManyToOne
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm';
-import User from './User';
+
 import Post from './Post';
+import User from './User';
 
 @Entity('post_scores', {
   synchronize: false

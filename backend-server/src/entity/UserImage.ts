@@ -1,13 +1,14 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  UpdateDateColumn,
   CreateDateColumn,
+  Entity,
+  Index,
   JoinColumn,
   ManyToOne,
-  Index
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm';
+
 import User from './User';
 
 @Entity('user_images', {

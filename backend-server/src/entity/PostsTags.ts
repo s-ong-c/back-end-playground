@@ -1,19 +1,20 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  Index,
-  UpdateDateColumn,
   CreateDateColumn,
-  OneToOne,
+  Entity,
+  Index,
   JoinColumn,
   ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
   getRepository
 } from 'typeorm';
-import Tag from './Tag';
-import Post from './Post';
-import DataLoader from 'dataloader';
 import { groupById, normalize } from '../lib/utils';
+
+import DataLoader from 'dataloader';
+import Post from './Post';
+import Tag from './Tag';
 
 @Entity('posts_tags', {
   synchronize: false

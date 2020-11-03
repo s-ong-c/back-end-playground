@@ -1,13 +1,13 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  Index,
-  UpdateDateColumn,
   CreateDateColumn,
-  OneToOne,
+  Entity,
+  Index,
   JoinColumn,
   ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
   getRepository
 } from 'typeorm';
 

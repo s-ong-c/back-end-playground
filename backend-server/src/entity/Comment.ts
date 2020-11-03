@@ -1,19 +1,20 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  Index,
-  UpdateDateColumn,
   CreateDateColumn,
-  OneToOne,
+  Entity,
+  Index,
   JoinColumn,
   ManyToOne,
-  getRepository,
-  getManager
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  getManager,
+  getRepository
 } from 'typeorm';
-import User from './User';
-import Post from './Post';
+
 import DataLoader from 'dataloader';
+import Post from './Post';
+import User from './User';
 import { normalize } from '../lib/utils';
 
 @Entity('comments', {

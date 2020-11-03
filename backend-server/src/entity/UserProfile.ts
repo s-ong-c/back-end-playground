@@ -1,16 +1,17 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  Index,
-  UpdateDateColumn,
   CreateDateColumn,
-  OneToOne,
+  Entity,
+  Index,
   JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
   getRepository
 } from 'typeorm';
-import User from './User';
+
 import DataLoader from 'dataloader';
+import User from './User';
 import { normalize } from '../lib/utils';
 
 @Entity('user_profiles', {
@@ -50,7 +51,7 @@ export default class UserProfile {
   })
   profile_links!: any;
 
-  @Column('text')
+  @Column('text',{nullable: true})
   about!: string;
 }
 

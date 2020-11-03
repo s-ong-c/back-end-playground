@@ -1,12 +1,13 @@
 import Koa, { Context } from 'koa';
-import bodyParser from 'koa-bodyparser';
+import createLoaders, { Loaders } from './lib/createLoader';
+
 import { ApolloServer } from 'apollo-server-koa';
+import bodyParser from 'koa-bodyparser';
+import { consumeUser } from './lib/token';
 import { createConnection } from 'typeorm';
 import logger from 'koa-logger';
 import routes from './routes';
 import schema from './graphql/schema';
-import { consumeUser } from './lib/token';
-import createLoaders, { Loaders } from './lib/createLoader';
 
 const app = new Koa();
 /* setup middlewares */
@@ -29,13 +30,13 @@ const apollo = new ApolloServer({
       // await consumeUser(ctx);
       return {
         user_id: ctx.state.user_id,
-        loaders: createLoaders()
+        loaders: createLoaders(),
       };
     } catch (e) {
       return {};
     }
   },
-  tracing: process.env.NODE_ENV === 'development'
+  tracing: process.env.NODE_ENV === 'development',
 });
 apollo.applyMiddleware({ app });
 

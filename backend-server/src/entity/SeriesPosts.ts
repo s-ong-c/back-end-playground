@@ -1,18 +1,19 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  Index,
-  UpdateDateColumn,
   CreateDateColumn,
-  OneToOne,
+  Entity,
+  Index,
   JoinColumn,
   ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
   getRepository
 } from 'typeorm';
+
+import DataLoader from 'dataloader';
 import Post from './Post';
 import Series from './Series';
-import DataLoader from 'dataloader';
 
 @Entity('series_posts', {
   synchronize: false
