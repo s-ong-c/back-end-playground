@@ -4,6 +4,7 @@ import createLoaders, { Loaders } from './lib/createLoader';
 import { ApolloServer } from 'apollo-server-koa';
 import bodyParser from 'koa-bodyparser';
 import { consumeUser } from './lib/token';
+import cors from '@koa/cors';
 import { createConnection } from 'typeorm';
 import logger from 'koa-logger';
 import routes from './routes';
@@ -13,6 +14,13 @@ const app = new Koa();
 /* setup middlewares */
 app.use(consumeUser);
 app.use(bodyParser());
+// CORS 옵션
+let corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+} 
+app.use(cors(corsOptions));
+
 app.use(routes.routes()).use(routes.allowedMethods());
 if (process.env.NODE_ENV === 'development') {
   app.use(logger());

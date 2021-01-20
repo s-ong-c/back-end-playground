@@ -5,6 +5,7 @@
   "author": "s-ong-c <somony9292@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@koa/cors": "^3.1.0",
     "@types/aws-lambda": "^8.10.26",
     "@types/aws-sdk": "^2.7.0",
     "@types/dotenv": "^6.1.0",
