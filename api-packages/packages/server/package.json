@@ -11,6 +11,8 @@
    "dependencies": {
       "@types/cli-progress": "^3.9.1",
       "axios": "^0.21.1",
+      "cli-progress": "^3.9.0",
+      "date-fns": "^2.19.0",
       "dotenv": "^8.2.0",
       "fastify": "^3.13.0",
       "fastify-compress": "^3.4.2",
@@ -22,6 +24,7 @@
    "scripts": {
       "start": "ts-node src/index.ts | pino-pretty -c -t",
       "start:dev": "NODE_PATH=src ts-node-dev --respawn --transpile-only src/index.ts | pino-pretty",
-      "initialize": "ts-node src/init.ts"
+      "initialize": "ts-node src/init.ts",
+      "syncbot": "ts-node src/syncbot/index.ts"
    }
 }
