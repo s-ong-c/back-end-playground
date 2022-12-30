@@ -14,7 +14,7 @@
       "cli-progress": "^3.9.0",
       "date-fns": "^2.19.0",
       "dotenv": "^8.2.0",
-      "fastify": "^3.13.0",
+      "fastify": "^3.29.4",
       "fastify-compress": "^3.4.2",
       "fuse.js": "^6.4.6",
       "mysql": "^2.14.1",
